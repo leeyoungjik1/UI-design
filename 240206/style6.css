@@ -1,0 +1,17 @@
+#parent{
+    width: 200px;
+    height: 200px;
+    background-color: powderblue;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+.class{
+    background-color: sandybrown;
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+}

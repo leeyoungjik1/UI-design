@@ -1,0 +1,25 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+#nav, #main{
+    width: 100%;
+    font-weight: bold;
+    color: white;
+}
+#nav{
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 3);
+    font-size: 50px;
+    height: 100px;
+    z-index: 3;
+}
+#main{
+    height: 100vh;
+    background-color: tomato;
+    font-size: 300px;
+    margin: 100px auto;
+}

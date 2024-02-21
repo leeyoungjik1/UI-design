@@ -1,0 +1,26 @@
+
+.box{
+    text-align: center;
+    overflow: hidden;
+    margin: 0 auto;
+    width: 80vw;
+}
+.sub{
+    float: left;
+    margin: 1.18vw;
+}
+span{
+    color: red;
+    margin-bottom: 1.18vw;
+}
+.material-icons{
+    font-size: 8.2vw;
+}
+header{
+    font-size: 2.3vw;
+}
+p{
+    color: gray;
+    font-size: 1.18vw;
+    margin: 0.59vw;
+}

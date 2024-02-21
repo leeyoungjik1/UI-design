@@ -1,0 +1,43 @@
+h1{
+    color: blue;
+    font-size: 12px;
+}
+h2{
+    color: brown;
+    font-size: 30px;
+}
+h3{
+    color:#fff;
+}
+h4{
+    color: rgb(255, 0, 0);
+}
+h5{
+    background-color: rgba(255, 0 ,0, .5);
+}
+h6{
+    background-color: hsl(120, 50%, 50%);
+}
+.box{
+    width: 200px;
+    background-color: orange;
+}
+.parent{
+    width: 300px;
+}
+.child{
+    width: 50%;
+    background-color: orange;
+}
+html, body{
+    margin: 0;
+    padding: 0;
+    background-color: orange;
+}
+body{
+    width: 3000px
+}
+header{
+    width: 100vw;
+    background-color: brown;
+}

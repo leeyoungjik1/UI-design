@@ -1,0 +1,130 @@
+body{
+    width: 70%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+}
+body>header{
+    width: 70%;
+    background-color: white;
+    height: 70px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    z-index: 1;
+}
+.logo img{
+    width: 100px;
+}
+.nav{
+    display: flex;
+    justify-content: space-between;
+}
+main{
+    flex: 1;
+    margin-top: 70px;
+}
+.mainimg{
+    width: 250px;
+    height: 250px;
+    border: 1px solid #333;
+    border-radius: 50%;
+    background-image: url(https://images.unsplash.com/photo-1501854140801-50d01698950b?q=80&w=975&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D);
+    background-size: cover;
+    background-position: center;
+}
+@media (max-width: 1100px){
+    .mainimg {
+        width: 150px;
+        height: 150px;
+        min-width: 100px;
+        min-height: 100px;
+    }
+}
+.header{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-left: 3rem;
+    margin-top: 2rem;
+    gap: 70px;
+}
+.title1, .title2{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.button-mid{
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+}
+.subimg{
+    display: flex;
+    justify-content: flex-start;
+    margin-left: 2rem;
+    margin-top: 2rem;
+    gap: 30px;
+}
+.subimg1 img{
+    width: 70px;
+    height: 70px;
+    border: 1px solid #333;
+    border-radius: 50%;
+}
+.subimg1{
+    text-align: center;
+}
+section>h2{
+    text-align: center;
+}
+.photocon{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    height: 120vh;
+    gap: .3rem;
+    position: relative;
+}
+.photo{
+    background-image: url(https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fG5hdHVyZXxlbnwwfHwwfHx8MA%3D%3D);
+    background-position: center;
+    background-size: cover;
+    text-align: center;
+    position: relative;
+    transition: .3s;
+    min-width: 200px;
+}
+.photocon button{
+    position: absolute;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    bottom: 1%;
+}
+.like{
+    width: 100%;
+    height: 100%;
+    line-height: 17;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+}
+.photo:hover>.like{
+    display: block;
+}
+
+footer > ul{
+    display: flex;
+    list-style: none;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+.foot{
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}

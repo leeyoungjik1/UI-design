@@ -1,0 +1,34 @@
+.parent{
+    border: 1px solid red;
+    width: 70%; margin: 50px auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 1fr;
+    gap: 20px;
+}
+.child{
+    height: 350px;
+    background-color: #eee;
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: .3s;
+}
+.child:hover{
+    transform: scale(1.05);
+    opacity: .8;
+}
+.photo{
+    width: 100%;
+    height: 70%;
+}
+.photo img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+.name{
+    width: 100%;
+    height: 30%;
+}

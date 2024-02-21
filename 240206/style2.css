@@ -1,0 +1,9 @@
+address p:not(:nth-child(2)){
+    background-color: black;
+}
+/* main *:not(main > p){
+    background-color: brown;
+} */
+main > *:not(article){
+    background-color: blue;
+}

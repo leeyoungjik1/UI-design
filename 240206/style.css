@@ -1,0 +1,102 @@
+header{
+    background-color: orange;
+}
+#logo{
+    font-size: 3rem;
+}
+.item{
+    background-color: brown;
+}
+.half-width{
+    width: 50%;
+}
+.highlight-color{
+    color: white;
+    font-weight: bold;
+    font-size: 3rem;
+}
+.item:nth-child(2){
+    background-color: brown;
+}
+.item:nth-child(3){
+    background-color: brown;
+    width: 50%;
+}
+.item:nth-child(4){
+    background-color: brown;
+    width: 50%;
+    color: white;
+    font-weight: bold;
+    font-size: 3rem;
+}
+main section p{
+    background-color: blue;
+}
+/* header nav > ul > li > a{
+    background-color: green;
+} */
+main>p{
+    background-color: red;
+}
+main > article h1 + article{
+    width: 10%;
+    border-radius: 50%;
+}
+main > article h1 + article ~ article{
+    border-radius: 0 50% 0 0;
+    height: 30vh;
+}
+header, main, footer{
+    width: 30%;
+    background-color: gray;
+}
+[target]{
+    text-decoration: none;
+}
+/* [target="_blank"]{
+    background-color: orange;
+} */
+[class^="side"]{
+    font-size: 5rem;
+}
+#logo:hover{
+    color: orange;
+}
+:link{
+    text-decoration: none;
+    color: brown;
+}
+:visited{
+    color: yellow;
+}
+a:focus{
+    background-color: blue;
+    color: white;
+}
+a:active{
+    background-color: black;
+    color: red;
+}
+address:focus-within{
+    background-color: blueviolet;
+}
+input, button{
+    outline: none;
+}
+input:focus, button:focus{
+    background-color: red;
+}
+address p:first-child, address p:last-child{
+    background-color: orange;
+}
+address p:nth-child(2){
+    background-color: darkgreen;
+}
+aside nav ul li:nth-child(2n+1){
+    background-color: black;
+}
+aside h3::before, aside h3::after{
+    content: '---';
+    font-size: 2rem;
+    color: orange;
+}

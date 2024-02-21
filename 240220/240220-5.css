@@ -1,0 +1,13 @@
+.contents{
+    background-Color : tan;
+padding : 15px;
+width : 300px;
+height : 100px;
+margin : 100px auto;
+line-Height : 100px;
+text-Align : center;
+color : white;
+font-Weight : bold;
+font-Size : 1.5rem;
+border-Radius : 15px;
+}

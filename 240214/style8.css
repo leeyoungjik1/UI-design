@@ -1,0 +1,21 @@
+.container{
+    background-color: #ccc;
+    width: 50vw;
+    height: 50vh;
+}
+.static, .relative{
+    width: 200px;
+    height: 200px;
+}
+.static{
+    background-color: yellowgreen;
+    z-index: 1;
+    position: relative;
+    left: 50%; top: 50%;
+}
+.relative{
+    background-color: blue;
+    position: relative;
+    top: -100px; left: 100px;
+    z-index: 2;
+}

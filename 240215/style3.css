@@ -1,0 +1,38 @@
+:root{
+    --primary-color:orange;
+}
+
+.loading{
+    width: 200px; height: 200px;
+    border: 15px dotted var(--primary-color);
+    border-radius: 50%;
+    border-top: 15px dotted white;
+    border-right: 17px dotted var(--primary-color);
+    border-bottom: 20px dotted var(--primary-color);
+    border-left: 30px dotted var(--primary-color);
+    position: absolute;
+    left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    animation: spin 1500ms ease-in infinite;
+}
+h3{
+    margin: 0;
+    letter-spacing: 2px;
+    position: absolute;
+    left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--primary-color);
+}
+
+@keyframes spin{
+    from{
+        position: absolute;
+        left: 50%; top: 50%;
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+    to{
+        position: absolute;
+        left: 50%; top: 50%;
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}

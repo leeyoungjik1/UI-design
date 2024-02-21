@@ -1,0 +1,58 @@
+body{
+    background-color: gray;
+}
+.main{
+    width: 1200px;
+    margin: auto;
+}
+section{
+    float: left;
+    margin: 2rem 0;
+}
+figure{
+    font-size: 0;
+    margin: 1rem;
+    overflow: hidden;
+}
+[class^="cardimg"]{
+    width: 368px;
+    height: 207px;
+    background-size: cover;
+    border-radius: 10px 10px 0 0;
+    transition: all 0.3s linear;
+}
+.cardimg1{
+    background-image: url(card1.jpg);
+}
+.cardimg2{
+    background-image: url(card2.jpg);
+}
+.cardimg3{
+    background-image: url(card3.jpg);
+}
+figure img{
+    width: 368px;
+    height: 207px;
+    border-top-right-radius: 10px;
+}
+figcaption{
+    width: 368px;
+    height: auto;
+    background-color: white;
+    border-radius: 0 0 10px 10px;
+    font-size: 1rem;
+    padding: 1.5rem;
+    box-sizing: border-box;
+}
+figcaption h2{
+    margin: 0;
+}
+footer{
+    color: cadetblue;
+}
+section:hover{
+    color: cadetblue;
+}
+[class^="cardimg"]:hover{
+    transform: scale(1.1);
+}

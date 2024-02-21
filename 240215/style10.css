@@ -1,0 +1,187 @@
+:root{
+    --header-height:70px
+}
+
+html, body{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    height: 200vh;
+    display: flex;
+    flex-direction: column;
+}
+header, footer{
+    height: var(--header-height);
+    flex: none;
+}
+
+
+/* 헤더영역 */
+
+header img{
+    width: 50px;
+    height: 50px;
+}
+header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1;
+    background-color: #fff;
+}
+header >nav> ul{
+    display: flex;
+    gap: 3rem;
+    list-style: none;
+    margin-right: 2rem;
+}
+a{
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+header> a{
+    display: flex;
+    align-items: center;
+    transition: .3s;
+}
+header> a:hover{
+    color: brown;
+}
+header> nav> ul> li{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+header> nav> ul> li::before{
+    position: absolute; bottom: -5px;
+    content: '';
+    width: 0;
+    height: 5px;
+    border-radius: 10px;
+    background-color: brown;
+    transition: .3s;
+}
+header> nav> ul> li:hover::before{
+    width: 100%;
+}
+header>nav>ul>li>ul{
+    display: none;
+}
+header> nav> ul> li:hover > ul{
+    display: block;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    position: absolute;
+    top: 250%;
+    background-color: brown;
+    padding: .5rem;
+}
+
+/* 메인영역 */
+
+main{
+    flex: 1;
+    /* background-color: brown; */
+    display: flex;
+    margin-top: var(--header-height);
+}
+main aside{
+    width: 300px;
+    flex: none;
+    /* border: 1px solid red; */
+}
+main section{
+    flex: 1;
+    /* border: 1px solid green; */
+}
+main section .slider{
+    width: 90%; height: 700px;
+    margin: 2rem auto;
+    /* border: 3px solid brown; */
+    display: flex;
+    overflow-y: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+}
+main section .slider .slide{
+    width: 100%;
+    height: 100%;
+    flex: none;
+    scroll-snap-align: start;
+}
+main section .slider img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover ;
+    object-position: center;
+}
+main section .slider::-webkit-scrollbar{
+    height: 8px;
+}
+main section .slider::-webkit-scrollbar-thumb{
+    height: 30%;
+    background-color: #d8792b;
+    border-radius: 20px;
+}
+main section .slider::-webkit-scrollbar-track{
+    background: rgba(235, 185, 93, .3);
+}
+
+/* 사이드바 영역 */
+
+main aside nav ul{
+    list-style-type: none;
+    padding: .5rem; margin: 2rem;
+}
+main aside nav{
+    background-color: #d8792b;
+    position: sticky; top: var(--header-height);
+}
+main aside nav ul li a{
+    color: #fff;
+}
+
+/* 푸터영역 */
+
+footer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-top: 1px solid #777;
+    width: 90%;
+    margin: 0 auto;
+    padding: 1rem 0;
+}
+footer .rights{
+    font-weight: 400;
+    margin-top: .5rem;
+}
+footer .icons{
+    font-size: 1.5rem;
+}
+footer .icons i{
+    margin-right: .5rem;
+}
+footer .icons i:hover{
+    color: brown;
+    transform: scale(1.2);
+}
+body>span{
+    position: fixed;
+    bottom: 2rem;
+    right: 1rem;
+    font-size: 2.5rem;
+    z-index: 1;
+    cursor: pointer;
+    transition: .3s;
+}
+body>span:hover{
+    transform: translateY(-10px);
+}

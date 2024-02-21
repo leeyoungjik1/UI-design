@@ -1,0 +1,30 @@
+.container{
+    display: grid;
+    grid-template-areas: 
+    "header header header"
+    "a main b"
+    ". . ."
+    "footer footer footer";
+}
+.item{
+    height: 200px;
+    background-color: azure;
+    margin: 5px;
+    text-align: center;
+    line-height: 200px;
+}
+.item:nth-child(1){
+    grid-area: header;
+}
+.item:nth-child(2){
+    grid-area: a;
+}
+.item:nth-child(3){
+    grid-area: main;
+}
+.item:nth-child(4){
+    grid-area: b;
+}
+.item:nth-child(5){
+    grid-area: footer;
+}

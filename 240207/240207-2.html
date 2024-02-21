@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>폼태그</title>
+    <style>
+        textarea{
+            resize: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>회원가입 페이지</h1>
+    <form action="server.js" method="get">
+        <fieldset>
+            <legend>필수 사항</legend>
+            <table>
+                <tr>
+                    <td><label for="username">사용자 이름: </label></td>
+                    <td><input type="text" placeholder="아이디를 입력하세요." id="username" required></td>
+                </tr>
+                <tr>
+                    <td><label for="useremail">이메일 주소: </label></td>
+                    <td><input type="email" placeholder="이메일 주소를 입력해주세요." id="useremail" name="useremail" required></td>
+                </tr>
+                <tr>
+                    <td><label for="userpassword">사용자 비밀번호: </label></td>
+                    <td><input type="password" placeholder="비밀번호를 입력하세요." id="userpassword" required></td>
+                </tr>
+            </table>    
+        </fieldset>
+
+        <fieldset>
+            <legend>옵션 사항</legend>
+            <p>
+                <label for="address">주소</label>
+                <select name="address" id="address">
+                    <option value="seoul">서울특별시</option>
+                    <option value="busan">부산광역시</option>
+                    <option value="deagu">대구광역시</option>
+                </select>
+            </p>
+            <p>
+                <span>성별: </span>
+                <label for="male">남성</label>
+                <input type="radio" id="male" name="gender" value="남성">
+                <label for="female">여성</label>
+                <input type="radio" id="female" name="gender" value="여성">
+            </p>
+            <p>
+                <span>관심사: </span>
+                <label for="html">HTML</label>
+                <input type="checkbox" id="html" name="html" value="html">
+
+                <label for="css">CSS</label>
+                <input type="checkbox" id="html" name="html" value="css">
+
+                <label for="javascript">JAVASCRIPT</label>
+                <input type="checkbox" id="javascript" name="javascript" value="javascript">
+            </p>
+            <p>
+                <label for="message">인사말</label>
+                <textarea name="message" id="message" cols="30" rows="10"></textarea>
+            </p>
+            <p>
+                <label for="profile">프로필 사진</label>
+                <input type="file" id="profile" name="profile" accept="image/png, image/jpeg">
+            </p>
+        </fieldset>
+        <p>
+            <label for="username">사용자 이름: </label>
+            <input type="text" placeholder="아이디를 입력하세요." id="username" required>
+        </p>
+        <p>
+            <label for="useremail">이메일 주소: </label>
+            <input type="email" placeholder="이메일 주소를 입력해주세요." id="useremail" required>
+        </p>
+        <p>
+            <label for="userpassword">사용자 비밀번호: </label>
+            <input type="password" placeholder="비밀번호를 입력하세요." id="userpassword" required>
+        </p>
+        <p>
+            <input type="submit" value="가입하기">
+            <button type="submit">가입하기</button>
+        </p>
+    </form>
+</body>
+</html>

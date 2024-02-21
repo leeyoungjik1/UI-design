@@ -1,0 +1,65 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+ul{
+    margin: 0;
+}
+#menu{
+    color: orange;
+    background-color: rgb(128, 54, 54);
+    text-align: center;
+}
+.main_image{
+    position: relative;
+}
+.main_image_text{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-align: center;
+}
+#main{
+    border: 4px double lightgray;
+    border-radius: 30px;
+    margin: 3rem;
+}
+body main h2{
+    margin: 2.5rem 1rem;
+    color: gray;
+}
+.menutitle1{
+    border-left: 3px solid brown;
+    border-top: 1px solid brown;
+    margin: 1rem;
+}
+.menutitle2{
+    color: brown;
+    letter-spacing: 0.2rem;
+    margin: 0 1rem;
+}
+figure{
+    margin: 1rem;
+    color: gray;
+}
+main footer{
+    font-size: 0.8rem;
+    margin: 1rem;
+    margin-bottom: 3rem;
+}
+.hours{
+    background-color: lightgray;
+    margin: 0 20%;
+}
+.footer{
+    background-color: brown;
+    margin: 0;
+    height: 4rem;
+    color: white;
+    text-align: center;
+}
+.footer h3{
+    margin: 0;
+}

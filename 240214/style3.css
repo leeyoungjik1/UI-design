@@ -1,0 +1,13 @@
+.actions{
+    border: 3px solid #333;
+    display: flex;
+    height: 300px;
+}
+.actions img{
+    flex: auto; overflow: hidden;
+    transition: .5s ease-out;
+    cursor: pointer;
+}
+.actions img:hover{
+    flex: 1;
+}

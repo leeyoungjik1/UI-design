@@ -1,0 +1,22 @@
+body{
+    margin: 0; padding: 0;
+    display: flex;
+    flex-flow: column;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+.container{
+    width: 600px;
+    height: 600px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    justify-items: center;
+    align-items: center;
+}
+.container>div{
+    border: 1px solid skyblue;
+    width: 200px;
+    height: 200px;
+}

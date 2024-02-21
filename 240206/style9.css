@@ -1,0 +1,15 @@
+.up, .down{
+    width: 200px;
+    height: 200px;
+}
+.up{
+    background-color: skyblue;
+    position: absolute;
+    z-index: 1;
+}
+.down{
+    background-color: tomato;
+    position: absolute;
+    left: 100px;
+    top: 100px;
+}

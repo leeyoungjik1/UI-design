@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            margin: 3rem;
+        }
+        thead{
+            background-color: rgb(226, 226, 226);
+        }
+        tbody, tfoot{
+            background-color: rgb(238, 238, 238);
+        }
+        .lightgray{
+            background-color: rgb(248, 248, 248);
+        }
+        table, th, td{
+            color: rgb(99, 99, 99);
+            border: 2px solid lightgray;
+            border-collapse: collapse;
+        }
+        th, td{
+            text-align: center;
+            padding: 0.5rem 1.5rem;
+        }
+        h2{
+            font-size: medium;
+        }
+        th{
+            color: #000;
+        }
+        td{
+            font-style: italic;
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <h1>
+            My spending record
+        </h1>
+        <caption>
+            <h2> How I chose to spend my money</h2>
+        </caption>
+        <thead>
+            <tr>
+                <th scope="col">Purchas</th>
+                <th scope="col">Location</th>
+                <th scope="col">Date</th>
+                <th scope="col">Evaluation</th>
+                <th scope="col">Cost (€)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Haircut</td>
+                <td>Hairdresser</td>
+                <td>12/09</td>
+                <td>Great idea</td>
+                <td>30</td>
+            </tr>
+            <tr class="lightgray">
+                <td>Lasagna</td>
+                <td>Restaurant</td>
+                <td>12/09</td>
+                <td>Regrets</td>
+                <td>18</td>
+            </tr>
+            <tr>
+                <td>Shoes</td>
+                <td>Shoeshop</td>
+                <td>13/09</td>
+                <td>Big regrets</td>
+                <td>65</td>
+            </tr>
+            <tr class="lightgray">
+                <td>Toothpaste</td>
+                <td>Supermarket</td>
+                <td>13/09</td>
+                <td>Good</td>
+                <td>5</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <th colspan="4">SUM</th>
+                <th>118</th>
+            </tr>
+        </tfoot>
+    </table>
+</body>
+</html>

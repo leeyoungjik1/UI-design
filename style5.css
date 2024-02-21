@@ -1,0 +1,10 @@
+:root{
+    font-size: 12px;
+}
+section p{
+    font-size: 1.5rem; /* 18px */
+}
+section p strong{
+    font-size: 1.5rem; /* 18px(section p의 폰트 크기) X 1.5 = 27px */
+    background: orange;
+}

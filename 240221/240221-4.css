@@ -1,0 +1,46 @@
+body{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.container{
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    background-color: #0e1111;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+}
+.box{
+    border: 3px solid wheat;
+    width: 30vw;
+    height: 5rem;
+    line-height: 5rem;
+    color: wheat;
+    font-size: 2rem;
+    border-radius: 30px 0 30px 0;
+    text-align: left;
+    padding-left: 1rem;
+    opacity: 1;
+    transition: .3s ease-out;
+}
+.box span{
+    width: 3rem;
+    float: right;
+    cursor: pointer;
+    transition: .3s;
+    text-align: center;
+}
+.box span:hover{
+    transform: rotateZ(90deg);
+}
+
+.fadeOut{
+    opacity: 0;
+}
+.hide{
+    display: none;
+}

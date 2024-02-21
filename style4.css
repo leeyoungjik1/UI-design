@@ -1,0 +1,10 @@
+body{
+    font-size: 12px; /* 1em: 12px */
+}
+section p{
+    font-size: 1.5em; /* 18px */
+}
+section p strong{
+    font-size: 1.5em; /* 18px(section p의 폰트 크기) X 1.5 = 27px */
+    background: orange;
+}

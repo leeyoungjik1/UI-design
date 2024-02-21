@@ -1,0 +1,41 @@
+body{
+    text-align: center;
+}
+header{
+    letter-spacing: -0.2rem;
+}
+*.material-icons{
+    font-size: 43px;
+    color: red;
+    vertical-align: bottom
+}
+body section h2{
+    font-weight: normal;
+    margin-bottom: 2.5rem;
+}
+body div p{
+    margin: 0.3rem;
+}
+#free{
+    color: white;
+    background-color: rgba(0, 0, 255, 0.753);
+    font-size: 0.7rem;
+    padding: 0.1rem 0;
+    width: 6rem;
+    margin: 0 auto;
+    border-radius: 30%;
+}
+.dis{
+    font-size: 1.2rem;
+    margin-top: 0.7rem;
+    margin-bottom: 0.3rem;
+}
+.fontsize-small{
+    font-size: 0.7rem;
+    margin: 0;
+    padding: 0;
+}
+body section footer{
+    font-size: 0.6rem;
+    margin-top: 2.5rem;
+}

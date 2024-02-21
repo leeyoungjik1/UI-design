@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table, th, td{
+            border: 1px solid #000; /* 보더 두께, 보더 종류, 보더 색상 */
+            border-collapse: collapse;
+        }
+        td{
+            text-align: center;
+        }
+        #slash{
+            position: relative;
+        }
+        #slash:before{
+            position: absolute;
+            content: '';
+            width: 1px;
+            height: 41px;
+            background: red;
+            top: -9px;
+            left: 17px;
+            transform: rotate(-57deg);
+        }
+    </style>
+</head>
+<body>
+    <h1>테이블 태그</h1>
+    <table>
+        <caption>
+            <h2>테이블 제목</h2>
+            <p>테이블에 대한 설명을 추가</p>
+        </caption>
+        <thead>
+            <tr>
+                <th scope="col" id="slash"></th>
+                <th scope="col">제목 1</th>
+                <th scope="col">제목 2</th>
+                <th scope="col">제목 3</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">1</th>
+                <td>데이터 11</td>
+                <td colspan="2">데이터 12</td>
+            </tr>
+            <tr>
+                <th scope="row">2</th>
+                <td>데이터 21</td>
+                <td rowspan="3">데이터 22</td>
+                <td>데이터 23</td>
+            </tr>
+            <tr>
+                <th scope="row">3</th>
+                <td>데이터 31</td>
+                <td>데이터 33</td>
+            </tr>
+            <tr>
+                <th scope="row">4</th>
+                <td>데이터 41</td>
+                <td>데이터 43</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <th scope="row">합계</th>
+                <td>총합 1</td>
+                <td>총합 2</td>
+                <td>총합 3</td>
+            </tr>
+        </tfoot>
+    </table>
+</body>
+</html>

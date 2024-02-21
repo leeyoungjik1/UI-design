@@ -1,0 +1,12 @@
+input[type="radio"][name="gender"]:checked + label{
+    background-color: yellow;
+}
+input[type="checkbox"]:checked + label{
+    background-color: red;
+}
+#mandatory:target{
+    background-color: orange;
+}
+#optional:target{
+    background-color: brown;
+}

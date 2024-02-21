@@ -1,0 +1,12 @@
+.actions{
+    border: 3px solid #333;
+    display: flex;
+    width: 500px; height: 30px;
+}
+.actions button{
+    flex: auto;
+    transition: .5s;
+}
+.actions button:hover{
+    flex: 3;
+}

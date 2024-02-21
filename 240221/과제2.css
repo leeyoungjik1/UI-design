@@ -1,0 +1,13 @@
+.pic{
+    width: 500px;
+    height: 500px;
+    display: none;
+}
+.pic img{
+    width: 100%;
+    height: auto;
+}
+
+.show{
+    display: block;
+}

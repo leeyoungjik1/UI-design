@@ -1,0 +1,82 @@
+body{
+    margin: 0;
+    padding: 0;
+    background-color: lightgray;
+}
+.header{
+    text-align: center;
+    font-size: 0;
+}
+.main{
+    position: relative;
+    background-color: white;
+    width: 30%;
+    height: 955px;
+    margin: auto;
+    display: inline-block;
+}
+.title{
+    height: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+#title1{
+    font-size: 1rem;
+    font-weight: bold;
+}
+#title2{
+    color: gray;
+    font-size: 1rem;
+}
+#title3{
+    background-color: white;
+    border: 1px solid gray;
+    border-radius: 30px;
+    padding: 0.5rem 1.5rem;
+    font-size: 0.8rem;
+}
+#title3:hover{
+    background-color: lightgray;
+}
+.mainimg{
+    width: 50%;
+    height: 955px;
+    display: inline-block;
+}
+.main-frame{
+    background-color: dimgrey;
+    width: 80%;
+    height: 100px;
+    margin: auto;
+    position: relative;
+}
+#maintitle{
+    color: white;
+    width: 7rem;
+    height: auto;
+    font-size: 0.7rem;
+    text-align: center;
+    border-left: 1px dotted white;
+    border-right: 1px dotted white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+section figure{
+    width: 80%;
+    text-align: center;
+    margin: auto;
+}
+figure img{
+    width: 100%;
+}
+figcaption{
+    margin: 2rem 0;
+}
+footer{
+    margin-top: 8rem;
+    text-align: center;
+}
