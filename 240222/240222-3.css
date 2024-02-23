@@ -6,8 +6,9 @@ body{
 #photo-container{
   width: 500px;
   height: 250px;
-  border: 1px solid red;
+  /* border: 1px solid red; */
   margin: 10px auto;
+  overflow: hidden;
 }
 #photos{
   width: 2500px;
@@ -16,7 +17,7 @@ body{
 
   display: flex;
   transition: all 1s;
-  border: 1px solid green;
+  /* border: 1px solid green; */
 }
 .photo{
   height: 100%;
@@ -43,7 +44,7 @@ body{
 #selection{
   width: 300px;
   height: 50px;
-  border: 1px solid red;
+  /* border: 1px solid red; */
   margin: 0 auto;
   display: flex;
   justify-content: center;

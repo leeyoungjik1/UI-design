@@ -9,6 +9,7 @@ body{
     /* border: 1px solid red; */
     margin: 10px auto;
     overflow: hidden;
+    position: relative;
   }
   #photos{
     width: 2500px;
@@ -65,4 +66,9 @@ body{
   }
   .options.active{
     width: 50px;
+  }
+  #expand{
+    position: absolute;
+    right: .5rem;
+    top: .5rem;
   }
