@@ -208,3 +208,10 @@ m=i-1
 
 m<i
 let m = i-1; (i-m)>=2; m=m-1
+
+
+
+for(let k = i%(i-m); (i-m)>=2; m=m-1){
+    i=8
+    
+}
