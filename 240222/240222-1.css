@@ -1,0 +1,29 @@
+body{
+    margin: 0;
+    padding: 0;
+    background: black;
+  }
+  #led-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    grid-gap: 30px;
+    width: 500px;
+    height: 100px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid red;
+  }
+  .led{
+    width: 30px;
+    height: 30px;
+    background: orange;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.5s ease-in-out;
+  }
+  .on{
+    box-shadow: 1px 1px 10px 10px orange;
+  }

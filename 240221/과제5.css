@@ -1,0 +1,13 @@
+.circle{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: peru;
+    background-image: url('https://t1.daumcdn.net/cfile/tistory/99E3B33E5B2852742A');
+    background-repeat: no-repeat;
+    background-size: cover;
+}

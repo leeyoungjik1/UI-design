@@ -1,7 +1,10 @@
-.count{
+.text2{
     width: 100%;
     height: 100vh;
     color: blue;
     font-size: 3rem;
     font-weight: bold;
+}
+.show{
+    display: block;
 }

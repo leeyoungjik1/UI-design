@@ -1,0 +1,33 @@
+.sidebar{
+  width: 30%;
+  height: 100vh;
+  border: 1px solid red;
+  position: absolute;
+  left: -30%;
+  top: 0;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  transition: all .7s ease-in-out;
+}
+.menu{
+  width: 100%;
+  background-color: peru;
+  border-bottom: 1px solid lightgoldenrodyellow;
+  flex: 1;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: lightgoldenrodyellow;
+  font-size: 2rem;
+  cursor: pointer;
+}
+.menu:hover{
+  color: peru;
+  background-color: lightgoldenrodyellow;
+}
+.show{
+  left: 0;
+}
