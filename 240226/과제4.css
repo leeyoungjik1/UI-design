@@ -79,4 +79,10 @@ body{
     position: absolute;
     z-index: 1;
     transition: .7s;
+    /* border: 1px solid red; */
+  }
+  .close{
+    position: absolute;
+    right: .5rem;
+    top: .5rem;
   }
