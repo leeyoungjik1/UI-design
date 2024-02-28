@@ -1,0 +1,19 @@
+.login-box{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-flow: column;
+    gap: 1rem;
+    /* flex-wrap: wrap; */
+    width: 260px;
+}
+#id-box{
+    display: flex;
+    justify-content: space-between;
+}
+#password-box{
+    display: flex;
+    justify-content: space-between;
+}

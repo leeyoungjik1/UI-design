@@ -1,0 +1,25 @@
+body{
+    background-image: url(https://images.pexels.com/photos/531880/pexels-photo-531880.jpeg?cs=srgb&dl=pexels-pixabay-531880.jpg&fm=jpg);
+  }
+  .container{
+    display: flex;
+    width: 80%; height: 200px;
+    margin: 100px auto;
+    overflow-x: auto;
+  }
+  .container .item{
+    width: 200px;
+    height: 100%;
+    margin-right: 10px;
+    background-color: rgba(0, 0, 0, .2);
+    backdrop-filter: blur(3px);
+    flex: 1 0 auto; /* flex-shrink 때문에 박스가 줄어드는것을 방지함 */
+    text-align: center;
+    line-height: 200px;
+    font-size: 5rem;
+    color: #fff;
+    cursor: pointer;
+  }
+  .container::-webkit-scrollbar {
+    display: none;
+  }

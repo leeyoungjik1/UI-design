@@ -1,0 +1,52 @@
+.login-box{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-flow: column;
+    gap: .5rem;
+    /* flex-wrap: wrap; */
+    width: 260px;
+}
+#id-box{
+    display: flex;
+    justify-content: space-between;
+}
+#password-box{
+    display: flex;
+    justify-content: space-between;
+}
+#check-safety{
+    height: 20px;
+    width: 100%;
+    /* border: 1px solid red; */
+    display: flex;
+}
+.box{
+    /* flex: 1; */
+    height: 100%;
+    /* border: 1px solid green; */
+    border-radius: 10px;
+    text-align: center;
+    color: white;
+    font-size: .8rem;
+    display: none;
+}
+.box.danger{
+    width: 33%;
+    display: block;
+    background-color: red;
+}
+.box.caution{
+    width: 33%;
+    display: block;
+    background-color: orange;
+    margin: auto;
+}
+.box.safe{
+    width: 33%;
+    display: block;
+    background-color: green;
+    margin-left: auto;
+}
