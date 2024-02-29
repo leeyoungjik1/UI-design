@@ -1,0 +1,19 @@
+body{
+  margin: 0; padding: 0;
+  height: 300vh;
+}
+.container{
+  width: 1000px;
+  height: 500px;
+  background-image: url(https://images.pexels.com/photos/531880/pexels-photo-531880.jpeg?cs=srgb&dl=pexels-pixabay-531880.jpg&fm=jpg);
+  background-size: cover;
+  top: 200vh;
+  margin: auto;
+  position: relative;
+}
+.full{
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+}

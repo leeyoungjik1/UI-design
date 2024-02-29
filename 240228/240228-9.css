@@ -4,7 +4,7 @@ body{
     scroll-behavior: smooth;
   }
   .container{
-    width: 30vw; height: 30vw;
+    width: 70vw; height: 70vw;
     position: fixed;
     left: 50%; top: 50%;
     transform: translate(-50%, -50%);

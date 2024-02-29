@@ -1,9 +1,8 @@
 const container = document.querySelector('.container')
 const items = document.querySelectorAll('.item')
-const coords = container.getBoundingClientRect()
+
 const clientHeight = document.documentElement.clientHeight
-const xcenter = coords.width/2
-const ycenter = coords.height/2
+
 const Radius = 350
 
 let scrollHeight = Math.max(
@@ -24,11 +23,22 @@ function setPosition(xc, yc, R, delta){
   return [R*Math.cos(radian)+xc, R*Math.sin(radian)+yc]
 }
 
-for(let i=0; i<items.length; i++){
-  const [x, y] = setPosition(xcenter, ycenter, Radius, 360/items.length * (i+1))
-  items[i].style.left = x + 'px'
-  items[i].style.top = y + 'px'
+function changeCenter(){
+  const coords = container.getBoundingClientRect()
+  const xcenter = coords.width/2
+  const ycenter = coords.height/2
+  return [xcenter, ycenter]
 }
 
+function circleItems(){
+  const [xcenter, ycenter] = changeCenter()
+  for(let i=0; i<items.length; i++){
+    const [x, y] = setPosition(xcenter, ycenter, Radius, 360/items.length * (i+1))
+    items[i].style.left = x + 'px'
+    items[i].style.top = y + 'px'
+  }
+}
 
+circleItems()
 window.addEventListener('scroll', scrollCircle)
+window.addEventListener('resize', circleItems)
