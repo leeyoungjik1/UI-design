@@ -1,0 +1,51 @@
+body{
+  margin: 0; padding: 0;
+}
+.window{
+  width: 100vw;
+  height: 100vh;
+  /* border: 2px solid green; */
+  position: absolute;
+  overflow: hidden;
+}
+main{
+  width: 500vw;
+  height: 100vh;
+  display: flex;
+  /* border: 1px solid blue; */
+  position: absolute;
+  transition: 1s ease-in-out;
+  left: 0vw;
+}
+main section{
+  width: 100vw;
+  height: 100%;
+  /* border: 1px solid red; */
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+main section p{
+  color: seashell;
+  font-size: 2rem;
+  font-weight: bold;
+}
+main section:nth-child(1){
+  background-color: yellowgreen;
+}
+main section:nth-child(2){
+  background-color: brown;
+}
+main section:nth-child(3){
+  background-color: yellow;
+}
+main section:nth-child(4){
+  background-color: springgreen;
+}
+main section:nth-child(5){
+  background-color: slateblue;
+}
+main section:nth-child(6){
+  background-color: yellowgreen;
+}
