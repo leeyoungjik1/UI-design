@@ -182,18 +182,18 @@
 // console.log(array.filter(isPrime))
 
 
-// const fruits = ["apple", "banana", "grapes", "mango", "orange"]
+const fruits = ["apple", "banana", "grapes", "mango", "orange"]
 
-// function filterItems(arr, query){
-//     const filteredFruits = arr.filter(function(fruit){
-//         if(fruit.toLowerCase().includes(query.toLowerCase())){
-//             return true
-//         }else{
-//             return false
-//         }
-//     })
-//     return filteredFruits
-// }
+function filterItems(arr, query){
+    const filteredFruits = arr.filter(function(fruit){
+        if(fruit.toLowerCase().includes(query.toLowerCase())){
+            return true
+        }else{
+            return false
+        }
+    })
+    return filteredFruits
+}
 
 
 
