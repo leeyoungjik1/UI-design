@@ -1,0 +1,33 @@
+body{
+    margin: 0; padding: 0;
+    background-color: black;
+    height: 100vh;
+
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+}
+#sign{
+    width: 100px;
+    height: 100px;
+    background-color: black;
+    /* border: 1px solid red; */
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+.cell{
+    width: 10px;
+    height: 10px;
+    background-color: blue;
+    position: relative;
+    bottom: 0;
+}
+.bright{
+    background-color: red;
+}

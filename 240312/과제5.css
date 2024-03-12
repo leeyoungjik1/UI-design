@@ -1,0 +1,25 @@
+body{
+    margin: 0; padding: 0;
+    background-color: black;
+    height: 100vh;
+
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+}
+#graph{
+    width: 720px;
+    height: 200px;
+    background-color: black;
+    /* border: 1px solid red; */
+    position: relative;
+}
+.dot{
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background-color: greenyellow;
+    position: absolute;
+    left: 0; top: 0;
+}
