@@ -32,6 +32,7 @@ function setGlasses(person){
     person.glasses = 'no glasses'
   }
 }
+
 function setheigth(person){
   if(person.height){
     person.height += 'cm'

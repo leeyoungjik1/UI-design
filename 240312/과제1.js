@@ -8,5 +8,4 @@ for(let i=1; i<10; i=i+columns){
     _2dArray.push([i, i+1])
 }
 
-
 console.log(_2dArray)
