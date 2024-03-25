@@ -3,12 +3,8 @@ const scrollImgBtns = document.querySelectorAll('.scroll-img-btn')
 const noticeBtns = document.querySelectorAll('.notice-btn')
 const noticeTitle = document.getElementById('notice-title')
 const noticeDate = document.getElementById('notice-date')
-const noticeEx = [
-    {title: '공지 사항 제목 1', date: '2024-03-20', content: '공지사항 1의 내용'},
-    {title: '공지 사항 제목 2', date: '2024-03-21', content: '공지사항 2의 내용'},
-    {title: '공지 사항 제목 3', date: '2024-03-22', content: '공지사항 3의 내용'},
-    {title: '공지 사항 제목 4', date: '2024-03-23', content: '공지사항 4의 내용'}
-]
+import { noticeArr } from "./data.js"
+console.log(noticeArr)
 
 
 let timer, throttleDuration = 3000
@@ -77,7 +73,7 @@ function changeImg(){
 
 function showNotice(){
     let i = 0
-    puchNotice()
+    pushNotice()
     for(let noticeBtn of noticeBtns){
         noticeBtn.addEventListener('click', changeNotice)
     }
@@ -88,29 +84,34 @@ function showNotice(){
             nextNotice()
         }
     }
-    function puchNotice(){
-        noticeTitle.innerText = noticeEx[i].title
-        noticeDate.innerText = noticeEx[i].date
+    function pushNotice(){
+        const noticeTitleA = noticeTitle.querySelector('a')
+        noticeTitleA.innerHTML = noticeArr[i].title
+        noticeTitleA.setAttribute('href', `/webpage/notice_content.html?id=${noticeArr[i].noticeIdNum}`)
+        noticeDate.innerText = noticeArr[i].date
     }
     function nextNotice(){
         i++
-        if(i<noticeEx.length){
-            puchNotice()
-        }else if(i>noticeEx.length-1){
+        if(i<noticeArr.length){
+            pushNotice()
+        }else if(i>noticeArr.length-1){
             i=0
-            puchNotice()
+            pushNotice()
         }
     }
     function prevNotice(){
         i--
         if(i>-1){
-            puchNotice()
+            pushNotice()
         }else if(i<0){
-            i=noticeEx.length-1
-            puchNotice()
+            i=noticeArr.length-1
+            pushNotice()
         }
     }
 }
+
+
+
 
 window.addEventListener('load', changeImg)
 window.addEventListener('load', showNotice)

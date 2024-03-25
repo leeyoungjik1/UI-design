@@ -271,6 +271,10 @@ nav ul{
     flex: 1;
     margin-left: 1rem;
 }
+#notice-title a{
+    all: unset;
+    cursor: pointer;
+}
 #notice-date{
     font-size: 1.2rem;
 }
@@ -424,6 +428,10 @@ footer{
     align-items: center;
     padding: .8rem 3rem;
     box-sizing: border-box;
+}
+.notice-npage a{
+    all: unset;
+    cursor: pointer;
 }
 .notice-npage:nth-last-child(1){
     border-bottom: 2px solid gray;
