@@ -6,6 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
+    <script>
+        (function(d) {
+          var config = {
+            kitId: 'vve3rhp',
+            scriptTimeout: 3000,
+            async: true
+          },
+          h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)
+        })(document);
+      </script>
 </head>
 <body>
     <header>
@@ -59,9 +69,39 @@
         </div>
     </header>
     <main>
-        <div class="title-ncpage"></div>
-        <div class="content-ncpage"></div>
-        <div class="date-ncpage"></div>
+        <section id="notice-ncpage">
+            <h1>공지사항</h1>
+            <div>
+                <div id="title-header-ncpage">
+                    <div class="title-ncpage">공지 사항 제목 2</div>
+                    <div class="date-ncpage">등록일 2024-03-26</div> 
+                </div>
+                <div class="content-ncpage">Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae sed cupiditate rem vero doloremque necessitatibus dolorem, temporibus quae iure alias deleniti a, qui libero veniam maiores nesciunt reprehenderit illum eveniet?
+                Iusto quos, animi sed incidunt a nobis illum quod natus quo, consequuntur mollitia, odio ab? Voluptatem ducimus nam quod placeat, consectetur libero, voluptas recusandae fugit rem tempora quis pariatur a.
+                Dicta modi dolorum perspiciatis atque perferendis quis aspernatur! Similique sit nesciunt enim id, voluptatem veritatis quod modi cum corrupti harum beatae voluptas optio accusantium architecto nemo temporibus nisi totam magni.
+                Laudantium sequi quis repudiandae quia optio vel unde, rerum debitis, error ipsum odit possimus labore eos quo enim officia voluptatum commodi placeat deleniti reprehenderit quasi. Ad mollitia molestiae officiis eligendi.
+                Mollitia voluptate recusandae inventore sunt facilis, aperiam, praesentium numquam ut dolore nostrum odit explicabo id. Doloremque nesciunt qui veritatis dolores nulla, corrupti ipsum! Corporis ipsum at sed nam delectus repellat?
+                Inventore deleniti magni ab dignissimos cupiditate culpa iure repellendus quaerat rem rerum. Id quo, autem quos nam saepe debitis. Ullam animi libero mollitia, debitis iure consequatur nemo doloribus delectus inventore.
+                Dolorem reiciendis debitis vel laudantium dolores, ut cum! Distinctio blanditiis optio laboriosam voluptates esse a non expedita ut necessitatibus. Error tempore repudiandae dolore voluptatibus minus ipsa repellat sunt optio architecto.
+                Maxime ea ad aliquid quaerat, voluptatem dolore fugit placeat assumenda labore tempora laborum? Sapiente perferendis aliquam at molestiae obcaecati nobis debitis quam. Temporibus, odio dolore. Quisquam, labore quod. Numquam, vero?
+                Porro ex tempore saepe laboriosam ad nisi non excepturi necessitatibus iusto quod qui exercitationem deserunt quaerat autem ducimus tempora, et molestias labore reiciendis, cum officia illo? Distinctio doloremque consequatur similique.</div>
+                <div class="notice-ncpage next">
+                    <div><b>다음글</b></div>
+                    <div class="notice-ncpage-header next">
+                        <div class="notice-ncpage next-title"><a href=""></a></div>
+                        <div class="notice-ncpage next-date"></div>    
+                    </div>
+                </div>
+                <div class="notice-ncpage prev">
+                    <div><b>이전글</b></div>
+                    <div class="notice-ncpage-header prev">
+                        <div class="notice-ncpage prev-title"><a href=""></a></div>
+                        <div class="notice-ncpage prev-date"></div>
+                    </div>
+                </div>    
+            </div>
+            <button>목록</button>
+        </section>
     </main>
     <footer>
         <div>footer</div>

@@ -1,3 +1,4 @@
+const logo = document.getElementById('logo')
 const mainMenus = document.querySelectorAll('.main-menu')
 const subMenuInfo = document.querySelector('.sub-menu.info')
 const subMenuIntro = document.querySelector('.sub-menu.intro')
@@ -79,6 +80,10 @@ function showSearchbar(){
     return search
 }
 
+function moveToMain(){
+    window.location.href = "/webpage/main.html"
+}
 
+logo.addEventListener('click', moveToMain)
 iconSearch.addEventListener('click', showSearchbar())
 iconSitemap.addEventListener('click', showSitemap())

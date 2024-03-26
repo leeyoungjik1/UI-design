@@ -12,7 +12,7 @@ const pageNavMaxOfPage = 5
 
 
 
-console.log(noticeArr)
+// console.log(noticeArr)
 
 
 function pushNotice(n){

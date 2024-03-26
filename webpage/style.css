@@ -1,6 +1,18 @@
 :root{
     --base-width: 70%;
-    --min-width: 1200px
+    --min-width: 1200px;
+    --main-font: pretendard, sans-serif;
+    --font-size-h1: 32px;
+    --font-size-h2: 28px;
+    --font-size-h3: 24px;
+    --font-size-h4: 20px;
+    --font-size-text-large: 20px;
+    --font-size-text-medium: 18px;
+    --font-size-text-normal: 16px;
+    --font-size-text-small: 14px;
+}
+*{
+    font-family: var(--main-font);
 }
 body{
     margin: 0;
@@ -56,6 +68,9 @@ nav>ul{
     justify-content: center;
     align-items: center;
 }
+.main-menu:hover{
+
+}
 nav li{
     list-style: none;
     flex: 1;
@@ -70,8 +85,16 @@ nav ul{
     margin: 0; padding: 0;
 }
 .main-menu>a{
-    font-size: 2rem;
+    width: 100%; height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: var(--font-size-h1);
     font-weight: bold;
+    transition: .3s;
+}
+.main-menu>a:hover{
+    color: #CD030A;
 }
 .sub-menu{
     width: 90%;
@@ -99,7 +122,7 @@ nav ul{
 }
 .sub-menu>li{
     margin: 1rem;
-    font-size: 1.5rem;
+    font-size: var(--font-size-h4);
     z-index: 1;
 }
 .sub-menu>li>a{
@@ -143,7 +166,7 @@ nav ul{
 }
 #searchbar>div>input{
     height: 50%; width: 50%;
-    font-size: 1rem;
+    font-size: var(--font-size-text-normal);
     border: 1px solid gray;
     border-radius: 15px;
     padding: 0 1.5rem;
@@ -170,6 +193,7 @@ nav ul{
     border-radius: 15px;
     position: relative;
     overflow: hidden;
+    box-sizing: border-box;
 }
 #sroll-img-container{
     width: 500%; height: 100%;
@@ -183,8 +207,6 @@ nav ul{
     /* border: 1px solid green; */
     background-size: cover;
     background-position: center;
-    color: white;
-    font-size: 3rem;
 }
 .scroll-img:nth-child(1){
     background-image: url(img/adam-kool-ndN00KmbJ1c-unsplash.jpg);
@@ -238,6 +260,7 @@ nav ul{
     height: 80px;
     margin: auto;
     border: 1px solid black;
+    box-sizing: border-box;
     border-radius: 15px;
     display: flex;
     align-items: center;
@@ -250,7 +273,7 @@ nav ul{
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 1.8rem;
+    font-size: var(--font-size-h2);
     border-right: 1px solid black;
 }
 #notice-window{
@@ -262,12 +285,12 @@ nav ul{
 .notice{
     width: 100%; height: 100%;
     display: flex;
-    border: 1px solid green;
+    /* border: 1px solid green; */
     justify-content: space-between;
     align-items: center;
 }
 #notice-title{
-    font-size: 1.2rem;
+    font-size: var(--font-size-text-large);
     flex: 1;
     margin-left: 1rem;
 }
@@ -276,7 +299,7 @@ nav ul{
     cursor: pointer;
 }
 #notice-date{
-    font-size: 1.2rem;
+    font-size: var(--font-size-text-normal);
 }
 #notice-contariner .notice-btn{
     width: 30px;
@@ -303,6 +326,7 @@ nav ul{
 #main-intro>div{
     width: 100%; height: 100%;
     border: 1px solid black;
+    box-sizing: border-box;
     border-radius: 15px;
     display: flex;
     align-items: center;
@@ -323,7 +347,7 @@ nav ul{
     border-right: none;
 }
 #main-intro>div>div>h2{
-    font-size: 1.8rem;
+    font-size: var(--font-size-h2);
     margin: 0;
 }
 #main-intro>div>div>div>div{
@@ -334,11 +358,11 @@ nav ul{
 }
 #main-intro h3{
     margin: 0;
-    font-size: 1.3rem;
+    font-size: var(--font-size-h3);
 }
 #main-intro p{
     margin: 0;
-    font-size: 1.3rem;
+    font-size: var(--font-size-text-large);
 }
 .icon-intro{
     display: flex;
@@ -387,7 +411,7 @@ footer{
 #notice-npage h1{
     width: 100%;
     text-align: center;
-    font-size: 2rem;
+    font-size: var(--font-size-h1);
 }
 #searchbar-npage{
     width: 100%;
@@ -400,7 +424,7 @@ footer{
 }
 #notice-npage>div>input{
     height: 50%; width: 30%;
-    font-size: 1rem;
+    font-size: var(--font-size-text-normal);
     border: 1px solid gray;
     padding: 0 1.5rem;
     border-radius: 10px;
@@ -448,7 +472,7 @@ footer{
 .page-nav-btn{
     width: 30px;
     height: 30px;
-    font-size: 1rem;
+    font-size: var(--font-size-text-normal);
     font-weight: bold;
     background-size: cover;
     background-position: center;
@@ -472,3 +496,87 @@ footer{
 }
 
 
+
+
+
+/* notice content page */
+
+#notice-ncpage{
+    width: var(--base-width); min-width: var(--min-width);
+    /* border: 1px solid green; */
+    margin: 3rem auto;
+    position: relative;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+}
+#notice-ncpage>div{
+    width: 100%; height: 100%;
+    margin: 3rem 0;
+}
+#notice-ncpage h1{
+    width: 100%;
+    text-align: center;
+    font-size: var(--font-size-h1);
+}
+
+
+#title-header-ncpage{
+    width: 100%;
+    /* border: 1px solid red; */
+    border-top: 2px solid black;
+    border-bottom: 1px solid gray;
+    padding: 1.3rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+}
+.title-ncpage{
+    font-size: var(--font-size-h3);
+}
+.date-ncpage{
+    font-size: var(--font-size-text-normal);
+}
+.content-ncpage{
+    width: 100%; min-height: 30vh;
+    /* border: 1px solid blue; */
+    padding: 3rem 3rem;
+    box-sizing: border-box;
+    font-size: var(--font-size-text-large);
+}
+#notice-ncpage>div>.notice-ncpage{
+    width: 100%;
+    /* border: 1px solid brown; */
+    padding: 1rem 3rem;
+    display: flex;
+    box-sizing: border-box;
+    border-top: 1px solid gray;
+}
+.notice-ncpage.prev{
+    border-bottom: 2px solid gray;
+}
+.notice-ncpage-header{
+    display: flex;
+    padding-left: 1rem;
+    justify-content: space-between;
+    align-items: center;
+    flex: 1;
+    /* border: 1px solid purple; */
+}
+.notice-ncpage-header a{
+    all: unset;
+    cursor: pointer;
+    font-size: var(--font-size-text-normal);
+}
+#notice-ncpage>button{
+    /* position: absolute; */
+    /* margin-top: 2rem; */
+    width: 100px; height: 40px;
+    font-size: var(--font-size-text-normal);
+    background-color:  white;
+    border: 1px solid gray;
+    border-radius: 10px;
+    cursor: pointer;
+}
