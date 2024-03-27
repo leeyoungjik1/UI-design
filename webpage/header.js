@@ -1,4 +1,6 @@
+const header = document.querySelector('header')
 const logo = document.getElementById('logo')
+const gnb = document.getElementById('gnb')
 const mainMenus = document.querySelectorAll('.main-menu')
 const subMenuInfo = document.querySelector('.sub-menu.info')
 const subMenuIntro = document.querySelector('.sub-menu.intro')
@@ -7,24 +9,29 @@ const subMenuNews = document.querySelector('.sub-menu.news')
 const iconSitemap = document.querySelector('.icon.sitemap')
 const iconSearch = document.querySelector('.icon.search')
 const searchbar = document.getElementById('searchbar')
+console.log(gnb.getBoundingClientRect())
+
+function getSubMenuHeight(subMenu){
+    return subMenu.getBoundingClientRect().height
+}
 
 function showSubMenu(e){
     // console.log(e.target.innerText)
     if(e.target.innerText.includes('이용 안내')){
-        subMenuInfo.style.top = 100 + 'px'
+        subMenuInfo.style.bottom = -getSubMenuHeight(subMenuInfo) + 'px'
     }else if(e.target.innerText.includes('관광지 소개')){
-        subMenuIntro.style.top = 100 + 'px'
+        subMenuIntro.style.bottom = -getSubMenuHeight(subMenuIntro) + 'px'
     }else if(e.target.innerText.includes('행사')){
-        subMenuEvent.style.top = 100 + 'px'
+        subMenuEvent.style.bottom = -getSubMenuHeight(subMenuEvent) + 'px'
     }else if(e.target.innerText.includes('소식')){
-        subMenuNews.style.top = 100 + 'px'
+        subMenuNews.style.bottom = -getSubMenuHeight(subMenuNews) + 'px'
     }
 }
 function hideSubMenu(){
-    subMenuInfo.style.top = -109 + 'px'
-    subMenuIntro.style.top = 35 + 'px'
-    subMenuEvent.style.top = -13 + 'px'
-    subMenuNews.style.top = 35 + 'px'
+    subMenuInfo.style.bottom = getSubMenuHeight(subMenuInfo) + 'px'
+    subMenuIntro.style.bottom = getSubMenuHeight(subMenuIntro) + 'px'
+    subMenuEvent.style.bottom = getSubMenuHeight(subMenuEvent) + 'px'
+    subMenuNews.style.bottom = getSubMenuHeight(subMenuNews) + 'px'
 }
 
 for(let mainMenu of mainMenus){
@@ -37,10 +44,10 @@ function showSitemap(){
     function sitemap(){
         if(!isSitemap){
             iconSitemap.style.backgroundImage = 'url(img/8666595_x_icon.png)'
-            subMenuInfo.style.top = 100 + 'px'
-            subMenuIntro.style.top = 100 + 'px'
-            subMenuEvent.style.top = 100 + 'px'
-            subMenuNews.style.top = 100 + 'px'
+            subMenuInfo.style.bottom = -getSubMenuHeight(subMenuInfo) + 'px'
+            subMenuIntro.style.bottom = -getSubMenuHeight(subMenuIntro) + 'px'
+            subMenuEvent.style.bottom = -getSubMenuHeight(subMenuEvent) + 'px'
+            subMenuNews.style.bottom = -getSubMenuHeight(subMenuNews) + 'px'
             for(let mainMenu of mainMenus){
                 mainMenu.removeEventListener('mouseenter', showSubMenu)
                 mainMenu.removeEventListener('mouseleave', hideSubMenu)
@@ -83,6 +90,22 @@ function showSearchbar(){
 function moveToMain(){
     window.location.href = "/webpage/main.html"
 }
+
+let preScrollTop = 0;
+
+function moveGnb(e){
+    console.log('세로 스크롤에 의해 가려진 위쪽 영역 높이: ' + window.pageYOffset)
+    let nextScrollTop = window.scrollY
+	if(preScrollTop < nextScrollTop && window.pageYOffset>gnb.getBoundingClientRect().height+50) {
+      gnb.style.top = -gnb.getBoundingClientRect().height + 'px'
+    }
+	else {
+      gnb.style.top = 0 + 'px'
+    }
+	preScrollTop = nextScrollTop;
+}
+
+window.addEventListener('scroll', moveGnb)
 
 logo.addEventListener('click', moveToMain)
 iconSearch.addEventListener('click', showSearchbar())

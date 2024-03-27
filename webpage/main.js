@@ -110,8 +110,5 @@ function showNotice(){
     }
 }
 
-
-
-
 window.addEventListener('load', changeImg)
 window.addEventListener('load', showNotice)
