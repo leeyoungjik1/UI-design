@@ -3,8 +3,9 @@
     src: url('/webpage/font/나눔손글씨\ 안쌍체.ttf') format('truetype');
 }
 :root{
-    --base-width: 1500px;
+    --base-width: 70%;
     --min-width: 1200px;
+    --max-width: 1500px;
     --main-font: pretendard, sans-serif;
     --sub-font: neon;
     --font-size-h1: 32px;
@@ -35,7 +36,9 @@ header{
     z-index: 2;
 }
 #gnb{
-    width: var(--base-width); min-width: var(--min-width);
+    width: var(--base-width); 
+    min-width: var(--min-width);
+    max-width: var(--max-width);
     height: var(--gnb-heigt);
     background-color: white;
     margin: 0 auto;
@@ -55,7 +58,9 @@ header{
     transition: none;
 } */
 #hide{
-    width: var(--base-width); min-width: var(--min-width);
+    width: var(--base-width);
+    min-width: var(--min-width);
+    max-width: var(--max-width);
     height: var(--gnb-heigt);
     margin: 0 auto;
     /* background-color: white; */
@@ -297,7 +302,9 @@ main{
 
 
 #main-pharse{
-    width: var(--base-width); min-width: var(--min-width);
+    width: var(--base-width);
+    min-width: var(--min-width);
+    max-width: var(--max-width);
     padding: var(--gnb-padding) 3rem;
     position: sticky;
     top: 120px;
@@ -323,7 +330,9 @@ main{
 
 
 #main-notice{
-    width: var(--base-width); min-width: var(--min-width);
+    width: var(--base-width);
+    min-width: var(--min-width);
+    max-width: var(--max-width);
     height: 80px;
     /* border: 1px solid red; */
     margin: 0 auto;
@@ -397,7 +406,9 @@ main{
 
 
 #main-intro{
-    width: var(--base-width); min-width: var(--min-width);
+    width: var(--base-width);
+    min-width: var(--min-width);
+    max-width: var(--max-width);
     height: 230px;
     /* border: 1px solid red; */
     margin: 3rem auto;
@@ -481,7 +492,9 @@ footer{
     box-sizing: border-box;
 }
 footer>div{
-    width: var(--base-width); min-width: var(--min-width);
+    width: var(--base-width);
+    min-width: var(--min-width);
+    max-width: var(--max-width);
     padding: var(--gnb-padding) 3rem;
     display: flex;
     justify-content: space-between;
@@ -520,7 +533,9 @@ footer p{
 /* notice page */
 
 #notice-npage{
-    width: var(--base-width); min-width: var(--min-width);
+    width: var(--base-width);
+    min-width: var(--min-width);
+    max-width: var(--max-width);
     height: 80vh;
     /* border: 1px solid green; */
     margin: 3rem auto;
@@ -620,7 +635,9 @@ footer p{
 /* notice content page */
 
 #notice-ncpage{
-    width: var(--base-width); min-width: var(--min-width);
+    width: var(--base-width);
+    min-width: var(--min-width);
+    max-width: var(--max-width);
     /* border: 1px solid green; */
     margin: 3rem auto;
     position: relative;
