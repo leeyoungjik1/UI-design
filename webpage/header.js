@@ -18,13 +18,13 @@ function getSubMenuHeight(subMenu){
 function showSubMenu(e){
     // console.log(e.target.innerText)
     if(e.target.innerText.includes('이용 안내')){
-        subMenuInfo.style.bottom = -getSubMenuHeight(subMenuInfo) + 'px'
+        subMenuInfo.style.bottom = -getSubMenuHeight(subMenuInfo) - 10 + 'px'
     }else if(e.target.innerText.includes('관광지 소개')){
-        subMenuIntro.style.bottom = -getSubMenuHeight(subMenuIntro) + 'px'
+        subMenuIntro.style.bottom = -getSubMenuHeight(subMenuIntro) - 10 + 'px'
     }else if(e.target.innerText.includes('행사')){
-        subMenuEvent.style.bottom = -getSubMenuHeight(subMenuEvent) + 'px'
+        subMenuEvent.style.bottom = -getSubMenuHeight(subMenuEvent) - 10 + 'px'
     }else if(e.target.innerText.includes('소식')){
-        subMenuNews.style.bottom = -getSubMenuHeight(subMenuNews) + 'px'
+        subMenuNews.style.bottom = -getSubMenuHeight(subMenuNews) -10 + 'px'
     }
 }
 function hideSubMenu(){
@@ -44,10 +44,10 @@ function showSitemap(){
     function sitemap(){
         if(!isSitemap){
             iconSitemap.style.backgroundImage = 'url(img/8666595_x_icon.png)'
-            subMenuInfo.style.bottom = -getSubMenuHeight(subMenuInfo) + 'px'
-            subMenuIntro.style.bottom = -getSubMenuHeight(subMenuIntro) + 'px'
-            subMenuEvent.style.bottom = -getSubMenuHeight(subMenuEvent) + 'px'
-            subMenuNews.style.bottom = -getSubMenuHeight(subMenuNews) + 'px'
+            subMenuInfo.style.bottom = -getSubMenuHeight(subMenuInfo) - 10 + 'px'
+            subMenuIntro.style.bottom = -getSubMenuHeight(subMenuIntro) - 10 + 'px'
+            subMenuEvent.style.bottom = -getSubMenuHeight(subMenuEvent) - 10 + 'px'
+            subMenuNews.style.bottom = -getSubMenuHeight(subMenuNews) - 10 + 'px'
             for(let mainMenu of mainMenus){
                 mainMenu.removeEventListener('mouseenter', showSubMenu)
                 mainMenu.removeEventListener('mouseleave', hideSubMenu)
