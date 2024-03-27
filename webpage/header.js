@@ -94,7 +94,7 @@ function moveToMain(){
 let preScrollTop = 0;
 
 function moveGnb(e){
-    console.log('세로 스크롤에 의해 가려진 위쪽 영역 높이: ' + window.pageYOffset)
+    // console.log('세로 스크롤에 의해 가려진 위쪽 영역 높이: ' + window.pageYOffset)
     let nextScrollTop = window.scrollY
 	if(preScrollTop < nextScrollTop && window.pageYOffset>gnb.getBoundingClientRect().height+50) {
       gnb.style.top = -gnb.getBoundingClientRect().height + 'px'
