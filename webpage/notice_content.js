@@ -43,7 +43,6 @@ function loadNotice(){
         pushNextNotice()
         pushPrevNotice()
     }
-    
 }
 
 function moveToList(){
