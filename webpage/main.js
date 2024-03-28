@@ -24,7 +24,7 @@ function changeImg(){
         srollImgContainer.style.left = -100 * i + '%'
         setTimeout(function(){
             srollImgContainer.style.transition = '2s'
-        }, 10)
+        }, 100)
     }
     // setInterval(function(){
     //     // console.log(i)
@@ -34,7 +34,7 @@ function changeImg(){
     //         i=1
     //         setTimeout(initImg, 2000)
     //     }
-    // }, 4000)
+    // }, 5000)
 
     for(let [btnIndex, scrollImgBtn] of scrollImgBtns.entries()){
         scrollImgBtn.addEventListener('click', (e) => contorolImg(e, btnIndex))
