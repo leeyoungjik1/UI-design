@@ -10,7 +10,7 @@ const subMenuNews = document.querySelector('.sub-menu.news')
 const iconSitemap = document.querySelector('.icon.sitemap')
 const iconSearch = document.querySelector('.icon.search')
 const searchbar = document.getElementById('searchbar')
-console.log(subMenus)
+// console.log(subMenus)
 
 function getSubMenuHeight(subMenu){
     return subMenu.getBoundingClientRect().height
@@ -89,11 +89,14 @@ let preScrollTop = 0;
 
 function moveGnb(e){
     let nextScrollTop = window.scrollY
+    // console.log(preScrollTop, nextScrollTop)
 	if(preScrollTop < nextScrollTop && window.pageYOffset>gnb.getBoundingClientRect().height+50) {
-      gnb.style.top = -gnb.getBoundingClientRect().height + 'px'
+        gnb.style.top = -gnb.getBoundingClientRect().height + 'px'
+        // console.log(gnb.getBoundingClientRect().height)
     }
-	else {
-      gnb.style.top = 0 + 'px'
+	else{
+        // console.log('위')
+        gnb.style.top = 0 + 'px'
     }
 	preScrollTop = nextScrollTop;
 }

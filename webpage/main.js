@@ -1,8 +1,14 @@
 const srollImgContainer = document.getElementById('sroll-img-container')
 const scrollImgBtns = document.querySelectorAll('.scroll-img-btn')
+const subContent = document.getElementById('sub-content')
+const subContentContainer = subContent.querySelector('.sub-content-container')
+const subContentPhrase = subContentContainer.querySelector('.sub-content-phrase')
+const subImgWindow = document.getElementById('sub-img-window')
+const subImgContainer = document.getElementById('sub-img-container')
 const noticeBtns = document.querySelectorAll('.notice-btn')
 const noticeTitle = document.getElementById('notice-title')
 const noticeDate = document.getElementById('notice-date')
+
 import { noticeArr } from "./data.js"
 console.log(noticeArr)
 
@@ -71,6 +77,26 @@ function changeImg(){
     }
 }
 
+const perWidth = 100-subContentContainer.getBoundingClientRect().width/subContent.getBoundingClientRect().width*100
+
+for(let imgindex = 1; imgindex <= perWidth; imgindex++){
+    window.addEventListener('scroll', changeSubContent)
+    const startToWide = 600
+    const finishToWide = 1100
+    const startToNarrow = 1800
+    const finishToNarrow = 2100
+
+    function changeSubContent(){
+        if(window.pageYOffset > startToWide + (finishToWide-startToWide)/perWidth * imgindex){
+            subContentContainer.style.width = `calc(var(--base-width) + ${imgindex}%)`
+        }
+        if(window.pageYOffset > startToNarrow + (finishToNarrow-startToNarrow)/perWidth * imgindex){
+        subContentContainer.style.width = `calc(var(--base-width) + ${perWidth}% - ${imgindex}%)`
+        }
+    }
+}
+
+
 function showNotice(){
     let i = 0
     pushNotice()
@@ -110,5 +136,57 @@ function showNotice(){
     }
 }
 
+
+// function test2(e){
+//     console.log(e.clientX)
+//     // console.log(subContent.getBoundingClientRect().top)
+//     if(subContent.getBoundingClientRect().top === 0){
+//         // console.log('작동')
+        
+//     }
+// }
+
+subContentPhrase.addEventListener('wheel', workScroll)
+// subImgWindow.addEventListener('wheel', () => throttling(changeSubImg))
+subImgWindow.addEventListener('wheel', changeSubImg)
+let subImgIndex = 0
+function workScroll(){
+    document.body.style.overflow = 'visible'
+}
+function changeSubImg(e){
+    // e.stopPropagation()
+    if(subContent.getBoundingClientRect().top === 0){
+        // subContent.click()
+        subImgIndex++
+        subImgContainer.style.left = -subImgIndex*20 + '%'
+        document.body.style.overflow = 'hidden'
+        console.log(subImgIndex)
+        // if(subImgIndex>9){
+        //     subImgIndex = -1
+        //     // setTimeout(workScroll, 1800)
+        // }
+    }
+
+}
+
+
+// window.addEventListener('mousemove', test2)
+function getPosition(e){
+    console.log("문서 클릭!")
+}
+
+subImgWindow.addEventListener('mouseenter', getPosition)
+
+
+
 window.addEventListener('load', changeImg)
 window.addEventListener('load', showNotice)
+
+
+
+
+// function test(e){
+//     console.log(e.target)
+// }
+
+// window.addEventListener('click', test)
