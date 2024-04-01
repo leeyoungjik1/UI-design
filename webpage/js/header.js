@@ -17,11 +17,12 @@ function getSubMenuHeight(subMenu){
 }
 
 function showSubMenu(e){
+
     if(e.target.className === 'main-menu'){
         e.target.children[1].style.bottom = -getSubMenuHeight(e.target.children[1]) - 10 + 'px'
     }
 }
-function hideSubMenu(){
+function hideSubMenu(e){
     for(let subMenu of subMenus){
         subMenu.style.bottom = getSubMenuHeight(subMenu) + 'px'
     }
@@ -81,9 +82,7 @@ function showSearchbar(){
     return search
 }
 
-function moveToMain(){
-    window.location.href = "/webpage/main.html"
-}
+
 
 let preScrollTop = 0;
 
@@ -102,6 +101,12 @@ function moveGnb(e){
 }
 
 window.addEventListener('scroll', moveGnb)
+
+
+function moveToMain(){
+    window.location.href = "/webpage/main.html"
+}
+
 
 logo.addEventListener('click', moveToMain)
 iconSearch.addEventListener('click', showSearchbar())

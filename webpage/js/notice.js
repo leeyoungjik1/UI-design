@@ -4,13 +4,13 @@ const pageNavBtnFirst = document.querySelector('.page-nav-btn.first')
 const pageNavBtnLeft = document.querySelector('.page-nav-btn.left')
 const pageNavBtnRight = document.querySelector('.page-nav-btn.right')
 const pageNavBtnLast = document.querySelector('.page-nav-btn.last')
+
+
 import { noticeArr } from "./data.js"
 // const noticeArr = [
 // ]
 const noticeMaxOfPage = 5
 const pageNavMaxOfPage = 5
-
-
 
 // console.log(noticeArr)
 

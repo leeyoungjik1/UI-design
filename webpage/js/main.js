@@ -8,10 +8,9 @@ const subImgContainer = document.getElementById('sub-img-container')
 const noticeBtns = document.querySelectorAll('.notice-btn')
 const noticeTitle = document.getElementById('notice-title')
 const noticeDate = document.getElementById('notice-date')
+const iconLocation = document.querySelector('.icon.location.material-symbols-outlined')
 
 import { noticeArr } from "./data.js"
-console.log(noticeArr)
-
 
 let timer, throttleDuration = 3000
 function throttling(handler){
@@ -146,25 +145,28 @@ function showNotice(){
 //     }
 // }
 
-subContentPhrase.addEventListener('wheel', workScroll)
+
 // subImgWindow.addEventListener('wheel', () => throttling(changeSubImg))
-subImgWindow.addEventListener('wheel', changeSubImg)
+
 let subImgIndex = 0
 function workScroll(){
     document.body.style.overflow = 'visible'
+}
+function hideScroll(){
+    document.body.style.overflow = 'hidden'
 }
 function changeSubImg(e){
     // e.stopPropagation()
     if(subContent.getBoundingClientRect().top === 0){
         // subContent.click()
         subImgIndex++
-        subImgContainer.style.left = -subImgIndex*20 + '%'
-        document.body.style.overflow = 'hidden'
+        subImgContainer.style.left = -subImgIndex*10 + '%'
+        hideScroll()
         console.log(subImgIndex)
-        // if(subImgIndex>9){
-        //     subImgIndex = -1
-        //     // setTimeout(workScroll, 1800)
-        // }
+        if(subImgIndex > 19){
+            subImgWindow.removeEventListener('wheel', changeSubImg)
+            setTimeout(workScroll, 1800)
+        }
     }
 
 }
@@ -175,18 +177,16 @@ function getPosition(e){
     console.log("문서 클릭!")
 }
 
+
+
+function moveToLocationPage(){
+    window.location.href = "/webpage/location.html"
+}
+
+iconLocation.addEventListener('click', moveToLocationPage)
+subContentPhrase.addEventListener('wheel', workScroll)
+subImgWindow.addEventListener('wheel', changeSubImg)
 subImgWindow.addEventListener('mouseenter', getPosition)
-
-
-
 window.addEventListener('load', changeImg)
 window.addEventListener('load', showNotice)
 
-
-
-
-// function test(e){
-//     console.log(e.target)
-// }
-
-// window.addEventListener('click', test)
