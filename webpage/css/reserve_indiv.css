@@ -112,6 +112,18 @@ main>section{
     align-items: center;    
     justify-content: center;
     box-sizing: border-box;
+    text-align: center;
+}
+/* #reserve-select>div:nth-child(2){
+    overflow: scroll;
+} */
+#select-time-box, #show-result-box{
+    width: 100%; height: 100%;
+    display: flex;
+    flex-flow: column;
+    align-items: center;    
+    justify-content: center;
+    box-sizing: border-box;
     gap: 1rem;
     text-align: center;
 }
@@ -122,6 +134,57 @@ main>section{
     color: var(--gray-color-5);
     user-select: none;
     cursor: default;
+}
+#calendar{
+    width: 100%; height: 100%;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+#calendar td, .btns-calendar{
+    cursor: pointer;
+    /* border: 1px solid red; */
+}
+.cell-date.change-back-color{
+    background-color: yellow;
+}
+#timetable-wrap{
+    width: 100%; height: 100%;
+    overflow: auto;
+    display: none;
+    position: relative;
+}
+#timetable-wrap::-webkit-scrollbar {
+    width: 10px;
+}
+#timetable-wrap::-webkit-scrollbar-track {
+    background-color: white;
+    border-radius: 5px;
+}
+#timetable-wrap::-webkit-scrollbar-thumb { 
+    background-color: var(--gray-color-5);
+    border-radius: 5px;
+}
+#timetable-wrap::-webkit-scrollbar-button {
+    display: none;
+}
+#show-date{
+    font-size: var(--font-size-text-normal);
+    font-weight: bold;
+    position: absolute;
+    top: 8px;
+    display: none;
+}
+#timetable{
+    width: 100%
+    /* border: 1px solid green; */
+}
+#timetable, #timetable tr, #timetable td{
+    border: 1px solid var(--gray-color-1);
+    border-collapse: collapse;
+}
+#timetable td{
+    width: 100%; height: 60px;
+    cursor: pointer;
 }
 #info-color-boxs{
     display: flex;
@@ -137,7 +200,6 @@ main>section{
 .info-box{
     width: 15px; height: 15px;
     border: 1px solid var(--gray-color-3);
-    background-color: aqua;
 }
 #info-color-boxs>div:nth-child(1)>div:nth-child(1){
     background-color: var(--gray-color-2);
@@ -213,10 +275,3 @@ main>section{
     background-color: white;
 }
 
-#calendar{
-    width: 100%; height: 100%;
-}
-#calendar td, .btns-calendar{
-    cursor: pointer;
-    /* border: 1px solid red; */
-}

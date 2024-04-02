@@ -9,7 +9,7 @@ const noticeBtns = document.querySelectorAll('.notice-btn')
 const noticeTitle = document.getElementById('notice-title')
 const noticeDate = document.getElementById('notice-date')
 const iconLocation = document.querySelector('.icon.location.material-symbols-outlined')
-
+const iconReserve = document.querySelector('.icon.reserve.material-symbols-outlined')
 import { noticeArr } from "./data.js"
 
 let timer, throttleDuration = 3000
@@ -182,7 +182,11 @@ function getPosition(e){
 function moveToLocationPage(){
     window.location.href = "/webpage/location.html"
 }
+function moveToReservePage(){
+    window.location.href = "/webpage/reserve_indiv.html"
+}
 
+iconReserve.addEventListener('click', moveToReservePage)
 iconLocation.addEventListener('click', moveToLocationPage)
 subContentPhrase.addEventListener('wheel', workScroll)
 subImgWindow.addEventListener('wheel', changeSubImg)
