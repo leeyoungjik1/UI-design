@@ -69,7 +69,7 @@ main>h1{
 #map-API{
     width: 100%; height: 500px;
     margin: 3rem 0;
-    /* border: 1px solid red; */
+    /* border: 2px solid var(--gray-color-3); */
     background-color: aqua;
 }
 #contact-locpage{

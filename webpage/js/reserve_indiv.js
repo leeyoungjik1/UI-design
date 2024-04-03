@@ -5,13 +5,77 @@ const timeTable = document.getElementById("timetable")
 const timeTableWrap = document.getElementById("timetable-wrap")
 const btnReserve = document.querySelector('.btn.reserve')
 const showDate = document.getElementById('show-date')
-
-
+const btnDetailsCheck = document.querySelector('.btn-details.check')
+const detailsTotal = document.getElementById('details-total')
+const detailsInputs = document.querySelectorAll('#details-container input')
+const modalDetails = document.getElementById('modal-details')
+const ticketBox = document.getElementById('ticket-box')
+const showResultBox = document.getElementById('show-result-box')
+const totalPriceBox = document.getElementById('total-price-box')
 const saveReserveArr = []
 let loadReserveArr = []
-if(JSON.parse(localStorage.getItem('reservation'))){
-	loadReserveArr = JSON.parse(localStorage.getItem('reservation'))
-}
+// if(JSON.parse(localStorage.getItem('reservation'))){
+// 	loadReserveArr = JSON.parse(localStorage.getItem('reservation'))
+// }
+console.log(loadReserveArr)
+const detailsType = {adult: 10000, youth: 5000, child: 3000}
+const detailsDiscount = {resident: -2000, pass: -1000}
+const detailsOption = {drink: 4000, souvenir: 15000}
+const transdetailsType = {adult: "어른", youth: "청소년", child: "어린이"}
+const transdetailsDiscount = {resident: "지역민 할인", pass: "지역 패스권"}
+const transdetailsOption = {drink: "음료", souvenir: "기념품"}
+
+
+
+const sample = [
+    {
+        "id": 1,
+        "name": "lee",
+        "year": 2024,
+        "month": 4,
+        "date": 3,
+        "dateTotal": "2024-04-03",
+        "time": "10:00 ~ 11:00",
+		"details": [
+			{type: "adult", discount: ["resident"], option: ["souvenir"], amount: 1, price: 25000},
+			{type: "adult", discount: ["resident", "pass"], option: ["souvenir"], amount: 2, price: 35000},
+			{type: "youth", discount: ["pass"], option: ["drink", "souvenir"], amount: 1, price: 2000},
+			{type: "child", discount: null, option: null, amount: 3, price: 45000}
+		],
+		"totalprice": 560000
+    },
+    {
+        "id": 2,
+        "name": "kim",
+        "year": 2024,
+        "month": 4,
+        "date": 3,
+        "dateTotal": "2024-04-03",
+        "time": "13:00 ~ 14:00",
+		"details": [
+			{type: "adult", discount: ["resident"], option: ["souvenir"], amount: 2, price: 25000},
+			{type: "adult", discount: null, option: ["drink"], amount: 1, price: 55000},
+			{type: "youth", discount: ["resident", "pass"], option: ["drink", "souvenir"], amount: 2, price: 855000},
+			{type: "child", discount: ["pass"], option: null, amount: 1, price: 25000}
+		],
+		"totalprice": 50000
+    },
+    {
+        "id": 3,
+        "name": "park",
+        "year": 2024,
+        "month": 4,
+        "date": 4,
+        "dateTotal": "2024-04-04",
+        "time": "9:00 ~ 10:00",
+		"details": [
+			{type: "adult", discount: ["resident"], option: ["drink", "souvenir"], amount: 2, price: 35000},
+			{type: "child", discount: ["resident"], option: null, amount: 2, price: 5000}
+		],
+		"totalprice": 160000
+    }
+]
+loadReserveArr = sample
 // localStorage.setItem('reservation', JSON.stringify([
 //     {
 //         "id": 1,
@@ -276,46 +340,46 @@ function buildCalendar(){
 }
 function applyColorCell(){
 	let reservedCnt = 0
+
 	loadReserveArr.forEach(function(reserve){
 		if(reserve.year === today.getFullYear() && reserve.month === today.getMonth()+1 && reserve.date === i){
 			reservedCnt++
 		}
 	})
 	if(reservedCnt === maxOfReserveNum){
-		cell.style.backgroundColor = 'var(--state-color-error)'
+		cell.classList.add("back-color-com")
 		cell.addEventListener('click', selectDateError)
 	}else if(todayFixed.getFullYear() === today.getFullYear() && todayFixed.getMonth()+1 === today.getMonth()+1){
 		if(todayFixed.getDay() === +cell.id){
-			cell.style.backgroundColor = 'var(--gray-color-2)'
-			cell.style.color = 'white'
+			cell.classList.add("back-color-today")
 			cell.addEventListener('click', selectDate)
 		}else if(todayFixed.getDay() > cell.id){
-			cell.style.backgroundColor = 'var(--gray-color-4)'
+			cell.classList.add("back-color-impos")
 			cell.addEventListener('click', selectDateError)
 		}else{
-			cell.style.backgroundColor = 'var(--state-color-success)'
+			cell.classList.add("back-color-pos")
 			cell.addEventListener('click', selectDate)
 		}
 	}else if(todayFixed.getFullYear() === today.getFullYear() && todayFixed.getMonth()+1 > today.getMonth()+1){
-		cell.style.backgroundColor = 'var(--gray-color-4)'
+		cell.classList.add("back-color-impos")
 		cell.addEventListener('click', selectDateError)
 	}else if(todayFixed.getFullYear() > today.getFullYear()){
-		cell.style.backgroundColor = 'var(--gray-color-4)'
+		cell.classList.add("back-color-impos")
 		cell.addEventListener('click', selectDateError)
 	}else{
-		cell.style.backgroundColor = 'var(--state-color-success)'
+		cell.classList.add("back-color-pos")
 		cell.addEventListener('click', selectDate)
 	}
 }
-
-function selectDate(e){
-	const cellDates = calendarTable.querySelectorAll('.cell-date')
-	for(let cellDate of cellDates){
-		// console.log(cellDate)
-		cellDate.classList.remove("change-back-color")
+function changeBackColorClicked(e){
+	const cells = document.querySelectorAll(`.${e.target.classList[0]}`)
+	for(let cell of cells){
+		cell.classList.remove("back-color-clicked")
 	}
-
-	e.target.classList.add("change-back-color")
+	e.target.classList.add("back-color-clicked")
+}
+function selectDate(e){
+	changeBackColorClicked(e)
 
 	selectedYear = today.getFullYear()
 	selectedMonth = ( 1 + today.getMonth() )
@@ -383,17 +447,20 @@ function timeTableMaker(selectedMonth, selectedDate){
 		cell = row.insertCell()
 		cell.setAttribute('id', cellTime)
 		cell.innerHTML = inputCellText
+		cell.className = 'cell-time'
 
 		if(loadReserveArr.find(isReserveTime)){
-			cell.style.backgroundColor = 'var(--state-color-error)'
+			cell.classList.add("back-color-com")
 			cell.addEventListener('click', selectTimeError)
 		}else{
-			cell.style.backgroundColor = 'var(--state-color-success)'
+			cell.classList.add("back-color-pos")
 			cell.addEventListener('click', selectTime)
 		}
 	}
 }
 function selectTime(e){
+	changeBackColorClicked(e)
+	showDetailsModal()
 	selectedTime = e.target.innerText
 	console.log(selectedYear, selectedMonth, selectedDate, selectedYMD, selectedTime)
 }
@@ -402,8 +469,125 @@ function selectTimeError(){
 }
 
 
+
+function showDetailsModal(){
+    document.body.style.overflow = 'hidden'
+	modalDetails.style.zIndex = '6'
+	modalDetails.style.opacity = '1'
+	detailsCheck()
+}
+
+function detailsCheck(){
+	const detailsObject = {type: null, discount: [], option: [], amount: null, price: null}
+	let totalPrice = 0
+	let discountPrice = 0
+	let optionPrice = 0
+	let amountSelected = null
+
+	for(let detailsInput of detailsInputs){
+		if(detailsInput.checked){
+			switch(detailsInput.name){
+				case 'type':
+					detailsObject.type = detailsInput.value
+					typePrice = detailsType[detailsInput.value]
+					break;
+				case 'discount':
+					detailsObject.discount.push(detailsInput.value)
+					discountPrice = discountPrice + detailsDiscount[detailsInput.value]
+					break;
+				case 'option':
+					detailsObject.option.push(detailsInput.value)
+					optionPrice = optionPrice + detailsOption[detailsInput.value]
+					break;
+			}
+		}else if(detailsInput.name === 'amount'){
+			detailsObject.amount = detailsInput.valueAsNumber
+			amountSelected = detailsInput.valueAsNumber
+		}
+	}
+	totalPrice = (typePrice + discountPrice + optionPrice) * amountSelected
+	detailsObject.price = totalPrice
+	detailsTotal.innerText = `합계: ${totalPrice.toLocaleString()}원`
+	detailsObjectCon = detailsObject
+}
+
+let detailsObjectCon = null
+
+function selectDetails(){
+	// console.log(detailsObjectCon)
+	document.body.style.overflow = 'visible'
+	modalDetails.style.zIndex = '-5'
+	modalDetails.style.opacity = '0'
+	showResultBox.style.display = 'none'
+	makeTicket()
+	calcTotal()
+}
+
+
+function makeTicket(){
+	const ticketDiv = document.createElement('div')
+	ticketDiv.className = "ticket-container"
+	ticketDiv.innerHTML = `
+		<div class="ticket-top">
+			<div class="ticket-value type">${transdetailsType[detailsObjectCon.type]}</div>
+			<div class="ticket-value price total">${detailsObjectCon.price.toLocaleString()} 원</div>
+		</div>
+		<div class="ticket-middle">
+			<div>
+				<div class="ticket-value type-price">${transdetailsType[detailsObjectCon.type]} <b>${detailsType[detailsObjectCon.type].toLocaleString()} 원</b></div>
+				<div class="ticket-value date">${selectedYMD} (수)</div>
+				<div class="ticket-value time">${selectedTime}</div>
+			</div>
+			<div class="ticket-value amount">${detailsObjectCon.amount} 매</div>
+		</div>
+		<div class="ticket-bottom">
+			${makeTicketOption()}
+		</div>
+		<div class="ticket-btns">
+			<button class="btn-ticket modify">수정</button>
+			<button class="btn-ticket del">삭제</button>
+		</div>
+	`
+	ticketBox.appendChild(ticketDiv)
+}
+function makeTicketOption(){
+	let sample = ''
+	if(detailsObjectCon.option[0]){
+		detailsObjectCon.option.forEach(function(option){
+			sample = sample + `<div class="ticket-value option-price">• ${transdetailsOption[option]} <b>${detailsOption[option].toLocaleString()} 원</b></div>`
+		})
+	}else{
+		sample = `<div class="ticket-value option-price">• 추가 옵션 없음</div>`
+	}
+	return sample
+}
+
+let totalPrice = 0
+function calcTotal(){
+	totalPrice = totalPrice + detailsObjectCon.price
+	totalPriceBox.innerText = `합계: ${totalPrice.toLocaleString()} 원`
+}
+
+btnDetailsCheck.addEventListener('click', selectDetails)
+for(let detailsInput of detailsInputs){
+	detailsInput.addEventListener('input', detailsCheck)
+}
+
+
+
+
+
+
 function addReserve(){
-	const reservationInfo = {id: 1, name: 'lee', year: selectedYear, month: Number(selectedMonth), date: Number(selectedDate), dateTotal: selectedYMD, time: selectedTime}
+	const reservationInfo = {
+		id: 1,
+		name: 'lee',
+		year: selectedYear,
+		month: Number(selectedMonth),
+		date: Number(selectedDate),
+		dateTotal: selectedYMD,
+		time: selectedTime
+	}
 	if(!localStorage.getItem('reservation')){
 		localStorage.setItem('reservation', JSON.stringify([reservationInfo]))
 	}else{
@@ -414,4 +598,30 @@ function addReserve(){
 }
 
 
+// {
+// 	"id": 1,
+// 	"name": "lee",
+// 	"year": 2024,
+// 	"month": 4,
+// 	"date": 3,
+// 	"dateTotal": "2024-04-03",
+// 	"time": "10:00 ~ 11:00",
+// 	"details": [
+// 		{type: "adult", discount: ["resident"], option: ["souvenir"], amount: 1, price: 25000},
+// 		{type: "adult", discount: ["resident", "pass"], option: ["souvenir"], amount: 2, price: 35000},
+// 		{type: "youth", discount: ["pass"], option: ["drink", "souvenir"], amount: 1, price: 2000},
+// 		{type: "child", discount: null, option: null, amount: 3, price: 45000}
+// 	],
+// 	"totalprice": 560000
+// },
+
+
 btnReserve.addEventListener('click', addReserve)
+
+
+
+
+
+
+
+
