@@ -3,20 +3,29 @@ const calendarTableTitle = document.getElementById("calendarTitle")
 const selectTimeBox = document.getElementById('select-time-box')
 const timeTable = document.getElementById("timetable")
 const timeTableWrap = document.getElementById("timetable-wrap")
+const reserveSelect = document.getElementById('reserve-select')
 const btnReserve = document.querySelector('.btn.reserve')
 const showDate = document.getElementById('show-date')
-const btnDetailsCheck = document.querySelector('.btn-details.check')
+const btnsDetails = document.querySelectorAll('.btn-details')
 const detailsTotal = document.getElementById('details-total')
 const detailsInputs = document.querySelectorAll('#details-container input')
 const modalDetails = document.getElementById('modal-details')
 const ticketBox = document.getElementById('ticket-box')
 const showResultBox = document.getElementById('show-result-box')
 const totalPriceBox = document.getElementById('total-price-box')
+const btnTicketAdd = document.querySelector('.btn-ticket.add')
+const btnsPayment = document.querySelectorAll('.btn-payment')
+const paymentInputs = document.querySelectorAll('#payment-container input')
+const modalPayment = document.getElementById('modal-payment')
+const ticketBoxPayment = document.getElementById('ticket-box-payment')
+const paymentTotal = document.getElementById('payment-total')
+
 const saveReserveArr = []
 let loadReserveArr = []
-// if(JSON.parse(localStorage.getItem('reservation'))){
-// 	loadReserveArr = JSON.parse(localStorage.getItem('reservation'))
-// }
+let tempDetailsArr = []
+if(JSON.parse(localStorage.getItem('reservation'))){
+	loadReserveArr = JSON.parse(localStorage.getItem('reservation'))
+}
 console.log(loadReserveArr)
 const detailsType = {adult: 10000, youth: 5000, child: 3000}
 const detailsDiscount = {resident: -2000, pass: -1000}
@@ -24,268 +33,11 @@ const detailsOption = {drink: 4000, souvenir: 15000}
 const transdetailsType = {adult: "어른", youth: "청소년", child: "어린이"}
 const transdetailsDiscount = {resident: "지역민 할인", pass: "지역 패스권"}
 const transdetailsOption = {drink: "음료", souvenir: "기념품"}
-
-
-
-const sample = [
-    {
-        "id": 1,
-        "name": "lee",
-        "year": 2024,
-        "month": 4,
-        "date": 3,
-        "dateTotal": "2024-04-03",
-        "time": "10:00 ~ 11:00",
-		"details": [
-			{type: "adult", discount: ["resident"], option: ["souvenir"], amount: 1, price: 25000},
-			{type: "adult", discount: ["resident", "pass"], option: ["souvenir"], amount: 2, price: 35000},
-			{type: "youth", discount: ["pass"], option: ["drink", "souvenir"], amount: 1, price: 2000},
-			{type: "child", discount: null, option: null, amount: 3, price: 45000}
-		],
-		"totalprice": 560000
-    },
-    {
-        "id": 2,
-        "name": "kim",
-        "year": 2024,
-        "month": 4,
-        "date": 3,
-        "dateTotal": "2024-04-03",
-        "time": "13:00 ~ 14:00",
-		"details": [
-			{type: "adult", discount: ["resident"], option: ["souvenir"], amount: 2, price: 25000},
-			{type: "adult", discount: null, option: ["drink"], amount: 1, price: 55000},
-			{type: "youth", discount: ["resident", "pass"], option: ["drink", "souvenir"], amount: 2, price: 855000},
-			{type: "child", discount: ["pass"], option: null, amount: 1, price: 25000}
-		],
-		"totalprice": 50000
-    },
-    {
-        "id": 3,
-        "name": "park",
-        "year": 2024,
-        "month": 4,
-        "date": 4,
-        "dateTotal": "2024-04-04",
-        "time": "9:00 ~ 10:00",
-		"details": [
-			{type: "adult", discount: ["resident"], option: ["drink", "souvenir"], amount: 2, price: 35000},
-			{type: "child", discount: ["resident"], option: null, amount: 2, price: 5000}
-		],
-		"totalprice": 160000
-    }
-]
-loadReserveArr = sample
-// localStorage.setItem('reservation', JSON.stringify([
-//     {
-//         "id": 1,
-//         "name": "lee",
-//         "year": 2024,
-//         "month": 4,
-//         "date": 3,
-//         "dateTotal": "2024-04-03",
-//         "time": "10:00 ~ 11:00"
-//     },
-//     {
-//         "id": 1,
-//         "name": "lee",
-//         "year": 2024,
-//         "month": 4,
-//         "date": 3,
-//         "dateTotal": "2024-04-03",
-//         "time": "11:00 ~ 12:00"
-//     },
-//     {
-//         "id": 1,
-//         "name": "lee",
-//         "year": 2024,
-//         "month": 4,
-//         "date": 3,
-//         "dateTotal": "2024-04-03",
-//         "time": "16:00 ~ 17:00"
-//     },
-//     {
-//         "id": 1,
-//         "name": "lee",
-//         "year": 2024,
-//         "month": 4,
-//         "date": 18,
-//         "dateTotal": "2024-04-18",
-//         "time": "9:00 ~ 10:00"
-//     },
-//     {
-//         "id": 1,
-//         "name": "lee",
-//         "year": 2024,
-//         "month": 4,
-//         "date": 18,
-//         "dateTotal": "2024-04-18",
-//         "time": "10:00 ~ 11:00"
-//     },
-//     {
-//         "id": 1,
-//         "name": "lee",
-//         "year": 2024,
-//         "month": 4,
-//         "date": 18,
-//         "dateTotal": "2024-04-18",
-//         "time": "11:00 ~ 12:00"
-//     },
-//     {
-//         "id": 1,
-//         "name": "lee",
-//         "year": 2024,
-//         "month": 4,
-//         "date": 18,
-//         "dateTotal": "2024-04-18",
-//         "time": "12:00 ~ 13:00"
-//     },
-//     {
-//         "id": 1,
-//         "name": "lee",
-//         "year": 2024,
-//         "month": 4,
-//         "date": 18,
-//         "dateTotal": "2024-04-18",
-//         "time": "13:00 ~ 14:00"
-//     },
-//     {
-//         "id": 1,
-//         "name": "lee",
-//         "year": 2024,
-//         "month": 4,
-//         "date": 18,
-//         "dateTotal": "2024-04-18",
-//         "time": "14:00 ~ 15:00"
-//     },
-//     {
-//         "id": 1,
-//         "name": "lee",
-//         "year": 2024,
-//         "month": 4,
-//         "date": 18,
-//         "dateTotal": "2024-04-18",
-//         "time": "15:00 ~ 16:00"
-//     },
-//     {
-//         "id": 1,
-//         "name": "lee",
-//         "year": 2024,
-//         "month": 4,
-//         "date": 18,
-//         "dateTotal": "2024-04-18",
-//         "time": "16:00 ~ 17:00"
-//     },
-//     {
-//         "id": 1,
-//         "name": "lee",
-//         "year": 2024,
-//         "month": 4,
-//         "date": 18,
-//         "dateTotal": "2024-04-18",
-//         "time": "17:00 ~ 18:00"
-//     },
-//     {
-//         "id": 1,
-//         "name": "lee",
-//         "year": 2024,
-//         "month": 5,
-//         "date": 8,
-//         "dateTotal": "2024-05-08",
-//         "time": "14:00 ~ 15:00"
-//     },
-//     {
-//         "id": 1,
-//         "name": "lee",
-//         "year": 2024,
-//         "month": 5,
-//         "date": 16,
-//         "dateTotal": "2024-05-16",
-//         "time": "9:00 ~ 10:00"
-//     },
-//     {
-//         "id": 1,
-//         "name": "lee",
-//         "year": 2024,
-//         "month": 5,
-//         "date": 16,
-//         "dateTotal": "2024-05-16",
-//         "time": "10:00 ~ 11:00"
-//     },
-//     {
-//         "id": 1,
-//         "name": "lee",
-//         "year": 2024,
-//         "month": 5,
-//         "date": 16,
-//         "dateTotal": "2024-05-16",
-//         "time": "11:00 ~ 12:00"
-//     },
-//     {
-//         "id": 1,
-//         "name": "lee",
-//         "year": 2024,
-//         "month": 5,
-//         "date": 16,
-//         "dateTotal": "2024-05-16",
-//         "time": "12:00 ~ 13:00"
-//     },
-//     {
-//         "id": 1,
-//         "name": "lee",
-//         "year": 2024,
-//         "month": 5,
-//         "date": 16,
-//         "dateTotal": "2024-05-16",
-//         "time": "13:00 ~ 14:00"
-//     },
-//     {
-//         "id": 1,
-//         "name": "lee",
-//         "year": 2024,
-//         "month": 5,
-//         "date": 16,
-//         "dateTotal": "2024-05-16",
-//         "time": "14:00 ~ 15:00"
-//     },
-//     {
-//         "id": 1,
-//         "name": "lee",
-//         "year": 2024,
-//         "month": 5,
-//         "date": 16,
-//         "dateTotal": "2024-05-16",
-//         "time": "15:00 ~ 16:00"
-//     },
-//     {
-//         "id": 1,
-//         "name": "lee",
-//         "year": 2024,
-//         "month": 5,
-//         "date": 16,
-//         "dateTotal": "2024-05-16",
-//         "time": "16:00 ~ 17:00"
-//     },
-//     {
-//         "id": 1,
-//         "name": "lee",
-//         "year": 2024,
-//         "month": 5,
-//         "date": 16,
-//         "dateTotal": "2024-05-16",
-//         "time": "17:00 ~ 18:00"
-//     }
-// ]))
-
-
-
-
-
-
+let totalPriceResult = null
 
 let today = new Date()
 let todayFixed = new Date()
-let startTime = "9"
+let startTime = "10"
 let endTime = "18"
 let maxOfReserveNum = endTime - startTime
 
@@ -378,6 +130,17 @@ function changeBackColorClicked(e){
 	}
 	e.target.classList.add("back-color-clicked")
 }
+function prevCalendar(){
+	today = new Date(today.getFullYear(), today.getMonth()-1, today.getDate())
+	buildCalendar()
+}
+
+function nextCalendar(){
+	today = new Date(today.getFullYear(), today.getMonth()+1, today.getDate())
+	buildCalendar()
+}
+
+let isSelectDate = false
 function selectDate(e){
 	changeBackColorClicked(e)
 
@@ -396,34 +159,23 @@ function selectDate(e){
 	selectTimeBox.style.display ='none'
 	timeTableWrap.style.display ='block'
 	timeTableMaker(selectedMonth, selectedDate)
+
+	if(isSelectDate && isSelectTime){
+		initSelectDetails()
+		isSelectTime = false
+		showResultBox.style.display = 'flex'
+		btnTicketAdd.style.display = 'none'
+	}
+	isSelectDate = true
 }
 function selectDateError(){
 	alert('예약이 완료된 날짜입니다.')
 }
 
-function prevCalendar(){
-	today = new Date(today.getFullYear(), today.getMonth()-1, today.getDate())
-	buildCalendar()
-}
-
-function nextCalendar(){
-	today = new Date(today.getFullYear(), today.getMonth()+1, today.getDate())
-	buildCalendar()
-}
 
 
 
-
-//————time table——————
-const price = "<%=price%>"
-
-//사용자가 시간표에서 선택한 시간
-var selectedFirstTime = 24*1
-var selectedFinalTime = 0*1
-
-//시간표 제작
 function isReserveTime(reserve){
-	// console.log(reserve.date)
 	return reserve.dateTotal === selectedYMD && reserve.time === inputCellText
 }
 
@@ -431,7 +183,6 @@ function timeTableMaker(selectedMonth, selectedDate){
 	row = null
 	month = selectedMonth
 	date = selectedDate
-	// console.log(selectedYMD)
 
 	while(timeTable.rows.length > 0){
 		timeTable.deleteRow(timeTable.rows.length-1)
@@ -458,16 +209,24 @@ function timeTableMaker(selectedMonth, selectedDate){
 		}
 	}
 }
+
+let isSelectTime = false
 function selectTime(e){
+	if(isSelectTime){
+		if(!e.target.className.includes("back-color-clicked")){
+			initSelectDetails()
+		}
+	}
+	isSelectTime = true
+
 	changeBackColorClicked(e)
 	showDetailsModal()
 	selectedTime = e.target.innerText
-	console.log(selectedYear, selectedMonth, selectedDate, selectedYMD, selectedTime)
+	// console.log(selectedYear, selectedMonth, selectedDate, selectedYMD, selectedTime)
 }
 function selectTimeError(){
 	alert('예약이 완료된 시간입니다.')
 }
-
 
 
 function showDetailsModal(){
@@ -476,9 +235,14 @@ function showDetailsModal(){
 	modalDetails.style.opacity = '1'
 	detailsCheck()
 }
-
 function detailsCheck(){
-	const detailsObject = {type: null, discount: [], option: [], amount: null, price: null}
+	const detailsObject = {
+		type: null, 
+		discount: [], 
+		option: [], 
+		amount: null, 
+		price: null
+	}
 	let totalPrice = 0
 	let discountPrice = 0
 	let optionPrice = 0
@@ -512,21 +276,48 @@ function detailsCheck(){
 }
 
 let detailsObjectCon = null
+let ticketIdNum = 0
 
-function selectDetails(){
-	// console.log(detailsObjectCon)
+function selectDetails(e){
 	document.body.style.overflow = 'visible'
 	modalDetails.style.zIndex = '-5'
 	modalDetails.style.opacity = '0'
 	showResultBox.style.display = 'none'
-	makeTicket()
-	calcTotal()
+	btnTicketAdd.style.display = 'block'
+
+	if(e.target.className.includes('check')){
+		ticketIdNum++
+		detailsObjectCon["ticketId"] = ticketIdNum
+	
+		saveTempDetails()
+		makeTicket()
+		calcTotal()
+		if(isTicketModify){
+			console.log('작동1')
+			delTicket(findTicketSelected(ticketIdSelected))
+			isTicketModify = false
+		}
+	}else if(e.target.className.includes('cancle')){
+
+	}
 }
-
-
+function initSelectDetails(){
+	alert('예약 시간을 변경합니다. 세부 옵션을 다시 선택해주세요.')
+	const ticketContainers = reserveSelect.querySelectorAll('.ticket-container')
+	for(let ticketContainer of ticketContainers){
+		console.log('작동3')
+		ticketContainer.remove()
+		tempDetailsArr = []
+		calcTotal()
+	}
+}
+function saveTempDetails(){
+	tempDetailsArr.push(detailsObjectCon)
+}
 function makeTicket(){
 	const ticketDiv = document.createElement('div')
 	ticketDiv.className = "ticket-container"
+	ticketDiv.ticketId = ticketIdNum
 	ticketDiv.innerHTML = `
 		<div class="ticket-top">
 			<div class="ticket-value type">${transdetailsType[detailsObjectCon.type]}</div>
@@ -535,7 +326,7 @@ function makeTicket(){
 		<div class="ticket-middle">
 			<div>
 				<div class="ticket-value type-price">${transdetailsType[detailsObjectCon.type]} <b>${detailsType[detailsObjectCon.type].toLocaleString()} 원</b></div>
-				<div class="ticket-value date">${selectedYMD} (수)</div>
+				<div class="ticket-value date">${selectedYMD} (${getDayOfWeek(selectedYMD)})</div>
 				<div class="ticket-value time">${selectedTime}</div>
 			</div>
 			<div class="ticket-value amount">${detailsObjectCon.amount} 매</div>
@@ -549,79 +340,166 @@ function makeTicket(){
 		</div>
 	`
 	ticketBox.appendChild(ticketDiv)
+	const btnsTicket = document.querySelectorAll('.btn-ticket')
+	for(let btnTicket of btnsTicket){
+		btnTicket.addEventListener('click', controlTicket)
+	}
 }
 function makeTicketOption(){
-	let sample = ''
-	if(detailsObjectCon.option[0]){
+	let options = ''
+	if(detailsObjectCon.option[0] || detailsObjectCon.discount[0]){
 		detailsObjectCon.option.forEach(function(option){
-			sample = sample + `<div class="ticket-value option-price">• ${transdetailsOption[option]} <b>${detailsOption[option].toLocaleString()} 원</b></div>`
+			options = options + `<div class="ticket-value option-price">• ${transdetailsOption[option]} <b>${detailsOption[option].toLocaleString()} 원</b></div>`
+		})
+		detailsObjectCon.discount.forEach(function(discount){
+			options = options + `<div class="ticket-value option-price">• ${transdetailsDiscount[discount]} <b>${detailsDiscount[discount].toLocaleString()} 원</b></div>`
 		})
 	}else{
-		sample = `<div class="ticket-value option-price">• 추가 옵션 없음</div>`
+		options = `<div class="ticket-value option-price">• 추가 할인, 옵션 없음</div>`
 	}
-	return sample
+	return options
 }
-
-let totalPrice = 0
+function getDayOfWeek(yyyyMMdd){
+    const dayOfWeek = new Date(yyyyMMdd).getDay(); 
+    const transDayOfWeek = {0: '일', 1: '월', 2: '화', 3: '수', 4: '목', 5: '금', 6: '토'}
+    return transDayOfWeek[dayOfWeek]
+}
+function addMoreTicket(){
+	showDetailsModal()
+}
 function calcTotal(){
-	totalPrice = totalPrice + detailsObjectCon.price
+	let totalPrice = 0
+	tempDetailsArr.forEach(function(tempDetails){
+		totalPrice = totalPrice + tempDetails.price
+	})
 	totalPriceBox.innerText = `합계: ${totalPrice.toLocaleString()} 원`
+	totalPriceResult = totalPrice
+}
+function delTicket(tempDetails){
+	const ticketContainers = reserveSelect.querySelectorAll('.ticket-container')
+	for(let ticketContainer of ticketContainers){
+		if(ticketContainer.ticketId === tempDetails.ticketId){
+			ticketContainer.remove()
+		}
+	}
+	for(let i = 0; i < tempDetailsArr.length; i++){
+		if(tempDetailsArr[i] === tempDetails){
+			tempDetailsArr.splice(i, 1);
+			i--;
+		}
+	}
+	calcTotal()
+}
+function findTicketSelected(ticketIdSelected){
+	let TicketSelected = 
+	tempDetailsArr.find(function(tempDetails){
+		return tempDetails.ticketId === ticketIdSelected
+	})
+	return TicketSelected
+}
+let isTicketModify = false
+let ticketIdSelected =  null
+function controlTicket(e){
+	if(e.target.className.includes('modify')){
+		ticketIdSelected = e.target.parentElement.parentElement.ticketId
+		isTicketModify = true
+		showDetailsModal()
+	}else if(e.target.className.includes('del')){
+		const ticketIdSelected = e.target.parentElement.parentElement.ticketId
+		delTicket(findTicketSelected(ticketIdSelected))
+		console.log('작동2')
+	}else if(e.target.className.includes('add')){
+		addMoreTicket()
+	}
 }
 
-btnDetailsCheck.addEventListener('click', selectDetails)
+function showPaymentModal(){
+    document.body.style.overflow = 'hidden'
+	modalPayment.style.zIndex = '6'
+	modalPayment.style.opacity = '1'
+	loadSelectedTickets()
+	removeTicketsbtns()
+	loadSelectedPrice()
+}
+function loadSelectedTickets(){
+	const ticketContainers = reserveSelect.querySelectorAll('.ticket-container')
+	ticketBoxPayment.innerHTML = ''
+
+	for(let ticketContainer of ticketContainers){
+		const clonedTicket = ticketContainer.cloneNode(true)
+		ticketBoxPayment.append(clonedTicket)
+	}
+	
+}
+function removeTicketsbtns(){
+	const ticketBtnsPayment = ticketBoxPayment.querySelectorAll('.ticket-btns')
+	for(let ticketBtnPayment of ticketBtnsPayment){
+		ticketBtnPayment.remove()
+	}
+}
+function loadSelectedPrice(){
+	paymentTotal.innerText = `${totalPriceResult.toLocaleString()} 원`
+}
+
+
+function controlPayment(e){
+    document.body.style.overflow = 'visible'
+	modalPayment.style.zIndex = '-5'
+	modalPayment.style.opacity = '0'
+
+	if(e.target.className.includes('check')){
+		let paymentName = null
+		let paymentContact = null
+		let paymentEmail = null
+		for(let paymentInput of paymentInputs){
+			switch(paymentInput.name){
+				case 'name':
+					paymentName = paymentInput.value
+					break;
+				case 'contact':
+					paymentContact = paymentInput.value
+					break;
+				case 'email':
+					paymentEmail = paymentInput.value
+					break;
+			}
+		}
+		const reservationInfo = {
+			id: `${selectedYear}` + `${selectedMonth}` + `${selectedDate}` + selectedTime.split(':')[0],
+			name: paymentName,
+			contact: paymentContact,
+			email: paymentEmail,
+			year: selectedYear,
+			month: Number(selectedMonth),
+			date: Number(selectedDate),
+			dateTotal: selectedYMD,
+			time: selectedTime,
+			details: tempDetailsArr,
+			totalprice: totalPriceResult
+		}
+		if(!localStorage.getItem('reservation')){
+			localStorage.setItem('reservation', JSON.stringify([reservationInfo]))
+		}else{
+			let renewReserve = JSON.parse(localStorage.getItem('reservation'))
+			renewReserve.push(reservationInfo)
+			localStorage.setItem('reservation', JSON.stringify(renewReserve))
+		}
+		alert('결제가 완료되었습니다.')
+		location.reload(true);
+	}else if(e.target.className.includes('cancle')){
+		console.log('취소')
+	}
+}
+
+
+for(let btnDetails of btnsDetails){
+	btnDetails.addEventListener('click', selectDetails)
+}
 for(let detailsInput of detailsInputs){
 	detailsInput.addEventListener('input', detailsCheck)
 }
-
-
-
-
-
-
-function addReserve(){
-	const reservationInfo = {
-		id: 1,
-		name: 'lee',
-		year: selectedYear,
-		month: Number(selectedMonth),
-		date: Number(selectedDate),
-		dateTotal: selectedYMD,
-		time: selectedTime
-	}
-	if(!localStorage.getItem('reservation')){
-		localStorage.setItem('reservation', JSON.stringify([reservationInfo]))
-	}else{
-		var renewReserve = JSON.parse(localStorage.getItem('reservation'))
-		renewReserve.push(reservationInfo)
-		localStorage.setItem('reservation', JSON.stringify(renewReserve))
-	}
+btnTicketAdd.addEventListener('click', controlTicket)
+btnReserve.addEventListener('click', showPaymentModal)
+for(let btnPayment of btnsPayment){
+	btnPayment.addEventListener('click', controlPayment)
 }
-
-
-// {
-// 	"id": 1,
-// 	"name": "lee",
-// 	"year": 2024,
-// 	"month": 4,
-// 	"date": 3,
-// 	"dateTotal": "2024-04-03",
-// 	"time": "10:00 ~ 11:00",
-// 	"details": [
-// 		{type: "adult", discount: ["resident"], option: ["souvenir"], amount: 1, price: 25000},
-// 		{type: "adult", discount: ["resident", "pass"], option: ["souvenir"], amount: 2, price: 35000},
-// 		{type: "youth", discount: ["pass"], option: ["drink", "souvenir"], amount: 1, price: 2000},
-// 		{type: "child", discount: null, option: null, amount: 3, price: 45000}
-// 	],
-// 	"totalprice": 560000
-// },
-
-
-btnReserve.addEventListener('click', addReserve)
-
-
-
-
-
-
-
-
