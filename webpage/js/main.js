@@ -90,7 +90,7 @@ for(let imgindex = 1; imgindex <= perWidth; imgindex++){
             subContentContainer.style.width = `calc(var(--base-width) + ${imgindex}%)`
         }
         if(window.pageYOffset > startToNarrow + (finishToNarrow-startToNarrow)/perWidth * imgindex){
-        subContentContainer.style.width = `calc(var(--base-width) + ${perWidth}% - ${imgindex}%)`
+            subContentContainer.style.width = `calc(var(--base-width) + ${perWidth}% - ${imgindex}%)`
         }
     }
 }
