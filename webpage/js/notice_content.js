@@ -11,9 +11,6 @@ const noticeNcpageBtn = noticeNcpage.querySelector('button')
 
 const selectedNoticeIdNum = window.location.search.split('?')[1].split('=')[1]
 const selectedNotice = noticeArr[selectedNoticeIdNum-1]
-// console.log(selectedNotice)
-// console.log(selectedNoticeIdNum)
-// console.log(noticeNcpageBtn)
 
 titleNcpage.innerText = selectedNotice.title
 contentNcpage.innerText = selectedNotice.content

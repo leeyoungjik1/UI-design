@@ -12,7 +12,7 @@ import { noticeArr } from "./data.js"
 const noticeMaxOfPage = 5
 const pageNavMaxOfPage = 5
 
-// console.log(noticeArr)
+console.log(noticeArr)
 
 
 function pushNotice(n){
@@ -88,6 +88,7 @@ for(let pageNavBtn of pageNavBtns){
 function contorolPage(e){
     if(e.target.className.includes('select')){
         let i = e.target.innerText
+        // e.target.style.color = 'red'
         moveToPage(i)
     }else if(e.target.className.includes('right')){
         showPrevBtn()

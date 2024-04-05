@@ -38,7 +38,7 @@ let totalPriceResult = null
 let today = new Date()
 let todayFixed = new Date()
 let startTime = "10"
-let endTime = "18"
+let endTime = "16"
 let maxOfReserveNum = endTime - startTime
 
 
@@ -84,7 +84,7 @@ function buildCalendar(){
 
 		applyColorCell()
 	}
-	if(cnt % 7 != 0){
+	if(cnt % 7 !== 0){
 		for(i = 0; i < 7 - (cnt % 7); i++){
 			cell = row.insertCell()
 		}
@@ -293,7 +293,6 @@ function selectDetails(e){
 		makeTicket()
 		calcTotal()
 		if(isTicketModify){
-			console.log('작동1')
 			delTicket(findTicketSelected(ticketIdSelected))
 			isTicketModify = false
 		}
@@ -305,7 +304,6 @@ function initSelectDetails(){
 	alert('예약 시간을 변경합니다. 세부 옵션을 다시 선택해주세요.')
 	const ticketContainers = reserveSelect.querySelectorAll('.ticket-container')
 	for(let ticketContainer of ticketContainers){
-		console.log('작동3')
 		ticketContainer.remove()
 		tempDetailsArr = []
 		calcTotal()
@@ -407,7 +405,6 @@ function controlTicket(e){
 	}else if(e.target.className.includes('del')){
 		const ticketIdSelected = e.target.parentElement.parentElement.ticketId
 		delTicket(findTicketSelected(ticketIdSelected))
-		console.log('작동2')
 	}else if(e.target.className.includes('add')){
 		addMoreTicket()
 	}
