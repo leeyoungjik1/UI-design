@@ -1,20 +1,26 @@
-// let a, b
-// const c = [a = 5, b = 7]
-// console.log(c[0])
-
-
-// let a, b
-// {name:s} = {name}
-// [a = 5, b = 7] = [1]
-// console.log(a) // 1
-// console.log(b) // 7
-
-
-const book = {
-    name: 'javascript',
-    price: 21000,
-    release: '2019-12-03',
-    authors: ['mark', 'victoria']
+function initCount(){
+    let cnt = 0
+    function increaseCount(){
+        cnt++
+        return cnt
+    }
+    return increaseCount
 }
 
-console.log(Object.entries(book))
+const cnt1 = initCount() // 클로저 (독립적인 실행환경) 생성
+const cnt2 = initCount() // 클로저 (독립적인 실행환경) 생성
+const cnt3 = initCount() // 클로저 (독립적인 실행환경) 생성
+
+cnt1() 
+console.log(cnt1()) 
+cnt1() 
+console.log(cnt1()) 
+
+cnt2()
+cnt2()
+console.log(cnt2())
+
+cnt3()
+cnt3()
+cnt3()
+console.log(cnt3())
