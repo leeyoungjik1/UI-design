@@ -9,86 +9,239 @@ import React, { Component } from 'react';
 import Cart from './240409/과제3_Cart';
 import PhotoGallery from './240409/과제4_PhotoGallery';
 import CommentFilter from './240409/과제5_CommentFilter';
+import Movie from './240411/Movie';
+import MovieList from './240411/MovieList';
+import User from './240411/과제1_User';
 
 
-// const loadingPage = <h1>로딩중...</h1>
-// const homePage = <h1>홈 페이지</h1>
-
-// function App() {
-//   const MyComponents = {
-//     DataPicker: function(props){
-//       return <div>Imagine a {props.color} datepicker here.</div>
-//     },
-//     Movie: function(props){
-//       return <div>Watch movie {props.title} in the future!</div>
-//     },
-//     Fruit: function(props){
-//       return <div>{props.name} is healthy food</div>
-//     }
+// class App extends Component {
+//   state = {
+//     movies: [
+//       {id: "123450", title: 'Harry Potter', language: "korean", release: '2003-02-22', length:"12345", author: "sunrise", production: "sunrise" }, 
+//       {id: "123451", title: 'Indiana Jhones', language: "english", release: '2009-01-09', length:"12345", author: "sunrise", production: "sunrise"}, 
+//       {id: "123452", title: 'Terminator', language: "japanese", release: '2007-04-11', length:"12345", author: "sunrise", production: "sunrise"},
+//       {id: "123453", title: 'Dracula', language: "chinese", release: '2007-04-13', length:"12345", author: "sunrise", production: "sunrise"},
+//       {id: "123454", title: 'Jurassic Park', language: "germany", release: '2007-05-13', length:"12345", author: "sunrise", production: "sunrise"},
+//       {id: "123455", title: 'Iron man', language: "italian", release: '2012-12-18', length:"12345", author: "sunrise", production: "sunrise"},
+//       {id: "123456", title: 'Spider man', language: "russian", release: '2017-03-07', length:"12345", author: "sunrise", production: "sunrise"}
+//     ]
 //   }
-//   return (
-//     <div className="App">
-//       <MyComponents.DataPicker color="blue"></MyComponents.DataPicker>
-//       <MyComponents.Movie title="아이언맨"></MyComponents.Movie>
-//       <MyComponents.Fruit name="블루베리"></MyComponents.Fruit>
-//     </div>
-//   )
+
+//   render(){
+//     const {movies} = this.state
+//     return (
+//       <MovieList movies={movies}></MovieList>
+//     )
+//   }
 // }
+
+
+// const colors = ["red", "blue", "green", "orange", "skyblue"]
+
+// class App extends Component{
+//   state = {
+//     colorIndex: 0
+//   }
+//   changeColor = () => {
+//     this.setState({colorIndex: this.state.colorIndex + 1})
+//   }
+//   componentDidMount(){
+//     this.timerId = setInterval(this.changeColor, 1000)
+//   }
+//   componentWillUnmount(){
+//     clearInterval(this.timerId)
+//   }
+//   render(){
+//     const {colorIndex} = this.state
+//     const color = colors[colorIndex % colors.length]
+//     return (
+//       <>
+//         <div className={`color-box ${color}`}>{color}</div>
+//       </>
+//     )
+//   }
+// }
+
+
+
+// class App extends Component{
+//   state = {
+//     cnt: 0
+//   }
+//   increase = () => {
+//     this.setState({ cnt: this.state.cnt + 1})
+//   }
+//   componentDidUpdate(prevProps, prevState){
+//     console.log('카운트 업데이트 !')
+//     console.log('직전 카운트 값: ', prevState)
+//   }
+
+//   render(){
+//     const { cnt } = this.state
+
+//     return (
+//       <div className='center'>
+//         <div>{cnt}</div>
+//         <button onClick={this.increase}>카운트 증가</button>
+//       </div>
+//     )
+//   }
+// }
+
 
 // 연습과제 2
 // class App extends Component {
-//   state = {
-//     title: "변경전 제목"
-//   }
-//   changeTitle = () => {
-//     this.setState({title: "제목 업데이트"})
-//   }
 //   render(){
-//     const {title} = this.state
-//     return (
-//       <div className="App">
-//         <h1>제목: {title}</h1>
-//         <button type="button" onClick={this.changeTitle}>change title</button>
-//       </div>
+//     return(
+//       <>
+//         <User></User>
+//       </>
 //     )
 //   }
 // }
 
 
 // 연습과제 3
-// class App extends Component {
-//   render(){
-//     return (
-//       <div className="App">
-//        <Cart/>
+// const Friends = ({friends, city}) => {
+//   return (
+//     <>
+//       <h1>{`${city} 사용자 조회`}</h1>
+//       <div>
+//       {friends.map((friend) => 
+//       <h2>{`이름: ${friend.name} 나이: ${friend.age} 지역: ${friend.city}`}</h2>
+//       )}
 //       </div>
-//     )
+//     </>
+//   )
+// }
+
+// class App extends Component {
+//   state = {
+//     friends: [
+//       {name: 'victoria', age: 13, city: 'seoul'},
+//       {name: 'sun', age: 34, city: 'busan'},
+//       {name: 'johseb', age: 25, city: 'busan'},
+//       {name: 'syleemomo', age: 9, city: 'seoul'},
+//       {name: 'hannah', age: 41, city: 'daegu'},
+//       {name: 'shara', age: 37, city: 'seoul'},
+//       {name: 'martin', age: 28, city: 'daegu'},
+//       {name: 'gorgia', age: 39, city: 'seoul'},
+//       {name: 'nana', age: 24, city: 'busan'},
+//       {name: 'dannel', age: 19, city: 'seoul'},
+//     ],
+//     updatedFriends: null
+//   }
+//   // 구현하기
+//   filterCity = (city) => {
+//     this.setState({updatedFriends: this.state.friends.filter(friend =>
+//       friend = friend.city === city
+//     )})
+//   }
+//   // 구현하기
+//   render(){
+//     let { friends, updatedFriends } = this.state 
+//       return (
+//         <>
+//           <button onClick={() => this.filterCity("seoul")}>서울</button>
+//           <button onClick={() => this.filterCity("busan")}>부산</button>
+//           <button onClick={() => this.filterCity("daegu")}>대구</button>
+//           {<Friends 
+//             friends={updatedFriends? updatedFriends: friends} 
+//             city={updatedFriends? updatedFriends[0].city: "전체"}/>}
+//         </>
+//       )
 //   }
 // }
 
 
 // 연습과제 4
-// class App extends Component {
-//   render(){
-//     return (
-//       <div className="App">
-//        <PhotoGallery/>
-//       </div>
-//     )
-//   }
-// }
+const signs = [
+  [
+    [0, 0, 0, 1, 1, 1, 1, 0, 0, 0],
+    [0, 0, 1, 0, 0, 0, 0, 1, 0, 0],
+    [0, 0, 1, 0, 0, 0, 0, 1, 0, 0],
+    [0, 0, 1, 0, 0, 0, 0, 1, 0, 0],
+    [0, 0, 1, 0, 0, 0, 0, 1, 0, 0],
+    [0, 0, 0, 1, 1, 1, 1, 0, 0, 0],
+    [0, 0, 0, 0, 1, 1, 0, 0, 0, 0],
+    [0, 0, 0, 0, 1, 1, 0, 0, 0, 0],
+    [0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  ],
+  [
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 1, 1, 1, 1, 1, 0, 0, 1, 0],
+    [0, 0, 0, 0, 1, 0, 0, 0, 1, 0],
+    [0, 0, 0, 1, 0, 0, 0, 0, 1, 0],
+    [0, 0, 1, 0, 1, 0, 0, 0, 1, 0],
+    [0, 1, 0, 0, 0, 1, 0, 0, 1, 0],
+    [0, 0, 0, 1, 1, 1, 1, 1, 0, 0],
+    [0, 0, 1, 0, 0, 0, 0, 0, 1, 0],
+    [0, 0, 1, 0, 0, 0, 0, 0, 1, 0],
+    [0, 0, 0, 1, 1, 1, 1, 1, 0, 0],
+  ],
+  [
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
+    [0, 0, 1, 1, 1, 0, 0, 0, 1, 0],
+    [0, 1, 0, 0, 0, 1, 0, 0, 1, 0],
+    [0, 1, 0, 0, 0, 1, 1, 1, 1, 0],
+    [0, 1, 0, 0, 0, 1, 1, 1, 1, 0],
+    [0, 1, 0, 0, 0, 1, 0, 0, 1, 0],
+    [0, 0, 1, 1, 1, 1, 0, 0, 1, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  ],
+  [
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 1, 0, 1, 0],
+    [0, 1, 1, 1, 0, 0, 1, 0, 1, 0],
+    [0, 0, 0, 1, 1, 1, 1, 0, 1, 0],
+    [0, 0, 0, 1, 1, 1, 1, 0, 1, 0],
+    [0, 0, 0, 1, 0, 0, 1, 0, 1, 0],
+    [0, 1, 1, 0, 0, 0, 1, 0, 1, 0],
+    [0, 0, 0, 0, 0, 0, 1, 0, 1, 0],
+    [0, 0, 0, 0, 0, 0, 1, 0, 1, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  ],
+  [
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 1, 1, 1, 0, 0, 1, 1, 0],
+    [0, 1, 0, 0, 0, 1, 0, 1, 1, 0],
+    [0, 1, 0, 0, 0, 1, 0, 1, 1, 0],
+    [0, 1, 0, 0, 0, 1, 0, 1, 1, 0],
+    [0, 0, 1, 1, 1, 0, 0, 1, 1, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 1, 1, 1, 1, 1, 1, 0],
+    [0, 0, 0, 1, 0, 0, 0, 0, 1, 0],
+    [0, 0, 0, 1, 1, 1, 1, 1, 1, 0],
+  ]
+]
+const Cell = ({state}) => <div className={state === 0 ? 'cell' : 'cell bright'}></div>
 
-
-// 연습과제 5
 class App extends Component {
+  state = {
+    index: 0,
+  }
+
+  // 구현하기
+  redraw = () => {
+    this.setState({index: this.state.index + 1})
+  }
+
+  componentDidMount(){
+    setInterval(this.redraw, 1000)
+  }
+
+  // 구현하기
   render(){
+    const {index} = this.state
+    const sign = signs[index % signs.length]
     return (
-      <div className="App">
-        <h1>필터링된 댓글</h1>
-        <h2>==============</h2>
-       <CommentFilter comment="너는 진짜 못말리는 바보 똥개다"/>
-       <CommentFilter comment="임마! 너 그렇게 살지마! 그지 새끼야 !"/>
-       <CommentFilter comment="야 씨~ 너 죽을래? 진짜 ! 콱! 마! "/>
+      <div className='sign'>
+          {sign.map(sign => 
+            sign.map(cell => <Cell state={cell}/>)
+          )}
       </div>
     )
   }
