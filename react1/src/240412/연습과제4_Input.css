@@ -1,0 +1,21 @@
+.small{
+    width: 100px;
+    height: 30px;
+}
+.medium{
+    width: 200px;
+    height: 50px;
+}
+.large{
+    width: 400px;
+    height: 70px;
+}
+.blue{
+    color: blue;
+    border-color: blue;
+    outline: blue;
+    /* border: 1px solid blue; */
+}
+.blue::placeholder{
+    color: blue;
+}

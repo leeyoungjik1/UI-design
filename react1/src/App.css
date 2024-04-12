@@ -1,24 +1,12 @@
-body{
-  margin: 0;
-  padding: 0;
-  background: black;
+.lottoNum-box{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
 }
-.sign{
-  width: 100px;
-  height: 100px;
-  margin: 100px auto;
-  background: black;
-
+.App {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-}
-.cell{
-  width: 10px; 
-  height: 10px;
-  background: blue;
-}
-.bright{
-  background: red;
 }

@@ -1,0 +1,9 @@
+.card-container{
+    width: 400px;
+    height: 200px;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    background-color: skyblue;
+}
