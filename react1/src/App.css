@@ -1,0 +1,32 @@
+img{
+    height: 100px;
+}
+.App{
+    margin: 100px auto;
+    text-align: center;
+}
+.menu{
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 2rem;
+    font-weight: bold;
+    color: tan;
+    border-bottom: 2px solid tan;
+}
+.menu:hover{
+    background-color: brown;
+}
+nav{
+    display: flex;
+    position: absolute;
+    left: 0;
+}
+.side-menu{
+    display: none;
+}
+.show{
+    display: block;
+}
