@@ -1,32 +1,268 @@
-img{
-    height: 100px;
-}
-.App{
-    margin: 100px auto;
-    text-align: center;
-}
-.menu{
-    flex-grow: 1;
+/* @import url('https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap'); */
+
+/* .App{
     display: flex;
-    align-items: center;
+    flex-flow: column;
     justify-content: center;
-    cursor: pointer;
+    align-items: flex-end;
+    font-family: 'Nanum Pen Script', cursive;
+    color: lightblue;
+    width: 60%;
+    margin: 0 auto;
+}
+.active{
+    background: yellow;
+    text-decoration: line-through;
+}
+.upload{
+    display: none;
+}
+.App-search-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+    margin-bottom: 30px;
+    width: 500px;
+}
+.App-search-container input{
+    flex: 1;
+    outline: none;
+    border: 2px solid lightblue;
+    border-radius: 5px;
+    height: 50px;
+    margin-right: 3px;
+    padding-left: 10px;
+    box-sizing: border-box;
+    color: lightblue;
+    font-size: 1.3rem;
+}
+.App-search-container input::placeholder{
+    color: lightblue;
+}
+.App-search-container button{
+    all: unset;
+    background: lightblue;
+    color: white;
     font-size: 2rem;
     font-weight: bold;
-    color: tan;
-    border-bottom: 2px solid tan;
+    padding: 5px;
+    width: 80px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+.App-photo-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 700px;
+    overflow: auto;
+}
+.App-photo-container div{
+    font-size: 5rem;
+    margin-bottom: 30px;
+    text-align: right;
+    margin-left: auto;
+}
+.App-photo-container .App-photo-item{
+    flex: 1 0 25%;
+    height: 200px;
+}
+.App-photo-container::-webkit-scrollbar {
+  width: 13px; 
+}
+
+.App-photo-container::-webkit-scrollbar-thumb {
+  height: 30%; 
+  background: lightblue; 
+  
+  border-radius: 10px;
+}
+
+.App-photo-container::-webkit-scrollbar-track {
+  background: rgba(33, 122, 244, .1); 
+} */
+
+
+
+
+
+
+
+
+/* 연습과제 8, 9, 10 */
+/* .App{
+  margin: 100px auto;
+  text-align: center;
+}
+.menu{
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 2rem;
+  font-weight: bold;
+  color: tan;
+  border-bottom: 2px solid tan;
 }
 .menu:hover{
-    background-color: brown;
+  background-color: brown;
 }
 nav{
-    display: flex;
-    position: absolute;
-    left: 0;
+  display: flex;
+  position: absolute;
+  left: 0;
 }
 .side-menu{
+  display: none;
+}
+.shadow{
+    box-shadow: 1px 1px 5px 5px darkgray;
+}
+.scrollBtn{
+    position: fixed;
+    bottom: 1rem;
+    right: 2rem;
     display: none;
 }
 .show{
     display: block;
+} */
+
+
+
+
+
+/* 연습과제 11, 12, 13 */
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap');
+
+.content-container{
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: flex-end;
+    font-family: 'Nanum Pen Script', cursive;
+    color: lightblue;
+    width: 60%;
+    margin: 0 auto;
+}
+.active{
+    background: yellow;
+    text-decoration: line-through;
+}
+.upload{
+    display: none;
+}
+.App-search-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+    margin-bottom: 30px;
+    width: 500px;
+}
+.App-search-container input{
+    flex: 1;
+    outline: none;
+    border: 2px solid lightblue;
+    border-radius: 5px;
+    height: 50px;
+    margin-right: 3px;
+    padding-left: 10px;
+    box-sizing: border-box;
+    color: lightblue;
+    font-size: 1.3rem;
+}
+.App-search-container input::placeholder{
+    color: lightblue;
+}
+.App-search-container button{
+    all: unset;
+    background: lightblue;
+    color: white;
+    font-size: 2rem;
+    font-weight: bold;
+    padding: 5px;
+    width: 80px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+.App-photo-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 700px;
+    overflow: auto;
+}
+.App-photo-container div{
+    font-size: 5rem;
+    margin-bottom: 30px;
+    text-align: right;
+    margin-left: auto;
+}
+.App-photo-container .App-photo-item{
+    flex: 1 0 25%;
+    height: 200px;
+    cursor: pointer;
+}
+.App-photo-container::-webkit-scrollbar {
+  width: 13px; 
+}
+
+.App-photo-container::-webkit-scrollbar-thumb {
+  height: 30%; 
+  background: lightblue; 
+  
+  border-radius: 10px;
+}
+
+.App-photo-container::-webkit-scrollbar-track {
+  background: rgba(33, 122, 244, .1); 
+}
+.App-last-page{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    padding-top: 1rem;
+    display: none;
+}
+.show{
+    display: flex;
+}
+.App-modal-container{
+    width: 100%;
+    height: 100vh;
+    background: black;
+    position: fixed;
+    left: 0; top: 0; right: 0; bottom: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    opacity: 0;
+    z-index: -1;
+    transition: .3s;
+}
+.show-modal{
+    z-index: 0;
+    opacity: 1;
+}
+.App-modal-close-btn{
+    position: absolute;
+    top: 1rem; right: 1rem;
+}
+.App-modal-prev-btn, .App-modal-next-btn{
+    margin: 1rem;
 }
