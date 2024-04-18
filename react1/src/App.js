@@ -1,406 +1,647 @@
 import './App.css';
-import React, { Component } from 'react';
-import Button from './240412/Button'
-
-// const foods = ["짜장면", "짬뽕", "탕수육"]
-
-// class App extends Component {
-//   state = {
-//     selectedItems: []
-//   }
-//   selectItem = (e) => {
-//     const {selectedItems} = this.state
-
-//     // if(!selectedItems.includes(e.target.value)){
-//     //   this.setState({selectedItems: [...selectedItems, e.target.value]})
-//     // }else{
-//     //   this.setState({selectedItems: selectedItems.filter(item => item !== e.target.value)})
-//     // }
-
-//     if(e.target.checked){
-//       this.setState({selectedItems: [...selectedItems, e.target.value]})
-//     }else{
-//       this.setState({selectedItems: selectedItems.filter(item => item !== e.target.value)})
-//     }
-//   }
-//   render(){
-//     const {selectedItems} = this.state
-//     return (
-//       <div className="App">
-//         {foods.length > 0 && foods.map((food, id) => 
-//           (
-//             <div key={id}>
-//               <input type='checkbox' onChange={this.selectItem} value={food}/><span className={selectedItems.includes(food) && 'active'}>{food}</span>
-//             </div>
-//           )
-//         )}
-//         <h2>사용자가 선택한 음식목록</h2>
-//         <h3>{selectedItems.length !== 0 ? 
-//               selectedItems.join(' ') : '먹고 싶은 음식을 선택하세요'}
-//         </h3>
-//       </div>
-//     )
-//   }
-// }
-
+import React, { Component, useEffect, useRef, useState  } from 'react';
+import logo from './logo.svg'
+import Button from './240412/Button';
 
 
 // class App extends Component {
 //   state = {
-//     selectedValue: '짜장면',
+//     count: 0
 //   }
-
-//   selectItem = (e) => {
-//     console.log(e.target.value)
-//     console.log(e.target.checked)
-
-//     this.setState({selectedValue : e.target.value})
+//   increaseCount = () => {
+//     this.setState({ count: this.state.count + 1 })
 //   }
 
 //   render(){
-//     const { selectedValue } = this.state
-   
+//     const { count } = this.state
 //     return (
 //       <div className="App">
-//         <input type="radio" onChange={this.selectItem} value="짜장면" name='food'/><span style={{background:  `${selectedValue === '짜장면' ? 'yellow' : ''}`}}>짜장면</span>
-//         <input type="radio" onChange={this.selectItem} value="짬뽕" name='food'/><span style={{background:  `${selectedValue === '짬뽕' ? 'yellow' : ''}`}}>짬뽕</span>
-//         <input type="radio" onChange={this.selectItem} value="탕수육" name='food'/><span style={{background:  `${selectedValue === '탕수육' ? 'yellow' : ''}`}}>탕수육</span>
-        
-//         <h2>사용자가 선택한 음식</h2>
-//         <h3>{selectedValue}</h3>
+//         <h1>Count : {count}</h1>
+//         <Button handleClick={this.increaseCount}>Increase Count number</Button>
 //       </div>
 //     );
 //   }
 // }
 
+// import React, { useState } from 'react';
 
+// function App(){
+//   const [count, setCount] = useState(0)
+//   console.log(count)
 
-// class App extends Component {
-//   constructor(props){ 
-//     super(props) 
-//     this.state = {
-//       fileName: '',
-//       imgSrc: ''
-//     }
-//     this.fileInput = React.createRef() // ref 생성하기 
+//   const increaseCount = () => {
+//     setCount(count + 1)
 //   }
-//   isValid = (type) => type === "image"
-//   handelChange = (e) => {
-//     const file = e.target.files[0]
-//     const imgSrc = URL.createObjectURL(file)
-//     if(this.isValid(file.type.split('/')[0])){
-//       this.setState({fileName: file.name, imgSrc})
-//     }else{
-//       this.setState({fileName: 'File not valid!', imgSrc: ''})
-//     }
-//   }
-//   openFileWindow = () => {
-//     this.fileInput.current.click()
-//   }
-//   render(){
-//     const {fileName, imgSrc} = this.state
-//     return (
-//       <div className="App">
-//         <h1>{fileName}</h1>
-//         {imgSrc !== '' && <img src={imgSrc} alt="preview-img" width="300px" height="400px"/>}
-//         <input className='upload' type='file' accept='image/*' onChange={this.handelChange} ref={this.fileInput}></input>
-//         <Button handleClick={this.openFileWindow}>이미지 업로드</Button>
-//       </div>
-//     )
-//   }
-// }
-
-
-
-// import ScrollComponent from './240417/ScrollComponent';
-
-// class App extends Component {
-//   render(){
-//     return (
-//       <div className="App">
-//         <ScrollComponent></ScrollComponent>
-//       </div>
-//     )
-//   }
+//   return (
+//     <div className="App">
+//       <h1>Count : {count}</h1>
+//       <Button handleClick={increaseCount}>Increase Count number</Button>
+//     </div>
+//   )
 // }
 
 
 // class App extends Component {
-//   pageNum = 1
 //   state = {
-//     keyword: '',
-//     photos: []
+//     user: {
+//       name: "syleemomo",
+//       age: 23,
+//       fruits: ["apple", "banana", "orange"]
+//     },
+//     todos: [
+//       {title: 'cleaning', done: false, description: 'cleaning my living room'},
+//       {title: 'learning', done: false, description: 'learing react on tomorrow morning'},
+//       {title: 'drinking', done: false, description: 'drinking soju with close friends'}
+//     ]
 //   }
-//   handleChange = (e) => {
-//     this.setState({keyword: e.target.value})
+//   changeName = () => {
+//     const newUser = {...this.state.user, name: "새로운 이름"}
+//     this.setState({user: newUser})
 //   }
-//   getPhotos = async () => {
-//     const data = await fetch(`https://api.unsplash.com/search/photos?query=${this.state.keyword}&client_id=${process.env.REACT_APP_UNSPLASH_API_KEY}&per_page=20&page=${this.pageNum}`)
-//     const dataJson = await data.json()
-//     console.log(dataJson)
-//     return dataJson.results
-//   }
-//   searchPhotos = async(e) => {
-//     e.preventDefault()
-//     const photos = await this.getPhotos()
-//     this.setState({photos})
-//   }
-//   handleScroll = async () => {
-//     const photosContainer = document.querySelector('.App-photo-container')
-//     if(photosContainer.scrollTop === photosContainer.scrollHeight - photosContainer.clientHeight){
-//       this.pageNum++
-//       const photos = await this.getPhotos()
-//       this.setState({photos: [...this.state.photos, ...photos]})
+//   addTodo = () => {
+//     const newTodo = {
+//       title: 'checking', done: true, description: 'checking my state of score'
 //     }
+//     const todos = [...this.state.todos, newTodo]
+//     this.setState({todos})
 //   }
 //   render(){
-//     const {keyword, photos} = this.state
+//     const {user, todos} = this.state
 //     return (
-//       <div className="App">
-//         <form className='App-search-container'>
-//           <input type="text" onChange={this.handleChange} value={keyword} placeholder="검색어 입력"></input>
-//           <button type='submit' onClick={this.searchPhotos}>검색</button>
-//         </form>
-//         <div className='App-photo-container' onScroll={this.handleScroll}>
-//           {photos.length === 0 ? 
-//             <div>원하시는 사진을 <br/> 검색창에서 찾아보세요!</div> :
-//             photos.map(photo => <img key={photo.id} className='App-photo-item' src={photo.urls.small} alt={photo.alt_description}></img>)}
-//         </div>
-//       </div>
-//     )
-//   }
-// }
+//       <div className='App'>
+//         <h1>User Information</h1>
+//         <h2>{user.name} ({user.age})</h2>
+//         <h3>favorite food: {user.fruits.join(' ')}</h3>
+//         <Button handleClick={this.changeName}>이름 변경하기</Button>
 
-
-
-// 연습과제 8, 9, 10
-// import Product from './240412/연습과제4_Product'
-// const dropdownMenus = [
-//   {
-//     title: 'menu1',
-//     sideMenusTitle: ['sidemenu1', 'sidemenu2', 'sidemenu3']
-//   },
-//   {
-//     title: 'menu2',
-//     sideMenusTitle: ['sidemenu1', 'sidemenu2', 'sidemenu3']
-//   },
-//   {
-//     title: 'menu3',
-//     sideMenusTitle: ['sidemenu1', 'sidemenu2', 'sidemenu3']
-//   },
-// ]
-
-// class App extends Component{
-//   isLoaded = false
-//   state = {
-//       products: [],
-//       setProducts: [],
-//       searchProducts: [],
-//       isSortPrice: false,
-//       isUserInput: false,
-//   }
-//   sortPrice = () => {
-//       this.setState({isSortPrice: !this.state.isSortPrice, isUserInput: false})
-//   }
-//   mapProduct = ({products}) => {
-//       return products.map(function(product){
+//         <h1>Todo List</h1>
+//         {todos.map((todo, id) => {
 //           return (
-//               <Product
-//                   key={product.id}
-//                   img={product.image_link}
-//                   name={product.name}
-//                   price={product.price}
-//                   description={product.description}
-//                   productType={product.product_type}
-//               ></Product>
+//             <div key={id}>
+//               <h2>{todo.title} ({todo.done ? "완료" : "진행중"})</h2>
+//               <p>{todo.description}</p>
+//             </div>
 //           )
-//       })
-//   }
-//   search = (e) => {
-//       const userInput = e.target.value.toLowerCase()
-//       if(userInput){
-//         this.setState({searchProducts: this.state.products.filter(function(product){
-//           const productName = product.name.toLowerCase()
-//           return productName.includes(userInput)
-//         }), isUserInput: true})
-//       }else{
-//         this.setState({isUserInput: false})
-//       }
-//   }
-//   showDropdownMenus = (e) => {
-//     if(e.target.className === 'main-menu'){
-//       const sideMenu = e.target.querySelector('.side-menu')
-//       sideMenu.classList.add('show')
-//     }
-//   }
-//   scrollBtn = React.createRef()
-//   handleSroll = () => {
-//     const header = document.querySelector('.header')
-//     if(window.pageYOffset > 200){
-//       header.classList.add('shadow')
-//     }else if(header.className.includes('shadow')){
-//       header.classList.remove('shadow')
-//     }
-
-//     const scrollBtn = this.scrollBtn.current
-//     if(window.pageYOffset > document.documentElement.clientHeight * 1.5){
-//       scrollBtn.classList.add('show')
-//     }else if(this.scrollBtn.current.className.includes('show')){
-//       scrollBtn.classList.remove('show')
-//     }
-//   }
-//   scrollToTop = () => {
-//     window.scrollTo({
-//       top: 0,
-//       behavior: "smooth"
-//     })
-//   }
-//   componentDidUpdate(){
-//     if(this.isLoaded){
-//       alert('load complete')
-//       console.log('업데이트')
-//       this.isLoaded = false
-//     }
-//   }
-//   componentDidMount(){
-//       fetch('http://makeup-api.herokuapp.com/api/v1/products.json?brand=maybelline')
-//       .then(res => res.json())
-//       .then(result => {
-//           const copyProduct = [...result]
-//           this.setState({products: result, 
-//               setProducts: copyProduct.sort((a,b) => Number(a.price) - Number(b.price)),
-
-//           })
-//           this.isLoaded = true
-//       })
-//       window.addEventListener('scroll', this.handleSroll)
-//   }
-//   render(){
-//       const {products, setProducts, searchProducts, isUserInput} = this.state
-//       console.log('렌더')
-//       return(
-//           <div className='App'>
-//               <div className='header'>
-//                   <nav>
-//                     {dropdownMenus.map((menu, id) => {
-//                       return (
-//                         <ul key={id} onMouseOver={this.showDropdownMenus} className='main-menu'>
-//                           <li>{menu.title}
-//                             <ul className={`side-menu`}>
-//                               {menu.sideMenusTitle.map((sideMenu, id) => <li key={id}>{sideMenu}</li>)}
-//                             </ul>
-//                           </li>
-//                         </ul>
-//                       )
-//                     })}
-//                   </nav>
-//                   <button className='sort-btns' onClick={this.sortPrice}>Price</button>
-//                   <select onMouseEnter={this.showDropdownMenus}>
-//                     {dropdownMenus.map((menu, id) => <option key={id}>{menu.title}</option>)}
-//                   </select>
-//                   <input type='text' onInput={this.search}></input>
-//               </div>
-//               <div className='root'>
-//                   {isUserInput ? 
-//                     <this.mapProduct products={searchProducts}/> : this.state.isSortPrice ? 
-//                       <this.mapProduct products={setProducts}/> : 
-//                       <this.mapProduct products={products}/>
-//                   }
-//               </div>
-//               <button ref={this.scrollBtn} className='scrollBtn' onClick={this.scrollToTop}>scroll to top</button>
-//           </div>
-//       )
+//         })}
+//         <Button handleClick={this.addTodo}>할일 추가하기</Button>
+//       </div>
+//     )
 //   }
 // }
 
 
 
-// 연습과제 11, 12, 13
+
+// import React, { useState } from 'react';
+
+// function App(){
+//   const [user, setUser] = useState(
+//     {
+//       name: "syleemomo",
+//       age: 23,
+//       fruits: ["apple", "banana", "orange"]
+//     }
+//   )
+//   const changeName = () => {
+//     const newUser = {...user, name: "새로운 이름"}
+//     setUser(newUser)
+//   }
+
+//   const [todos, setTodos] = useState(
+//     [
+//       {title: 'cleaning', done: false, description: 'cleaning my living room'},
+//       {title: 'learning', done: false, description: 'learing react on tomorrow morning'},
+//       {title: 'drinking', done: false, description: 'drinking soju with close friends'}
+//     ]
+//   )
+//   const addTodo = () => {
+//     const newTodo = {
+//       title: 'checking', done: true, description: 'checking my state of score'
+//     }
+//     const newTodos = [...todos, newTodo]
+//     setTodos(newTodos)
+//   }
+
+//   return (
+//     <div className='App'>
+//       <h1>User Information</h1>
+//       <h2>{user.name} ({user.age})</h2>
+//       <h3>favorite food: {user.fruits.join(' ')}</h3>
+//       <Button handleClick={changeName}>이름 변경하기</Button>
+
+//       <h1>Todo List</h1>
+//       {todos.map((todo, id) => {
+//         return (
+//           <div key={id}>
+//             <h2>{todo.title} ({todo.done ? "완료" : "진행중"})</h2>
+//             <p>{todo.description}</p>
+//           </div>
+//         )
+//       })}
+//       <Button handleClick={addTodo}>할일 추가하기</Button>
+//     </div>
+//   )
+// }
 
 
-class App extends Component {
-  pageNum = 1
-  modalPhotoId = null
-  state = {
-    keyword: '',
-    photos: [],
-    isModalOpened: false,
-    modalPhoto: null
+
+
+// function App() {
+//   const [count, setCount] = useState(0)
+//   const [aa, setAa] = useState(0)
+//   const increaseCount = () => {
+//     setCount(count + 1)
+//   }
+//   const test = () => {
+//     setAa('a')
+//     console.log(aa)
+//   }
+//   useEffect(() => {
+//     console.log('카운트')
+//     document.title = `You clicked ${count} times`
+//   }, [count])
+
+//   return (
+//     <div className="App">
+//       <h1>Count: {count}</h1>
+//       <Button handleClick={increaseCount}>Increase Number</Button>
+//       <Button handleClick={test}>Increase Number</Button>
+//     </div>
+//   )
+// }
+
+
+
+// function App() {
+//   const [count, setCount] = useState(0)
+
+//   useEffect(() => {
+//     const increaseCount = () => {
+//       clearTimeout(timerId)
+//       setCount(count+1)
+//     }
+//     const timerId = setTimeout(increaseCount, 1000)
+//     return () => {
+//       clearTimeout(timerId)
+//     }
+//   }, [count])
+
+
+//   const [number, setNumber] = useState(0)
+
+//   useEffect(() => {
+//     const pickRandomNumber = () => {
+//       const randNum = Math.floor(Math.random()*100)
+//       setNumber(randNum)
+//     }
+//     const timerId = setTimeout(pickRandomNumber, 1000)
+//     return () => {
+//       clearTimeout(timerId)
+//     }
+//   }, [count])
+
+//   return (
+//     <div className="App">
+//       <h1>숫자 자동 카운팅</h1>
+//       <h2>Count: {count}</h2>
+//       <br/>
+//       <h1>랜덤 숫자</h1>
+//       <h2>Random Number: {number}</h2>
+//     </div>
+//   )
+// }
+
+// import imageData from './240416/imageData';
+// import words from './240418/dictionaryData';
+// import useCounter from './240418/useCounter';
+
+// function App(){
+//   const randIndex = useCounter(imageData.length)
+//   const animal = imageData[randIndex]
+
+
+//   const randIndex2 = useCounter(words.length)
+//   const dic = words[randIndex2]
+
+//   return (
+//     <div className="App">
+//       <h1>이미지 갤러리</h1>
+//       <img src={animal.src} alt={animal.title}></img>
+//       <h2>{animal.title}</h2>
+//       <br/>
+//       <h1>플래쉬 카드</h1>
+//       <h2>{dic.word}</h2>
+//       <h3>{dic.meaning}</h3>
+//     </div>
+//   )
+// }
+
+
+
+// function App() {  
+//   // 서버에서 데이터를 가져오는 로직
+//   const [movies, setMovies] = useState([])
+//   useEffect( () => {
+//     fetch('https://yts.mx/api/v2/list_movies.json?limit=12')
+//     .then( res => res.json())
+//     .then( result => { 
+//       const {data: {movies}} = result 
+//       console.log(movies) 
+//       console.log('useEffect - Movies')
+//       setMovies(movies)
+//     })
+//   }, [])
+
+//   return (
+//     <div className="App">
+//       <h1>영화목록</h1>
+//       {movies.map( (movie, id) => {
+//         return(
+//           <div key={id}>{movie.title}</div>
+//         )
+//       })}
+//     </div>
+//   );
+// }
+
+
+
+
+// 연습과제 0
+// import Modal from './240412/연습과제2_Modal2'
+
+// function App(){
+//   const [open, setOpen] = useState(false)
+
+//   const openModal = () => {
+//     setOpen(true)
+//   }
+//   const closeModal = () => {
+//     setOpen(false)
+//   }
+//   return (
+//     <div className="App">
+//       <Button handleClick={openModal}>Add Todo</Button>
+//       <Modal open={open}>
+//         <div className="header">You want to add new todo ?</div>
+//         <div className="body">
+//           <label>todo name: <input type="text"></input></label><br/>
+//           <label>todo description: <input type="text"></input></label>
+//         </div>
+//         <div className="footer">
+//           <Button size="small">Add</Button>
+//           <Button size="small" handleClick={closeModal}>Close</Button>
+//         </div>
+//       </Modal>
+//     </div>
+//   )
+// }
+
+
+
+// 연습과제 1
+// function App(){
+//   const [count, setCount] = useState(0)
+
+//   const showUI = (cnt) => {
+//     let ui = null;
+//     switch(cnt){
+//       case 0:
+//         ui = <h1>Home</h1>
+//         break;
+//       case 1:
+//         ui = <h1>About</h1>
+//         break;
+//       case 2:
+//         ui = <h1>Detail</h1>
+//         break;
+//       default:
+//         ui = <h1>NotFound</h1>
+//     }
+//     return ui
+//   }
+//   const increase = () => {
+//     setCount(count+1)
+//   }
+//   return (
+//     <>
+//     {showUI(count)}
+//     <button type="button" onClick={increase}>카운팅</button>
+//     </>
+//   )
+// }
+
+
+// 연습과제 2
+import animals from './240416/imageData';
+
+function App() {
+  let [count, setCount] = useState(0);
+  const animal = animals[count%animals.length]
+  console.log(count)
+  const increaseCount = () => {
+    setCount(count+=1)
   }
-  handleChange = (e) => {
-    this.setState({keyword: e.target.value})
-  }
-  getPhotos = async () => {
-    const data = await fetch(`https://api.unsplash.com/search/photos?query=${this.state.keyword}&client_id=${process.env.REACT_APP_UNSPLASH_API_KEY}&per_page=20&page=${this.pageNum}`)
-    const dataJson = await data.json()
-    // console.log(dataJson)
-    return dataJson.results
-  }
-  searchPhotos = async(e) => {
-    e.preventDefault()
-    const photos = await this.getPhotos()
-    this.setState({photos})
-  }
-  lastPage = React.createRef()
-  handleScroll = async () => {
-    const photosContainer = document.querySelector('.App-photo-container')
-    if(photosContainer.scrollTop === photosContainer.scrollHeight - photosContainer.clientHeight){
-      this.pageNum++
-      const photos = await this.getPhotos()
-      this.setState({photos: [...this.state.photos, ...photos]})
-      if(photos.length === 0){
-        console.log('더 이상 사진이 없음')
-        this.lastPage.current.classList.add('show')
-      }
+
+  useEffect(() => {
+    const countID = setInterval(increaseCount, 1000)
+    return () => {
+      clearInterval(countID)
     }
-  }
-  modalImg = React.createRef()
-  showPhotoInModal = (e) => {
-    this.modalPhotoId = Number(e.target.id)
-    this.setState({isModalOpened: true, modalPhoto: this.state.photos[Number(e.target.id)]})
-  }
-  closeToModal = () => {
-    this.setState({isModalOpened: false})
-  }
-  changeModalPhoto = (e) => {
-    const {photos} = this.state
-    if(this.modalPhotoId < photos.length-1 && e.target.innerText === 'Next'){
-      this.modalPhotoId++
-      this.setState({modalPhoto: photos[this.modalPhotoId]})
-    }else if(this.modalPhotoId > 0 && e.target.innerText === 'Prev'){
-      this.modalPhotoId--
-      this.setState({modalPhoto: photos[this.modalPhotoId]})
-    }
-  }
-  render(){
-    const {keyword, photos, isModalOpened, modalPhoto} = this.state
-    if(modalPhoto){
-      console.log(photos, isModalOpened, modalPhoto, this.modalPhotoId)
-    }
-    return (
-      <div className="App">
-        <div className='content-container'>
-          <form className='App-search-container'>
-            <input type="text" onChange={this.handleChange} value={keyword} placeholder="검색어 입력"></input>
-            <button type='submit' onClick={this.searchPhotos}>검색</button>
-          </form>
-          <div className='App-photo-container' onScroll={this.handleScroll}>
-            {photos.length === 0 ? 
-              <div>원하시는 사진을 <br/> 검색창에서 찾아보세요!</div> :
-              photos.map((photo, id) => <img key={photo.id} id={id} className='App-photo-item' src={photo.urls.small} alt={photo.alt_description} onClick={this.showPhotoInModal}></img>)}
-              <div className='App-last-page' ref={this.lastPage}>마지막 사진입니다.</div>
-          </div>
-        </div>
-        <div className={`App-modal-container ${isModalOpened && 'show-modal'}`}>
-              <button className='App-modal-prev-btn' onClick={this.changeModalPhoto}>Prev</button>
-              {modalPhoto && <img src={modalPhoto.urls.regular}></img>}
-              <button className='App-modal-next-btn' onClick={this.changeModalPhoto}>Next</button>
-              <button className='App-modal-close-btn' onClick={this.closeToModal}>닫기</button>
-        </div>
-      </div>
-    )
-  }
+  }, []);
+
+  return (
+    <div className="App">
+      <h1>Image Gallery !</h1>
+      <img src={animal.src} alt={animal.title}></img>
+    </div>
+  )
 }
+
+
+
+// 연습과제 3
+// import Movie from './240412/Movie'
+
+// function App(){
+//   const [loading, setLoading] = useState(true)
+//   const [movies, setMovies] = useState([])
+
+//   useEffect(() => {
+//     fetch('https://yts.mx/api/v2/list_movies.json?limit=12')
+//     .then( res => res.json())
+//     .then( result => {
+//       const {data: {movies}} = result
+//       setLoading(false)
+//       setMovies(movies)
+//     })
+//   }, [])
+
+//   const style = {
+//     display: 'flex',
+//     flexWrap: 'wrap',
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//     width: '60%',
+//     margin: '100px auto',
+//     textAlign: 'center'
+//   }
+//   const loadingStyle = {
+//     position: 'absolute', 
+//     left: '50%', 
+//     top:'50%', 
+//     transform: 'translate(-50%, -50%)', 
+//     fontSize: '2rem'
+//   }
+//   if(loading){
+//     return (
+//       <div style={loadingStyle}>
+//         <h1>Loading ...</h1>
+//       </div>
+//     )
+//   }else{
+//     return (
+//       <div style={style}>
+//         {movies.map(movie => {
+//           return (
+//             <Movie 
+//               key={movie.id}
+//               title={movie.title}
+//               genres={movie.genres}
+//               cover={movie.medium_cover_image}
+//               summary={movie.summary}
+//             ></Movie>
+//           )
+//         })}
+//       </div>
+//     )
+//   }
+// }
+
+
+
+
+// 연습과제 4
+function App(){
+  const [numbers, setNumbers] = useState('')
+
+  const pickRandomNumber = (min, max) => { return Math.floor( Math.random() * (max-min+1) ) + min }
+
+  const isDuplicated = (numbers, picked) => {
+    return numbers.find(num => num === picked)
+  }
+  const getLottoNum = (numbers) => {
+    // console.log("length: ", numbers)
+    const picked = pickRandomNumber(1, 45)
+
+    const duplicatedNum = isDuplicated(numbers, picked) // 중복체크
+    if(duplicatedNum){
+      console.log('duplicated ...', duplicatedNum)
+      getLottoNum(numbers) // 로또배열에 랜덤으로 뽑은 숫자가 이미 존재하면 재귀적으로 다시 숫자를 뽑음 
+    }else{
+      numbers.push(picked)
+    }
+  }
+  const showRandomNumber = () => {
+    const numbers = [] // 로또번호 배열
+    
+    while(numbers.length < 6){
+      getLottoNum(numbers)
+    }
+    setNumbers(numbers.join('  '))
+  }
+  // 초기에 웹화면이 렌더링되었을때 타이머를 설정함
+  useEffect(() => {
+    const countID = setInterval(showRandomNumber, 1000)
+    return () => {
+      clearInterval(countID)
+    }
+  }, [])
+  return (
+    <div className='App'>
+      <h1>로또번호 자동 생성기</h1>
+      <h1>{numbers}</h1>
+    </div>
+  )
+}
+
+
+
+
+// 연습과제 5
+// import Word from './240418/연습과제5_useWord';
+
+// function App(){
+//   const [words, setWords] = useState([])
+
+//   useEffect(() => {
+//     const BASE_URL = 'https://dictionary-search.herokuapp.com/api/words'
+//     fetch(BASE_URL, {
+//       headers: {
+//           "Content-Type": "application/json",
+//           // "Access-Control-Allow-Origin": "*" // 이 코드 때문에 CORS 에러가 발생한것임. 이 코드 주석처리하면 프론트엔드에서 곧바로 외부 API 접근가능하다. (프록시나 서버가 필요없음)
+//       }
+//     })
+//     .then( res => res.json())
+//     .then( data => {
+//           console.log(data)
+//           const {words} = data;
+//           setWords(words)
+//       })
+//   }, [])
+//   return (
+//     <div className="App">
+//       {words.map( (word, id) => {
+//         return (
+//           <Word 
+//             key={id}
+//             r_link={word.r_link}
+//             r_word={word.r_word}
+//             r_hanja={word.r_hanja}
+//             r_des={word.r_des}
+//           ></Word>
+//         ) 
+//       })}
+//     </div>
+//   );
+// }
+
+
+
+
+// 연습과제 6
+// import dicWords from './240418/dictionaryData';
+
+// function App(){ 
+//   const [words, setWords] = useState(dicWords)
+
+//   const handleRemove = (id, e) => { 
+//     const word = e.target.previousSibling.innerText 
+//     console.log(word) 
+//     console.log(id) 
+//     alert(`You want to delete word - ${word}?`) 
+//     const newWords = words.filter( (w, index) => index !== id ) // 제거하려는 단어의 id 와 일치하는 요소만 걸러냄 
+//     setWords(newWords)
+//   } 
+//   const wordStyle = { display: 'flex', alignItems: 'center', justifyContent: 'center' } 
+//   return ( 
+//     <div> 
+//       <h1 style={{textAlign:'center'}}>Word List</h1> 
+//       {words.map( (w, id) => { 
+//           return ( 
+//             <div key={id} style={wordStyle}> 
+//               <h2>{w.word}</h2> 
+//               <Button size="small" type="button" handleClick={(e) => handleRemove(id, e)}>DELETE</Button> 
+//             </div> 
+//           ) 
+//       })} 
+//     </div> 
+//   ); 
+// } 
+
+
+
+// 연습과제 7
+// import images from './240416/imageData';
+
+// function App(){
+//   const [index, setIndex] = useState(0)
+
+//   const decreaseIndex = () => {
+//     const nextIndex = index - 1
+//     setIndex((nextIndex < 0) ? images.length - 1 : nextIndex)
+//   }
+//   const increaseIndex = () => {
+//     const nextIndex = index + 1
+//     setIndex((nextIndex > images.length - 1) ? 0 : nextIndex)
+//   }
+//   const path = images[index].src
+//   const title = images[index].title
+//   return (
+//     <div className="App">
+//       <div className="img-container">
+//         <img src={path} alt={title}/>
+//       </div>
+
+//       <div className="control-btns">
+//         <Button handleClick={decreaseIndex}>Prev</Button>
+//         <Button handleClick={increaseIndex}>Next</Button>
+//       </div>
+//     </div>
+//   );
+// }
+
+
+
+
+// 연습과제 8
+// function App(){
+//   const [id, setId] = useState('')
+//   const [password, setPassword] = useState('')
+
+//   const handleChange = (e) => {
+//     const { name, value } = e.target
+//     console.log(name, value)
+//     if(name==='id'){
+//       setId(value)
+//     }else if(name==='password'){
+//       setPassword(value)
+//     }
+//   }
+//   const login = (e) => {
+//     e.preventDefault() // 새로고침 방지
+//     console.log('login')
+//   }
+
+//   return (
+//     <div className="App">
+//       <form>
+//           <label>ID <input type="text" placeholder="TYPE YOUR ID ..." name="id" value={id} onChange={handleChange}></input></label><br/><br/>
+//           <label>PASSWORD <input type="password" placeholder="TYPE YOUR PASSWORD ..." name="password" value={password} onChange={handleChange}></input></label>
+//           <div className="login-btn"><Button handleClick={login}>Login</Button></div>
+//       </form>
+//     </div>
+//   );
+// }
+
+
+
+// 연습과제 9
+// function App(){
+//   const [fileName, setFileName] = useState('')
+//   const [imgSrc, setImgSrc] = useState('')
+//   const fileInput = useRef(null)
+
+//   const isValid = (type) => {
+//     return type === 'image'
+//   }
+ 
+//   const handleChange = (e) => {
+//     console.log(e.target.files[0])
+//     const file = e.target.files[0]
+//     const newImgSrc = URL.createObjectURL(file)
+
+//     if(isValid(file.type.split('/')[0])){
+//       setFileName(file.name)
+//       setImgSrc(newImgSrc)
+//     }else{
+//       setFileName('File is not valid type !')
+//       setImgSrc('')
+//     }
+//   }
+//   const openFileWindow = () => {
+//     fileInput.current.click() // ref 사용하기
+//   }
+
+//   return (
+//     <div className="App">
+//       <h1>{fileName}</h1>
+//       {imgSrc !== '' && <img src={imgSrc} alt="preview-img" width="300px" height="400px"></img> }
+//       <input className="Upload" type="file" onChange={handleChange} ref={fileInput} accept="image/*"></input>
+//       <Button handleClick={openFileWindow}>Upload</Button>  
+//     </div>
+//   );
+// }
 
 
 export default App;
