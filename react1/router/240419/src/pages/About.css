@@ -1,0 +1,21 @@
+.about-container{
+    padding: 0 4rem;
+    margin-bottom: 4rem;
+    display: flex;
+    gap: 2rem;
+}
+.about-container>img{
+    width: 50%;
+}
+.about-container h2{
+    /* flex: 1; */
+    font-size: 1rem;
+}
+.info-box{
+    display: flex;
+    flex-flow: column;
+    gap: 5rem;
+}
+.info-box>p{
+    margin: 0;
+}

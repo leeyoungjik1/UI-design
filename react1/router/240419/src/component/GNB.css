@@ -1,0 +1,25 @@
+.gnb{
+    width: 100%;
+    height: 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* border: 1px solid red; */
+    padding: 0 5rem;
+    box-sizing: border-box;
+}
+.main-logo{
+    height: 25px;
+    /* border: 1px solid red; */
+}
+.main-logo img{
+    height: 80%;
+}
+.main-menus{
+    display: flex;
+    gap: 2rem;
+}
+.main-menus a{
+    all: unset;
+    cursor: pointer;
+}
