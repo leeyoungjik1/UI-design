@@ -5,9 +5,13 @@ import './Main.css'
 
 function Main(){
     return (
-        <div className="img-container">
-            {productsData.map((product, id) => <CardImg key={id} imgSrc={product.mainImgSrc} imgTitle={product.name}></CardImg>)}
-        </div>
+        <>
+            <input></input>
+            <div className="img-container">
+                {productsData.map((product, id) => <CardImg key={id} imgSrc={product.mainImgSrc} imgTitle={product.name} id={product.id}></CardImg>)}
+            </div>
+        </>
+
     )
 }
 export default Main

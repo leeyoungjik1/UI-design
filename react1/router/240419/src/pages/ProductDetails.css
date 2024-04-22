@@ -1,0 +1,15 @@
+.details-container{
+    padding: 0 4rem;
+}
+.sub-menus{
+    width: 100%;
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin: 1rem 0;
+    box-sizing: border-box;
+}
+.sub-menus a{
+    all: unset;
+    cursor: pointer;
+}
