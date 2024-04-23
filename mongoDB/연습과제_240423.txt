@@ -1,0 +1,35 @@
+연습과제 3
+db.movies.find({$and: [{year: {$gte: 2005}}, {year: {$lte: 2007}}]})
+
+연습과제 4
+db.movies.find({genres: {$in: ['Comedy', 'Horror']}})
+
+연습과제 5
+db.movies.find({runtime: {$mod: [5, 0]}})
+
+연습과제 6
+db.movies.find({$and: [{rating: {$gte: 7}}, {year: {$gt: 2020}}]})
+
+연습과제 7
+db.movies.find({summary: {$regex: /in the/}})
+
+연습과제 8
+db.movies.find({language: {$in: ['nl', 'pt']}})
+
+연습과제 9
+db.movies.find({$and: [{genres: 'Romance'}, {year: {$gt: 2015}}, {year: {$lt: 2023}}]})
+
+연습과제 10
+db.movies.find({$where: function(){return this.title.length < 12}})
+
+연습과제 11
+db.movies.find({$and: [{year: {$not: {$lt: 2013}}}, {runtime: {$not: {$lt: 100}}}]})
+
+연습과제 12
+db.movies.find({genres: {$nin: ['Horror', 'Action', 'Romance', 'Drama', 'Mystery']}})
+
+연습과제 13
+db.movies.find({$where: function(){return this.genres.length === 4}})
+
+연습과제 15
+db.movies.find({title: {$regex: /:/}})
