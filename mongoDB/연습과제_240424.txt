@@ -1,0 +1,90 @@
+연습과제 1
+db.inventory.updateMany(
+... {status: 'D'},
+... [
+...   {$set: {
+...           status: ['$size.h', '$size.w']
+...          }
+...   }
+... ])
+
+연습과제 2
+( { status: 'A', qty: { $lt: 50 } }, {$set: {'size.h': 'big'}})
+
+연습과제 3
+db.inventory.updateOne(
+... {qty: 100},
+... {$set: {item: '아이템'}})
+
+연습과제 4
+db.inventory.updateMany({},
+... {$set: {users: ['victoria', 'hanna', 'danniel']}})
+
+연습과제 5
+db.inventory.updateMany( { $and: [{ 'size.w': { $lt: 30 } }, { 'size.w': { $gt: 11 } }] }, { $push: { users: {$each: ['영희', '철수'] }} })
+
+연습과제 6
+db.inventory.updateMany( { $or: [{ item: 'journal' }, { item: 'notebook' }] }, {$unset: {status: 1}})
+
+연습과제 7
+db.movies.updateMany({},
+... [
+...   {$set: {info: ['$year', '$rating', '$runtime']}}
+... ])
+
+연습과제 8
+db.movies.updateMany({},
+... {$unset: {mpa_rating: 1}})
+
+연습과제 9
+db.movies.updateOne(
+... {id: 61230},
+... {$set: {'torrents.1.url': 'url 수정함'}}
+... )
+
+연습과제 10
+db.movies.updateMany({}, [{ $set: { 'torrents.seeds': '$runtime', 'torrents.peers': '$year' } }])
+
+연습과제 11
+db.movies.updateMany( { $and: [{ runtime: { $not: { $eq: 0 } } }, { runtime: { $mod: [11, 0] } }] }, [{ $set: { date_uploaded: '$$NOW' } }])
+
+연습과제 12
+db.movies.bulkWrite([
+... {
+...   updateMany: {
+...      'filter': {},
+...      'update': {$mul: {'torrents.$[].seeds': 2}}
+...      }
+... },
+... {
+...   updateMany: {
+...      'filter': {},
+...      'update': {$inc: {'torrents.$[].peers': 3}}
+...      }
+... }
+... ])
+
+연습과제 13
+db.movies.updateMany(
+{genres: {$nin: ['Comedy', 'Action']}},
+{$push: {genres: {$each: ['Comedy', 'Action', '추가함']}}})
+
+연습과제 14
+db.movies.updateMany({}, { $push: { genres: {$each: [], $sort: 1 } } })
+
+연습과제 15
+db.movies.updateMany({},
+... {$pull: {genres: '추가함'}})
+
+연습과제 16
+db.movies.updateMany({},
+... {$pull: {torrents: {$and: [{video_codec: 'x264'}, {audio_channels: '2.0'}]}}})
+
+연습과제 17
+db.movies.updateMany({},
+... [
+...   {$set: {
+...            totalSize: {$multiply: ['$rating', '$runtime']}
+...          }
+...   }
+... ])
