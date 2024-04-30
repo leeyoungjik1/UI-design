@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 const port = 3000
 // const apiHandler = require('./handlers')
-const users = require('./users.json')
+// const users = require('./users.json')
 
 // const myLogger = function(req, res, next){
 //     console.log('LOGGED')
