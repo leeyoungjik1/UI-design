@@ -1,6 +1,17 @@
 const express = require('express')
 const app = express()
 const port = 3000
+const mongoose = require('mongoose')
+const axios = require('axios')
+// const User = require('./src/models/User')
+// const Book = require('./src/models/Book')
+
+
+const DB_URL = 'mongodb://localhost:27017/practice_book'
+mongoose.connect(DB_URL)
+.then(() => console.log('데이터베이스 연결 성공'))
+.catch(e => console.log(`데이터베이스 연결 실패: ${e}`))
+
 
 let books = {}
 let user = null
