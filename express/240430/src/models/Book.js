@@ -5,13 +5,14 @@ const { Types: { ObjectId } } = Schema
 
 const bookSchema = new Schema({
     bookId: {
-        type: ObjectId,
-        required: true
+        type: String,
+        required: true,
+        unique: true
     },
     title: {
         type: String,
         required: true,
-        trim: true
+        trim: true,
     },
     description: {
         type: String,
@@ -24,6 +25,14 @@ const bookSchema = new Schema({
     author: {
         type: String,
         required: true
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
+    },
+    lastModifiedAt: {
+        type: Date,
+        default: Date.now
     }
 })
 

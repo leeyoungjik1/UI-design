@@ -3,18 +3,27 @@ const app = express()
 const port = 3000
 const mongoose = require('mongoose')
 const axios = require('axios')
-// const User = require('./src/models/User')
-// const Book = require('./src/models/Book')
+const User = require('./src/models/User')
+const Book = require('./src/models/Book')
+const config = require('./config')
+const usersRouter = require('./src/routes/users')
+const booksAdminRouter = require('./src/routes/books(admin)')
+const {isAuth} = require('./auth')
 
-
-const DB_URL = 'mongodb://localhost:27017/practice_book'
-mongoose.connect(DB_URL)
+mongoose.connect(config.MOGODB_URL)
 .then(() => console.log('데이터베이스 연결 성공'))
 .catch(e => console.log(`데이터베이스 연결 실패: ${e}`))
+
+app.use(express.json())
+
+app.use('/api/users', usersRouter)
+app.use('/api/admin/books', booksAdminRouter)
 
 
 let books = {}
 let user = null
+
+
 
 app.use('/users/:uname/books', (req, res, next) => {
     req.user = req.params.uname
@@ -63,7 +72,8 @@ app.use((req, res, next) => {
     res.status(404).send('페이지를 찾을수 없습니다.')
 })
 app.use((err, req, res, next) => {
-    res.send('서버 에러')
+    console.log(err.stack)
+    res.status(500).send('서버 에러')
 })
 
 app.listen(port, () => {
