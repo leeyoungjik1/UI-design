@@ -9,6 +9,7 @@ router.post('/register', isAuth, isAdmin, expressAsyncHandler(async (req, res, n
     const book = new Book({
         bookId: req.body.bookId,
         title: req.body.title,
+        cetegory: req.body.cetegory,
         description: req.body.description,
         release: req.body.release,
         author: req.body.author
@@ -17,10 +18,10 @@ router.post('/register', isAuth, isAdmin, expressAsyncHandler(async (req, res, n
     if(!newBook){
         res.status(400).json({code: 400, message: '책 등록 정보 에러'})
     }else{
-        const {bookId, title, description, release, author, createdAt} = newBook
+        const {bookId, title, cetegory, description, release, author, createdAt} = newBook
         res.json({
             code: 200,
-            bookId, title, description, release, author, createdAt
+            bookId, title, cetegory, description, release, author, createdAt
         })
     }
 }))
@@ -30,16 +31,17 @@ router.put('/:id', isAuth, isAdmin, expressAsyncHandler(async (req, res, next) =
         res.status(404).json({code: 404, message: '수정 책 정보 없음'})
     }else{
         book.title = req.body.title || book.title
+        book.cetegory = req.body.cetegory || book.cetegory
         book.description = req.body.description || book.description
         book.release = req.body.release || book.release
         book.author = req.body.author || book.author
         book.lastModifiedAt = new Date()
 
         const updatedBook = await book.save()
-        const {bookId, title, description, release, author, createdAt} = updatedBook
+        const {bookId, title, cetegory, description, release, author, createdAt} = updatedBook
         res.json({
             code: 200,
-            bookId, title, description, release, author, createdAt
+            bookId, title, cetegory, description, release, author, createdAt
         })
     }
 }))
