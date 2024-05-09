@@ -5,6 +5,7 @@ const History = require('../models/History')
 const {isAuth, isAdmin, generateToken} = require('../../auth')
 const expressAsyncHandler = require('express-async-handler')
 const mongoose = require('mongoose')
+const { Types: { ObjectId }} = mongoose
 const moment = require('moment')
 
 const router = express.Router()
@@ -36,29 +37,35 @@ router.get('/borrow/:bookId', isAuth, expressAsyncHandler(async (req, res, next)
 }))
 router.post('/borrow/:bookId', isAuth, expressAsyncHandler(async (req, res, next) => {
     const user = await User.findById(req.user._id)
-    const book = await Book.findById(req.params.bookId)
-    if(!book){
-        res.status(404).json({code: 404, message: '대출할 도서 조회 에러'})
+    // 사용자 연체 내역 갱신은 로그인 시
+    const delayedHistory = await History.findOne({borrowedUserId: user._id, borrowStatus: '연체'})
+    if(delayedHistory){
+        res.status(400).json({code: 400, message: '사용자 연체 내역 존재'})
     }else{
-        if(user.rentedBooks.length > 0 && user.rentedBooks.find(bookId => bookId.toString() === book._id.toString())){
-            res.status(404).json({code: 404, message: '대출할 도서 중복 에러'})
+        const book = await Book.findById(req.params.bookId)
+        if(!book){
+            res.status(404).json({code: 404, message: '대출할 도서 조회 에러'})
         }else{
-            user.rentedBooks.push(book._id)
-            const history = new History({
-                borrowedBookId: book._id,
-                borrowedUserId: user._id,
-                // expiredAt: new Date().setDate(new Date().getDate()+14)
-                expiredAt: moment().add(14, 'days')
-            })
-            const rentedBookUser = await user.save()
-            const newHistory = await history.save()
-            const {name, userId, isAdmin, rentedBooks, lastModifiedAt} = rentedBookUser
-
-            res.json({
-                code: 200,
-                token: generateToken(rentedBookUser),
-                name, userId, isAdmin, rentedBooks, lastModifiedAt, newHistory
-            })
+            if(user.rentedBooks.length > 0 && user.rentedBooks.find(bookId => bookId.toString() === book._id.toString())){
+                res.status(404).json({code: 404, message: '대출할 도서 중복 에러'})
+            }else{
+                user.rentedBooks.push(book._id)
+                const history = new History({
+                    borrowedBookId: book._id,
+                    borrowedUserId: user._id,
+                    // expiredAt: new Date().setDate(new Date().getDate()+14)
+                    expiredAt: moment().add(14, 'days')
+                })
+                const rentedBookUser = await user.save()
+                const newHistory = await history.save()
+                const {name, userId, isAdmin, rentedBooks, lastModifiedAt} = rentedBookUser
+    
+                res.json({
+                    code: 200,
+                    token: generateToken(rentedBookUser),
+                    name, userId, isAdmin, rentedBooks, lastModifiedAt, newHistory
+                })
+            }
         }
     }
 }))
@@ -75,13 +82,23 @@ router.delete('/borrow/:bookId', isAuth, expressAsyncHandler(async (req, res, ne
             return bookId.toString() !== req.params.bookId
         })
         user.rentedBooks = deletedBook
-        const deletedBookUser = await user.save()
-        const {name, userId, isAdmin, rentedBooks, lastModifiedAt} = deletedBookUser
-        res.json({
-            code: 200,
-            token: generateToken(deletedBookUser),
-            name, userId, isAdmin, rentedBooks, lastModifiedAt
-        })
+        const history = await History.findOne({borrowedBookId: searchedBook, borrowedUserId: user._id, borrowStatus: {$in: ['대출', '연장', '연체']}})
+        if(!history){
+            res.status(404).json({code: 404, message: 'history에 반납할 대출 내역 없음'})
+        }else{
+            history.borrowStatus = '반납'
+            history.returnedAt = new Date()
+    
+            const updatedHistory = await history.save()
+            const deletedBookUser = await user.save()
+            const {name, userId, isAdmin, rentedBooks, lastModifiedAt} = deletedBookUser    
+
+            res.json({
+                code: 200,
+                token: generateToken(deletedBookUser),
+                name, userId, isAdmin, rentedBooks, lastModifiedAt, updatedHistory
+            })
+        }
     }
 }))
 
@@ -105,25 +122,26 @@ router.get('/history', isAuth, expressAsyncHandler(async (req, res, next) => {
         res.json({code: 200, historys})
     }
 }))
-router.put('/history/return/:historyId', isAuth, expressAsyncHandler(async (req, res, next) => {
-    const history = await History.findOne({borrowedUserId: req.user._id, _id: req.params.historyId})
-    if(!history){
-        res.status(404).json({code: 404, message: '반납할 대출 내역 없음'})
-    }else{
-        if(history.borrowStatus === '반납'){
-            res.status(401).json({code: 401, message: '이미 반납이 완료된 도서'})
-        }else{
-            history.borrowStatus = '반납'
-            history.returnedAt = new Date()
+// 반납할때 유저 rentedBooks 배열에서 빼야함
+// router.put('/history/return/:historyId', isAuth, expressAsyncHandler(async (req, res, next) => {
+//     const history = await History.findOne({borrowedUserId: req.user._id, _id: req.params.historyId})
+//     if(!history){
+//         res.status(404).json({code: 404, message: '반납할 대출 내역 없음'})
+//     }else{
+//         if(history.borrowStatus === '반납'){
+//             res.status(401).json({code: 401, message: '이미 반납이 완료된 도서'})
+//         }else{
+//             history.borrowStatus = '반납'
+//             history.returnedAt = new Date()
     
-            const updatedHistory = await history.save()
-            res.json({
-                code: 200,
-                updatedHistory
-            })
-        }
-    }
-}))
+//             const updatedHistory = await history.save()
+//             res.json({
+//                 code: 200,
+//                 updatedHistory
+//             })
+//         }
+//     }
+// }))
 router.put('/history/extend/:historyId', isAuth, expressAsyncHandler(async (req, res, next) => {
     const history = await History.findOne({borrowedUserId: req.user._id, _id: req.params.historyId})
     if(!history){
@@ -132,10 +150,10 @@ router.put('/history/extend/:historyId', isAuth, expressAsyncHandler(async (req,
         if(history.borrowStatus === '반납'){
             res.status(401).json({code: 401, message: '이미 반납이 완료된 도서'})
         }else{
-            console.log(moment().isBefore(history.expiredAt))
             const dxpiredDate = moment(history.expiredAt)
             history.borrowStatus = '연장'
             history.expiredAt = dxpiredDate.add(7, 'days')
+            
             const updatedHistory = await history.save()
             res.json({
                 code: 200,
@@ -145,6 +163,38 @@ router.put('/history/extend/:historyId', isAuth, expressAsyncHandler(async (req,
     }
 }))
 
+
+
+
+// 그래프
+router.get('/group/:field', isAuth, expressAsyncHandler(async (req, res, next) => {
+    if(req.params.field === 'category'){
+        const historys = await History.aggregate([
+            {
+                $match: {borrowedUserId: new ObjectId(req.user._id)}
+            },
+            {
+                $project: {borrowedBookId: 1}
+            }
+        ])
+        const bookIds = historys.map(({borrowedBookId}) => borrowedBookId)
+        const docs = await Book.aggregate([
+            {
+                $match: {_id: {$in: bookIds}}
+            },
+            {
+                $group: {
+                    _id: `$${req.params.field}`,
+                    count: {$sum: 1}
+                }
+            },
+        ])
+        console.log(`Number Of Group: ${docs.length}`)
+        res.json({code: 200, docs})
+    }else{
+        res.status(400).json({code: 400, message: 'You gave wrong field to group documents'})
+    }
+}))
 
 
 

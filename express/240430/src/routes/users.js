@@ -1,8 +1,10 @@
 const express = require('express')
 const User = require('../models/User')
+const History = require('../models/History')
 const { generateToken, isAuth } = require('../../auth')
 const expressAsyncHandler = require('express-async-handler')
 const booksUserouter = require('./books(user)')
+const moment = require('moment')
 
 const router = express.Router()
 
@@ -28,7 +30,7 @@ router.post('/register', expressAsyncHandler(async (req, res, next) => {
     }
 }))
 router.post('/login', expressAsyncHandler(async (req, res, next) => {
-    console.log(req.user)
+    console.log(req.body)
     const loginUser = await User.findOne({
         userId: req.body.userId,
         password: req.body.password
@@ -36,6 +38,7 @@ router.post('/login', expressAsyncHandler(async (req, res, next) => {
     if(!loginUser){
         res.status(401).json({code: 401, messager: '유효하지 않은 로그인 정보'})
     }else{
+        renewDelay(loginUser) // 사용자 연체 내역 갱신
         const {name, userId, isAdmin, rentedBooks, createdAt} = loginUser
         res.json({
             code: 200,
@@ -70,5 +73,21 @@ router.delete('/del', isAuth, expressAsyncHandler(async (req, res, next) => {
         res.status(204).json({code: 204, message: '유저 탈퇴 완료'})
     }
 }))
+
+
+
+async function renewDelay(user){
+    const historys = await History.find({borrowedUserId: user._id})
+
+    historys.forEach(async function(history){
+        if(history.borrowStatus !== '연체' 
+        && history.borrowStatus !== '반납'
+        && !moment().isBefore(history.expiredAt)){
+            history.borrowStatus = '연체'
+            await history.save()
+        }
+    })
+}
+
 
 module.exports = router

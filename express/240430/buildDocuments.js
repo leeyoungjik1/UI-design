@@ -48,7 +48,7 @@ const createBooks = async (n) => {
       title: generateRandomString(10),
       category: selectRandomValue(category),
       description: generateRandomString(50),
-      release: generateRandomDate(new Date(1990, 0, 1), new Date(2020, 13, 30)),
+      release: generateRandomDate(new Date(1990, 0, 1), new Date(2020, 13, 30)).toLocaleDateString(),
       author: generateRandomString(7),
       createdAt: generateRandomDate(new Date(2024, 0, 2), new Date()),
       lastModifiedAt: generateRandomDate(new Date(2024, 0, 2), new Date()),
@@ -56,10 +56,9 @@ const createBooks = async (n) => {
     await book.save()
   }
 }
-
 const buildData = async (users) => {
     // users = await createUsers(7, users)
-    createBooks(10)
+    createBooks(500)
 }
 
 buildData(users)

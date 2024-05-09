@@ -1,6 +1,6 @@
 const BASE_URL = 'http://127.0.0.1:3000'
-const userId = 'admin'
-const password = '1234'
+const userId = 'pyckmuz'
+const password = 'ortwmtvshp'
 const graphType = 'bar'
 const field = 'category'
 
@@ -18,14 +18,11 @@ async function login(userId, password){
     return user
 }
 async function getGroups(field, user){
-    console.log(user)
-    let base_url = `${BASE_URL}/api/todos/group`
+    let base_url = `${BASE_URL}/api/admin/books/group`
     if(!user.isAdmin){
-        base_url += '/mine'
+        base_url = `${BASE_URL}/api/users/books/group`
     }
-    if(field === 'createdAt'  || field === 'lastModifiedAt' || field === 'finishedAt'){
-        base_url += '/date'
-    }
+    console.log(base_url)
     const groupJSON = await fetch(`${base_url}/${field}`, {
         headers: {
             'Content-Type': 'application/json',
@@ -46,11 +43,9 @@ function displayChart(type, group){
     new Chart(ctx, {
         type,
         data: {
-        labels: group.filter(item => item._id !== null && item._id !== undefined && item._id !== '').map(item => item._id.year ? `${item._id.year}년 ${item._id.month}월` 
-                            : typeof item._id === 'boolean' ? (item._id === true ? "종료": "진행중") 
-                            : item._id),
+        labels: group.filter(item => item._id !== null && item._id !== undefined && item._id !== '').map(item => item._id),
         datasets: [{
-            label: '# of Todos',
+            label: '# of Books',
             data: group.filter(item => item._id !== null && item._id !== undefined && item._id !== '').map(item => item.count),
             borderWidth: 1,
             backgroundColor: '#FFD700',
@@ -58,7 +53,6 @@ function displayChart(type, group){
         }]
         },
         options: {
-            indexAxis: 'y',
         scales: {
             y: {
             beginAtZero: true

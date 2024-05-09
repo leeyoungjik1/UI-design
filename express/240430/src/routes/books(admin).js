@@ -63,5 +63,26 @@ router.delete('/:id', isAuth, isAdmin, expressAsyncHandler(async (req, res, next
 }))
 
 
+// 그래프
+router.get('/group/:field', isAuth, isAdmin, expressAsyncHandler(async (req, res, next) => {
+    if(req.params.field === 'category'){
+        const docs = await Book.aggregate([
+            {
+                $group: {
+                    _id: `$${req.params.field}`,
+                    count: { $sum: 1 }
+                }
+            },
+            { 
+                $sort: {_id: 1}
+            }
+        ])
+        console.log(`Number Of Group: ${docs.length}`)
+        res.json({code: 200, docs})
+    }else{
+        res.status(400).json({code: 400, message: 'You gave wrong field to group documents'})
+    }
+}))
+
 
 module.exports = router
