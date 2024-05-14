@@ -2,14 +2,16 @@ const express = require('express')
 const Book = require('../models/Book')
 const User = require('../models/User')
 const History = require('../models/History')
-const {isAuth, isAdmin, generateToken} = require('../../auth')
+const {isAuth, generateToken} = require('../../auth')
 const expressAsyncHandler = require('express-async-handler')
 const mongoose = require('mongoose')
 const { Types: { ObjectId }} = mongoose
 const moment = require('moment')
 
+
 const router = express.Router()
 
+// 대출한 도서목록 조회
 router.get('/borrow', isAuth, expressAsyncHandler(async (req, res, next) => {
     const user = await User.findById(req.user._id)
     if(!user){
@@ -22,6 +24,8 @@ router.get('/borrow', isAuth, expressAsyncHandler(async (req, res, next) => {
         }
     }
 }))
+
+// 대출한 도서의 상세정보 조회
 router.get('/borrow/:bookId', isAuth, expressAsyncHandler(async (req, res, next) => {
     const user = await User.findById(req.user._id)
     const searchedBook = user.rentedBooks.find(bookId => {
@@ -35,6 +39,10 @@ router.get('/borrow/:bookId', isAuth, expressAsyncHandler(async (req, res, next)
         res.json(book)
     }
 }))
+
+// 도서대출 (대출하기 전 bookId으로 중복체크) (도서 대출시 대출만료기한을 2주 정도로 자동설정)
+// 사용자 연체 내역 존재 시 대출 불가
+// 대출내역(히스토리) 추가(생성)
 router.post('/borrow/:bookId', isAuth, expressAsyncHandler(async (req, res, next) => {
     const user = await User.findById(req.user._id)
     // 사용자 연체 내역 갱신은 로그인 시
@@ -69,6 +77,9 @@ router.post('/borrow/:bookId', isAuth, expressAsyncHandler(async (req, res, next
         }
     }
 }))
+
+// 도서반납
+// 대출내역(히스토리) 업데이트 (대출 상태, 반납시각)
 router.delete('/borrow/:bookId', isAuth, expressAsyncHandler(async (req, res, next) => {
     const user = await User.findById(req.user._id)
     const searchedBook = user.rentedBooks.find(bookId => {
@@ -76,7 +87,7 @@ router.delete('/borrow/:bookId', isAuth, expressAsyncHandler(async (req, res, ne
     })
 
     if(!searchedBook){
-        res.status(404).json({code: 404, message: '사용자 삭제할 대출 도서 조회 에러'})
+        res.status(404).json({code: 404, message: '사용자 반납할 대출 도서 조회 에러'})
     }else{
         const deletedBook = user.rentedBooks.filter(bookId => {
             return bookId.toString() !== req.params.bookId
@@ -102,10 +113,7 @@ router.delete('/borrow/:bookId', isAuth, expressAsyncHandler(async (req, res, ne
     }
 }))
 
-
-
-
-
+// 대출내역(히스토리) 조회 
 router.get('/history', isAuth, expressAsyncHandler(async (req, res, next) => {
     const historys = await History.find({borrowedUserId: req.user._id}).populate('borrowedUserId', ['name', 'userId']).populate('borrowedBookId', ['bookId', 'title'])
     if(historys.length === 0){
@@ -142,6 +150,8 @@ router.get('/history', isAuth, expressAsyncHandler(async (req, res, next) => {
 //         }
 //     }
 // }))
+
+// 대출한 도서의 연장 (일주일)
 router.put('/history/extend/:historyId', isAuth, expressAsyncHandler(async (req, res, next) => {
     const history = await History.findOne({borrowedUserId: req.user._id, _id: req.params.historyId})
     if(!history){
@@ -166,7 +176,7 @@ router.put('/history/extend/:historyId', isAuth, expressAsyncHandler(async (req,
 
 
 
-// 그래프
+// 그래프, 회원 통계 API 추가
 router.get('/group/:field', isAuth, expressAsyncHandler(async (req, res, next) => {
     if(req.params.field === 'category'){
         const historys = await History.aggregate([

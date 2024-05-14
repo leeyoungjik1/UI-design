@@ -40,6 +40,15 @@ const bookSchema = new Schema({
     }
 })
 
+bookSchema.path('category').validate(function(value){
+    return /소설|경제|여행|자기계발|과학|건강|IT/.test(value)
+}, 'category `{VALUE}` 는 유효하지 않은 카테고리입니다.')
+
+// 2024.05.14
+bookSchema.path('release').validate(function(value){
+    return /\d{4}\.\d{2}\.\d{2}/.test(value)
+}, 'release `{VALUE}` 는 잘못된 날짜 형식입니다.')
+
 const Book = mongoose.model('Book', bookSchema)
 module.exports = Book
 

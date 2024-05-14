@@ -35,6 +35,11 @@ const userSchema = new Schema({
     }
 })
 
+// 숫자, 특수문자 최소 1개 포함 (7~15자)
+userSchema.path('password').validate(function(value){
+    return /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{7,15}/.test(value)
+}, 'password `{VALUE}` 는 잘못된 비밀번호 형식입니다.')
+
 const User = mongoose.model('User', userSchema)
 module.exports = User
 

@@ -30,5 +30,9 @@ const historySchema = new Schema({
     }
 })
 
+historySchema.path('borrowStatus').validate(function(value){
+    return /대출|연장|연체|반납/.test(value)
+}, 'borrowStatus `{VALUE}` 는 유효하지 않은 상태입니다.')
+
 const History = mongoose.model('History', historySchema)
 module.exports = History
