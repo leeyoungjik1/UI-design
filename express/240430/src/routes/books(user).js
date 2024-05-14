@@ -20,7 +20,12 @@ router.get('/borrow', isAuth, expressAsyncHandler(async (req, res, next) => {
         if(user.rentedBooks.length === 0){
             res.status(404).json({code: 404, message: '대출 도서 없음'})
         }else{
-            res.json({code: 200, rentedBooks: user.rentedBooks})
+            const books = []
+            for(let i=0; i<user.rentedBooks.length; i++){
+                const book = await Book.findById(user.rentedBooks[i])
+                books.push(book)
+            }
+            res.json({code: 200, rentedBooks: books})
         }
     }
 }))
