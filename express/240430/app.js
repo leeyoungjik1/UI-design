@@ -11,6 +11,7 @@ const usersRouter = require('./src/routes/users')
 const booksAdminRouter = require('./src/routes/books(admin)')
 const booksCommonRouter = require('./src/routes/books(common)')
 const {isAuth} = require('./auth')
+const {limitUsage} = require('./limiter')
 
 const corsOptions = {
     origin: '*',
@@ -23,6 +24,7 @@ mongoose.connect(config.MOGODB_URL)
 
 app.use(cors(corsOptions))
 app.use(express.json())
+app.use("/api", limitUsage)
 
 app.use('/api/books', booksCommonRouter)
 app.use('/api/users', usersRouter)

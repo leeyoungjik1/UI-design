@@ -1,6 +1,6 @@
 const BASE_URL = 'http://127.0.0.1:3000'
-const userId = 'admin'
-const password = 'aonkoyjzm8^'
+const userId = 'mbwgtdr'
+const password = 'ffhzxxyee3%'
 const graphType = 'bar'
 const field = 'category'
 
