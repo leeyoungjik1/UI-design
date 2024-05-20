@@ -6,6 +6,7 @@ const mongoose = require('mongoose')
 const config = require('./config')
 const logger = require('morgan')
 const usersRouter = require('./src/routes/users')
+const itinerarysRouter = require('./src/routes/itinerarys')
 
 
 const corsOptions = {
@@ -20,10 +21,12 @@ mongoose.connect(config.MONGODB_URL)
 
 app.use(cors(corsOptions))
 app.use(express.json())
+app.use(express.urlencoded({ extended: true})) // form POST 요청 데이터를 req.body에서 받을 수 있도록
 app.use(logger('tiny'))
 
 
 app.use('/api/users', usersRouter)
+app.use('/api/itinerarys', itinerarysRouter)
 
 
 app.use((req, res, next) => {

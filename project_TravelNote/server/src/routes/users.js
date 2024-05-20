@@ -22,7 +22,6 @@ router.post('/register', [
     validateUserId(),
     validateUserPassword()
 ], expressAsyncHandler(async (req, res, next) => {
-    console.log(req)
     const errors = validationResult(req)
     if(!errors.isEmpty()){
         console.log(errors.array())
@@ -121,6 +120,10 @@ router.delete('/del', isAuth, expressAsyncHandler(async (req, res, next) => {
     }
 }))
 
+
+router.get('/getId', isAuth, expressAsyncHandler(async (req, res, next) => {
+    res.json(req.user)
+}))
 
 
 // 테스트

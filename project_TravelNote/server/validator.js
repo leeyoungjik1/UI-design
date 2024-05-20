@@ -34,6 +34,9 @@ const validateUserId = () => {
             .withMessage("user id length must be between 5~10 characters")
             .bail()
             .not()
+            .matches(/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/)
+            .withMessage("user id can not use korean")
+            .not()
             .matches(/[!@#$%^&*]/)
             .withMessage("user id can not use special character")
 }

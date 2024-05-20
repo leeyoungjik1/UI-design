@@ -55,7 +55,7 @@ itinerarySchema.virtual('status').get(function(){
     return this.isDone ? "완료" : "예정"
 })
 itinerarySchema.virtual('open').get(function(){
-    return this.isPublic ? "비공개" : "공개"
+    return this.isPublic ? "공개" : "비공개"
 })
 
 const Itinerary = mongoose.model('Itinerary', itinerarySchema)

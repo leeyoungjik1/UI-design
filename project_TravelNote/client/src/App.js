@@ -1,6 +1,6 @@
 import './App.css';
 import { Route, Routes } from 'react-router-dom'
-import { Home, Login, Join, NotFound } from './pages'
+import { Home, Login, Join, ItinerMain, ItinerCreate, NotFound } from './pages'
 
 function App() {
   return (
@@ -9,6 +9,9 @@ function App() {
         <Route exact path='/' element={<Home/>}/>
         <Route exact path='/join' element={<Join/>}/>
         <Route exact path='/login' element={<Login/>}/>
+        <Route exact path='/itinerary' element={<ItinerMain/>}>
+          <Route exact path='/itinerary/create' element={<ItinerCreate/>}/>
+        </Route>
         <Route path='*' element={<NotFound/>}/>
       </Routes>
     </div>
