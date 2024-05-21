@@ -63,7 +63,7 @@ module.exports = Itinerary
 
 
 // const itinerary = new Itinerary({
-//     userId: '6646f76c2a41f1091388e58e',
+//     userId: '664c33a830e0ea803931bd77',
 //     city: '안산',
 //     dateOfStart: moment().startOf("day"),
 //     dateOfEnd: moment().add(1, "d").startOf("day"),
