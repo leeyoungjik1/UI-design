@@ -20,12 +20,11 @@ function Create(){
     })
 
     const handleChange = (e) => {
-        console.dir(e.target)
         const { name, value} = e.target 
         setFormData({ ...formData, [name]: value })
     }
     const handleSubmit = (e) => {
-        // e.preventDefault()
+        e.preventDefault()
         axios.get('http://127.0.0.1:5000/api/users/getId', {
             headers: {
                 'Constent-Type': 'application/json',
@@ -43,7 +42,14 @@ function Create(){
                     'Authorization': `Bearer ${localStorage.getItem("token")}`
                 }
             }).then((res) => {
-                console.log(res)
+                setFormData({
+                    title: '',
+                    city: '',
+                    dateOfStart: '',
+                    dateOfEnd: '',
+                    description: '',
+                    isPublic: true
+                })
                 navigate("/itinerary/create")
             }).catch((err) => {
                 console.log(err)

@@ -3,6 +3,7 @@ const Itinerary = require('../models/Itinerary')
 const { isAuth } = require('../../auth')
 const expressAsyncHandler = require('express-async-handler')
 const moment = require('moment')
+const momentTimezone = require('moment-timezone');
 const { validationResult, oneOf } = require('express-validator')
 const {
     validateUserName,
@@ -11,8 +12,10 @@ const {
     validateUserEmail,
     validateUserId
 } = require('../../validator')
+const itineraryByDateRouter = require('./ItineraryByDate')
 
 const router = express.Router()
+router.use('/bydate', itineraryByDateRouter)
 
 // 새 일정 생성
 router.post('/create', [
@@ -27,12 +30,14 @@ router.post('/create', [
             error: errors.array()
         })
     }else{
+        const ChangeDateOfStart = momentTimezone(req.body.dateOfStart).tz("Asia/Seoul").format("YYYY-MM-DD HH:mm:ss")
+        const ChangeDateOfEnd = momentTimezone(req.body.dateOfEnd).tz("Asia/Seoul").format("YYYY-MM-DD HH:mm:ss")
         const itinerary = new Itinerary({
             userId: req.body.userId,
             title: req.body.title,
             city: req.body.city,
-            dateOfStart: req.body.dateOfStart,
-            dateOfEnd: req.body.dateOfEnd,
+            dateOfStart: ChangeDateOfStart,
+            dateOfEnd: ChangeDateOfEnd,
             description: req.body.description,
             isPublic: req.body.isPublic
         })
@@ -41,6 +46,7 @@ router.post('/create', [
             res.status(400).json({code: 400, message: 'Invalid Itinerarys Data'})
         }else{
             const {userId, title, city, dateOfStart, dateOfEnd, description, open} = newItinerary
+            
             res.json({
                 code: 200,
                 userId, title, city, dateOfStart, dateOfEnd, description, open
@@ -55,7 +61,7 @@ router.get('/changelist', [
 
 ], isAuth, expressAsyncHandler(async (req, res, next) => {
     const itinerarys = await Itinerary.find({userId: req.user._id})
-    console.log(itinerarys)
+    // console.log(itinerarys)
     if(itinerarys.length === 0){
         res.status(404).json({code: 404, message: '사용자의 일정 내역 없음'})
     }else{
@@ -76,7 +82,7 @@ router.get('/details/:itineraryId', [
         path: 'itineraryByDateId',
         populate: {path: 'destinationId'}
     })
-    console.log(itinerary)
+    // console.log(itinerary)
     if(!itinerary){
         res.status(404).json({code: 404, message: '해당 일정 내역 없음'})
     }else{
