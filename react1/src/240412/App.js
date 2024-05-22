@@ -61,55 +61,55 @@ import './240412/연습과제4_Product.css'
 //     }
 // }
 
-// class App extends Component{
-//     state = {
-//         open: false
-//     }
-//     openModal = () => {
-//         this.setState({open: true})
-//     }
-//     closeModal = () => {
-//         this.clearInputs()
-//         this.setState({open: false})
-//     }
-//     clearInputs = () => {
-//         const inputs = document.querySelectorAll('.Modal-body input')
-//         for(let input of inputs){
-//             input.value = ''
-//         }
-//     }
-//     handleKeyUp = (e) => {
-//         console.log(e.key)
-//         if(e.key === 'Enter'){
-//             this.closeModal()
-//         }
-//     }
-//     componentDidUpdate(){
-//         if(this.state.open){
-//             const firstInput = document.querySelectorAll('.Modal-body input')[0]
-//             firstInput.focus()
-//         }
-//     }
-//     render(){
-//         const {open} = this.state
-//         return(
-//             <div className='App'>
-//                 <Button handleClick={this.openModal}>Add Todo</Button>
-//                 <Modal open={open}>
-//                     <div className='Modal-header'>You want to add new todo?</div>
-//                     <div className='Modal-body'>
-//                         <label>todo name: <input type="text"></input></label><br/>
-//                         <label>todo description: <input type="text" onKeyUp={this.handleKeyUp}></input></label>
-//                     </div>
-//                     <div className='Modal-footer'>
-//                         <Button size="small">Add</Button>
-//                         <Button size="small" handleClick={this.closeModal}>Close</Button>
-//                     </div>
-//                 </Modal>
-//             </div>
-//         )
-//     }
-// }
+class App extends Component{
+    state = {
+        open: false
+    }
+    openModal = () => {
+        this.setState({open: true})
+    }
+    closeModal = () => {
+        this.clearInputs()
+        this.setState({open: false})
+    }
+    clearInputs = () => {
+        const inputs = document.querySelectorAll('.Modal-body input')
+        for(let input of inputs){
+            input.value = ''
+        }
+    }
+    handleKeyUp = (e) => {
+        console.log(e.key)
+        if(e.key === 'Enter'){
+            this.closeModal()
+        }
+    }
+    componentDidUpdate(){
+        if(this.state.open){
+            const firstInput = document.querySelectorAll('.Modal-body input')[0]
+            firstInput.focus()
+        }
+    }
+    render(){
+        const {open} = this.state
+        return(
+            <div className='App'>
+                <Button handleClick={this.openModal}>Add Todo</Button>
+                <Modal open={open}>
+                    <div className='Modal-header'>You want to add new todo?</div>
+                    <div className='Modal-body'>
+                        <label>todo name: <input type="text"></input></label><br/>
+                        <label>todo description: <input type="text" onKeyUp={this.handleKeyUp}></input></label>
+                    </div>
+                    <div className='Modal-footer'>
+                        <Button size="small">Add</Button>
+                        <Button size="small" handleClick={this.closeModal}>Close</Button>
+                    </div>
+                </Modal>
+            </div>
+        )
+    }
+}
 
 
 // 연습과제 1
