@@ -38,6 +38,11 @@ const DestinationSchema = new Schema({
         type: Boolean,
         default: false
     },
+    itineraryId: {
+        type: ObjectId,
+        required: true,
+        ref: 'Itinerary'
+    },
     createdAt: {
         type: Date,
         default: moment()

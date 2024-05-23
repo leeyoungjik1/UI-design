@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Outlet } from 'react-router-dom'
 import axios from 'axios'
 
+// URL 주소: /itinerary
 
 function Main(){
     // const [userId, setUserId] = useState()

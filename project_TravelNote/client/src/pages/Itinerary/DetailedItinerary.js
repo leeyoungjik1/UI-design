@@ -7,6 +7,9 @@ import AddDestinationModal from "../../components/AddDestinationModal";
 import moment from 'moment'
 import GoogleMap from "../../components/GoogleMap";
 
+// URL 주소: /itinerary/details ,/itinerary/details/:itineraryId
+
+
 function changeItinerary(e){
     console.dir(e.target)
 }
@@ -16,6 +19,8 @@ function changeItinerary(e){
 
 function DetailedItinerary(){
     const navigate = useNavigate()
+
+
 
     // 해당 사용자의 선택된 일정
     const [itinerary, setItinerary] = useState([])
@@ -27,6 +32,12 @@ function DetailedItinerary(){
         message: '일자를 선택하세요.'
     })
     
+    // 날짜선택 여부
+    const [selectDay, setSelectDay] = useState(null)
+
+    // 서버 전송 여부
+    const [submitServer, setSubmitServer] = useState(null)
+
     // 선택한 일차에 대한 데이터
     const [itineraryByDate, setItineraryByDate] = useState()
     const [accommodationGoogleData, setAccommodationGoogleData] = useState({
@@ -52,7 +63,7 @@ function DetailedItinerary(){
         accommodationInfo: {}
     })
 
-    // console.log(itinerary)
+    console.log(itinerary)
     console.log(itineraryByDate)
     // console.log(accommodationGoogleData)
     // console.log(day)
@@ -61,7 +72,7 @@ function DetailedItinerary(){
     const params = useParams()
 
     // 전체 일정 중 달력에서 날짜를 선택
-    const selecteDate = (e) => {
+    const selectDayeDate = (e) => {
         const diffDate = moment(e.target.value).diff(moment(itinerary.dateOfStart), 'days')
 
         setDay({
@@ -93,9 +104,8 @@ function DetailedItinerary(){
         setFormData({ ...formData, [name]: value })
     }
 
-    // 최종 ItineraryByDate 모델에 대한 데이터 서버로 전송
-    const handleSubmit = (e) => {
-        e.preventDefault()
+    // 달력에서 날짜를 선택하면 선택된 날짜정보만 ItineraryByDate 모델에 대한 데이터 서버로 전송
+    function initSubmit(){
         axios.get('http://127.0.0.1:5000/api/users/getId', {
             headers: {
                 'Constent-Type': 'application/json',
@@ -109,11 +119,47 @@ function DetailedItinerary(){
                 }
             }).then((res) => {
                 console.log(res)
-                navigate(`/itinerary/details/${params.itineraryId}`)
+                setSubmitServer(res)
+                setItineraryByDate(res.data.newItineraryByDate)
+                // navigate(`/itinerary/details/${params.itineraryId}`)
             }).catch((err) => {
                 console.log(err)
             })
         })
+    }
+
+    // 최종 ItineraryByDate 모델에 대한 데이터 서버로 전송
+    function handleSubmit(e){
+        e.preventDefault()
+        axios.get('http://127.0.0.1:5000/api/users/getId', {
+            headers: {
+                'Constent-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
+            }
+        }).then((res) => {
+            axios.put(`http://127.0.0.1:5000/api/itinerarys/bydate/${itineraryByDate._id}`, formData, {
+                headers: {
+                    'Constent-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem("token")}`
+                }
+            }).then((res) => {
+                console.log(res)
+                setSubmitServer(res)
+                setItineraryByDate(res.data.updateditineraryByDate)
+                // navigate(`/itinerary/details/${params.itineraryId}`)
+            }).catch((err) => {
+                console.log(err)
+            })
+        })
+    }
+
+    // AddDestinationModal에서 서버 전송 시 setSubmitServer
+    const changeSubmitServer = (res) => {
+        setSubmitServer(res)
+    }
+
+    const changeDestination = (e) => {
+        console.dir(e.target)
     }
     
     // url 파라미터를 이용하여 선택된 일정 데이터 가져오기
@@ -128,31 +174,70 @@ function DetailedItinerary(){
         }
     }, [])
 
+    // 서버로 데이터 전송이 완료된 이후 데이터 갱신
+    useEffect(() => {
+        if(params.itineraryId){
+            axios.get(`http://127.0.0.1:5000/api/itinerarys/details/${params.itineraryId}`, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("token")}`
+                }
+            })
+            .then((res) => {
+                const itineraryByDateSearched = res.data.itineraryByDateIds.find(itineraryByDate => {
+                    return itineraryByDate.day === day.dayOfDate
+                })
+                setItinerary(res.data)
+                setItineraryByDate(itineraryByDateSearched)
+            })
+        }
+    }, [submitServer])
+
+
     // 달력에서 날짜를 선택하면 선택된 날짜의 일차 데이터 변경 저장
     useEffect(() => {
         if(day.date){
-            const itineraryByDate = itinerary.itineraryByDateId.find(itineraryByDate => {
+            const itineraryByDateSearched = itinerary.itineraryByDateIds.find(itineraryByDate => {
                 return itineraryByDate.day === day.dayOfDate
             })
-            setFormData({
-                ...formData,
-                day: day.dayOfDate,
-                date: day.date,
-                accommodationName: '',
-                accommodationAddress: '',
-                accommodationCost: null
-            })
-            if(itineraryByDate){
-                setItineraryByDate(itineraryByDate)
+            // console.log(itineraryByDateSearched)
+            if(itineraryByDateSearched){
                 setFormData({
                     ...formData,
-                    accommodationName: itineraryByDate.accommodationName,
-                    accommodationAddress: itineraryByDate.accommodationAddress,
-                    accommodationCost: itineraryByDate.accommodationCost
+                    day: itineraryByDateSearched.day,
+                    date: itineraryByDateSearched.date,
+                    accommodationName: itineraryByDateSearched.accommodationName,
+                    accommodationAddress: itineraryByDateSearched.accommodationAddress,
+                    accommodationCost: itineraryByDateSearched.accommodationCost
+                })
+            }else{
+                setFormData({
+                    ...formData,
+                    day: day.dayOfDate,
+                    date: day.date,
+                    accommodationName: '',
+                    accommodationAddress: '',
+                    accommodationCost: null
                 })
             }
         }
+        setSelectDay(day.dayOfDate)
     }, [day])
+
+    
+    // 달력에서 날짜를 선택하면 선택된 날짜정보만 ItineraryByDate 모델에 대한 데이터 서버로 전송
+    useEffect(() => {
+        if(day.date){
+            const itineraryByDateSearched = itinerary.itineraryByDateIds.find(itineraryByDate => {
+                return itineraryByDate.day === day.dayOfDate
+            })
+            if(itineraryByDateSearched){
+                setItineraryByDate(itineraryByDateSearched)
+            }else{
+                initSubmit()
+                setItineraryByDate()
+            }
+        }
+    }, [selectDay])
 
     // 구글 지도 선택 시 서버로 전송할 데이터 변경
     useEffect(() => {
@@ -190,7 +275,7 @@ function DetailedItinerary(){
                     </ItineraryCard>
                     <div>
                         <label htmlFor="date">날짜 선택: </label>
-                        <input type="date" name="date" id="date" onChange={selecteDate} min={moment(itinerary.dateOfStart).format("YYYY-MM-DD")} max={moment(itinerary.dateOfEnd).format("YYYY-MM-DD")}/>
+                        <input type="date" name="date" id="date" onChange={selectDayeDate} min={moment(itinerary.dateOfStart).format("YYYY-MM-DD")} max={moment(itinerary.dateOfEnd).format("YYYY-MM-DD")}/>
                     </div>
                 </div>
                 <div>
@@ -213,13 +298,41 @@ function DetailedItinerary(){
                             </form>
                         </div>
                         <div>
+                            <h2>여행지</h2>
                             <button>일정 추가</button>
-                            <DestinationCard>
-                                <button>수정</button>
-                                <button>삭제</button>
-                                <button>완료</button>
-                            </DestinationCard>
-                            {itineraryByDate && <AddDestinationModal selectedDate={itineraryByDate.date}/>}
+                            {itineraryByDate && itineraryByDate.destinationIds.length !== 0 &&
+                                
+                                itineraryByDate.destinationIds.map((destinationId, id) => {
+                                    return (
+                                        <DestinationCard
+                                            key={id}
+                                            title={destinationId.title}
+                                            address={destinationId.address}
+                                            category={destinationId.category}
+                                            timeOfStart={destinationId.timeOfStart}
+                                            timeOfEnd={destinationId.timeOfEnd}
+                                            cost={destinationId.cost}
+                                            isDone={destinationId.isDone}
+                                            imgSrc={destinationId.destinationInfo.photoUrl || "https://images.unsplash.com/photo-1500835556837-99ac94a94552?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"}
+                                            handleClick={changeDestination}
+                                        >
+                                            <button id={destinationId._id}>수정</button>
+                                            <button id={destinationId._id}>삭제</button>
+                                            <button id={destinationId._id}>완료</button>
+                                        </DestinationCard>
+                                    )
+                                })
+                            }
+
+                            
+                            {itineraryByDate && 
+                            <AddDestinationModal 
+                                selectedDate={itineraryByDate.date}
+                                itineraryByDateId={itineraryByDate._id}
+                                changeSubmit={changeSubmitServer}
+                            />
+                            }
+
                             {/* <div>
                                 <h2>여행지</h2>
                                 <form onSubmit={handleSubmit}>
@@ -229,7 +342,7 @@ function DetailedItinerary(){
                                     <input type="text" name="address" id="address" onChange={handleChange} value={accommodationAddress || ''}/>
                                     <GoogleMap handleChange={getAccommodationSearched}/>
                                     <label htmlFor="category">카테고리: </label>
-                                    <select name="category" id="category">
+                                    <selectDay name="category" id="category">
                                         <option value="javascript">음식점</option>
                                         <option value="php">관광명소</option>
                                         <option value="java">카페</option>
@@ -237,7 +350,7 @@ function DetailedItinerary(){
                                         <option value="python">바</option>
                                         <option value="c#">기타</option>
                                         <option value="C++">미정</option>
-                                    </select>
+                                    </selectDay>
                                     <label htmlFor="timeOfStart">일정 시작 시작: </label>
                                     <input type="datetime-local" name="timeOfStart" id="timeOfStart" required onChange={handleChange} min={moment(itineraryByDate.date).startOf("day").format("YYYY-MM-DD HH:mm")} max={moment(itineraryByDate.date).endOf("day").format("YYYY-MM-DD HH:mm")}/>
                                     <label htmlFor="timeOfEnd">일정 종료 시간: </label>

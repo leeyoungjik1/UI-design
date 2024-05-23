@@ -28,7 +28,7 @@ const itinerarySchema = new Schema({
     description: {
         type: String
     },
-    itineraryByDateId: [{
+    itineraryByDateIds: [{
         type: ObjectId,
         ref: 'ItineraryByDate',
         default: null
@@ -68,6 +68,6 @@ module.exports = Itinerary
 //     dateOfStart: moment().startOf("day"),
 //     dateOfEnd: moment().add(1, "d").startOf("day"),
 //     description: '안산 여행 가기',
-//     itineraryByDateId: ['6646fc2752dca9a8bf487d8c', '6646ff2515b0647b5abedc49']
+//     itineraryByDateIds: ['6646fc2752dca9a8bf487d8c', '6646ff2515b0647b5abedc49']
 // })
 // itinerary.save().then(() => console.log('itinerary created !'))

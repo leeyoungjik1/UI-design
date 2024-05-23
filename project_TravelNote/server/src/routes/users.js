@@ -12,6 +12,8 @@ const {
     validateUserId
 } = require('../../validator')
 
+// URL 주소: /api/users
+
 const router = express.Router()
 
 // 회원가입
@@ -133,8 +135,8 @@ const Itinerary = require('../models/Itinerary')
 
 router.get('/test', expressAsyncHandler(async (req, res, next) => {
     const itinerarys = await Itinerary.find().populate('userId').populate({
-        path: 'itineraryByDateId',
-        populate: {path: 'destinationId'}
+        path: 'itineraryByDateIds',
+        populate: {path: 'destinationIds'}
     })
     res.json(itinerarys)
 }))

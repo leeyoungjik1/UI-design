@@ -5,7 +5,7 @@ import moment from 'moment'
 import axios from 'axios'
 // import DatePicker from "../../components/DatePicker";
 
-
+// URL 주소: /itinerary/create
 
 function Create(){
     const navigate = useNavigate()
@@ -50,7 +50,7 @@ function Create(){
                     description: '',
                     isPublic: true
                 })
-                navigate("/itinerary/create")
+                navigate("/itinerary/changelist")
             }).catch((err) => {
                 console.log(err)
             })

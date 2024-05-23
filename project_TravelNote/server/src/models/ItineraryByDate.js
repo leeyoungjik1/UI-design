@@ -7,16 +7,14 @@ const { Types: { ObjectId } } = Schema
 const ItineraryByDateSchema = new Schema({
     day: {
         type: String,
-        required: true,
-        unique: true
+        required: true
     },
     date: {
         type: Date,
         required: true
     },
     accommodationName: {
-        type: String,
-        required: true
+        type: String
     },
     accommodationAddress: {
         type: String
@@ -28,7 +26,12 @@ const ItineraryByDateSchema = new Schema({
     accommodationInfo: {
         type: Object
     },
-    destinationId: [{
+    itineraryId: {
+        type: ObjectId,
+        required: true,
+        ref: 'Itinerary'
+    },
+    destinationIds: [{
         type: ObjectId,
         ref: 'Destination',
         default: null

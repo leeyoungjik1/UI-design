@@ -1,20 +1,22 @@
 import React from 'react'
+import moment from 'moment'
+import './DestinationCard.css'
 
-function DestinationCard({title, address, category, timeOfStart, timeOfEnd, description, cost, status, handleClick, children}){
+function DestinationCard({title, address, category, timeOfStart, timeOfEnd, description, cost, isDone, imgSrc, handleClick, children}){
     return (
         <div>
-            <div>{status}</div>
-            <img></img>
+            <div>{isDone ? "완료" : "예정"}</div>
+            <img src={imgSrc}></img>
             <div>{title}</div>
             <div>{address}</div>
             <div>{category}</div>
             <div>
                 <div>
-                    <div>{timeOfStart}</div>
+                    <div>{`${moment(timeOfStart).format('HH:mm')}`}</div>
                 </div>
                 <div>~</div>
                 <div>
-                    <div>{timeOfEnd}</div>
+                    <div>{`${moment(timeOfEnd).format('HH:mm')}`}</div>
                 </div>
             </div>
             <div>{description}</div>

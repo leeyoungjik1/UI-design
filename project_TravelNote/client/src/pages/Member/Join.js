@@ -3,6 +3,8 @@ import  "../../styles/join.css";
 import { useNavigate } from 'react-router-dom'
 import API from '../../API'
 
+// URL 주소: /join
+
 function Join(){
     const navigate = useNavigate()
 

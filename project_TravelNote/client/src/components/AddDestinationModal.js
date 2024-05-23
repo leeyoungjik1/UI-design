@@ -4,8 +4,9 @@ import { useParams, useNavigate, NavLink, useSearchParams, useLocation } from 'r
 import moment from 'moment'
 import GoogleMap from "./GoogleMap";
 
+// URL 주소: /itinerary/details/:itineraryId
 
-function AddDestinationModal({selectedDate}){
+function AddDestinationModal({selectedDate, itineraryByDateId, changeSubmit}){
     const navigate = useNavigate()
 
     const [destinationGoogleData, setDestinationGoogleData] = useState({
@@ -33,24 +34,9 @@ function AddDestinationModal({selectedDate}){
         destinationInfo: {}
     })
 
-    console.log(formData)
-    // console.log(itineraryByDate.date)
-    // console.log(destinationGoogleData)
-    // console.log(day)
-
+    // console.log(formData)
 
     const params = useParams()
-
-    // 전체 일정 중 달력에서 날짜를 선택
-    // const selecteDate = (e) => {
-    //     const diffDate = moment(e.target.value).diff(moment(itinerary.dateOfStart), 'days')
-
-    //     setDay({
-    //         date: e.target.value, 
-    //         dayOfDate: `${diffDate+1}일차`, 
-    //         message: `${diffDate+1}일차 ${e.target.value}`
-    //     })
-    // }
 
     // 구글 지도에서 위치를 선택하였을때 숙소 정보에 대한 데이터 저장
     const getDestinationSearched = (data) => {
@@ -70,23 +56,38 @@ function AddDestinationModal({selectedDate}){
     }
 
     const handleChange = (e) => {
-        if(e.target.type === "datetime-local"){
-            // console.log(`'시작 시간': ${timeOfStart}, '종료 시간': ${timeOfEnd}`)
-            if(timeOfStart && timeOfEnd){
-                if(!moment(timeOfStart).isBefore(moment(timeOfEnd))){
-                    setFormData({ ...formData, timeOfStart: timeOfEnd})
-                    alert('시간 선택 오류')
-                }
-            }
-            // console.log(moment(timeOfStart).isBefore(moment(timeOfEnd)))
-        }
         const { name, value} = e.target 
         setFormData({ ...formData, [name]: value })
+
+        // 시작 시간 < 종료 시간
+        if(moment(timeOfEnd).isBefore(moment(timeOfStart))){
+            setFormData({ ...formData, timeOfEnd: ''})
+            alert('시간 선택 오류')
+        }
     }
 
-    // 최종 ItineraryByDate 모델에 대한 데이터 서버로 전송
+    // 최종 Destination 모델에 대한 데이터 서버로 전송
     const handleSubmit = (e) => {
         e.preventDefault()
+        axios.get('http://127.0.0.1:5000/api/users/getId', {
+            headers: {
+                'Constent-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
+            }
+        }).then((res) => {
+            axios.post(`http://127.0.0.1:5000/api/itinerarys/destination/create/${itineraryByDateId}`, formData, {
+                headers: {
+                    'Constent-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem("token")}`
+                }
+            }).then((res) => {
+                console.log(res)
+                changeSubmit(res)
+                // navigate(`/itinerary/details/${params.itineraryId}`)
+            }).catch((err) => {
+                console.log(err)
+            })
+        })
     }
     
 
@@ -133,7 +134,7 @@ function AddDestinationModal({selectedDate}){
                 <label htmlFor="timeOfStart">일정 시작 시작: </label>
                 <input type="datetime-local" name="timeOfStart" id="timeOfStart" required onChange={handleChange} value={timeOfStart} min={moment(selectedDate).startOf("day").format("YYYY-MM-DD HH:mm")} max={moment(selectedDate).endOf("day").format("YYYY-MM-DD HH:mm")}/>
                 <label htmlFor="timeOfEnd">일정 종료 시간: </label>
-                <input type="datetime-local" name="timeOfEnd" id="timeOfEnd" required onChange={handleChange} value={timeOfEnd} min={moment(timeOfStart).format("YYYY-MM-DD HH:mm")} max={moment(selectedDate).format("YYYY-MM-DD HH:mm")}/>
+                <input type="datetime-local" name="timeOfEnd" id="timeOfEnd" required onChange={handleChange} value={timeOfEnd} min={moment(selectedDate).startOf("day").format("YYYY-MM-DD HH:mm")} max={moment(selectedDate).endOf("day").format("YYYY-MM-DD HH:mm")}/>
                 <label htmlFor="description">여행지 내용: </label>
                 <input type="text" name="description" id="description" onChange={handleChange} value={description || ''}/>
                 <label htmlFor="cost">예상 비용: </label>
