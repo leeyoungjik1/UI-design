@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { useState, useEffect } from "react";
 import moment from 'moment'
 import './DestinationCard.css'
+import ModDestinationCard from "./ModDestinationCard";
 
-function DestinationCard({title, address, category, timeOfStart, timeOfEnd, description, cost, isDone, imgSrc, handleClick, children}){
+function DestinationCard({title, address, category, timeOfStart, timeOfEnd, description, cost, isDone, imgSrc, modDestinationCards, destinationId, changeSubmit, handleClick, children}){
+    const findDestinationId = modDestinationCards.find(modDestinationCard => modDestinationCard === destinationId)
+
     return (
         <div>
             <div>{isDone ? "완료" : "예정"}</div>
@@ -24,6 +27,13 @@ function DestinationCard({title, address, category, timeOfStart, timeOfEnd, desc
             <div onClick={handleClick}>
                 {children}
             </div>
+            <ModDestinationCard 
+                // selectedDate={itineraryByDate.date}
+                destinationId={destinationId}
+                // changeSubmit={changeSubmitServer}
+                changeSubmit={changeSubmit}
+                isShow={findDestinationId ? true : false}
+            />
         </div>
     )
 }

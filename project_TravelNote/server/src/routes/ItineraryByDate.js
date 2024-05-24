@@ -4,6 +4,7 @@ const ItineraryByDate = require('../models/ItineraryByDate')
 const { isAuth } = require('../../auth')
 const expressAsyncHandler = require('express-async-handler')
 const moment = require('moment')
+const momentTimezone = require('moment-timezone')
 const { validationResult, oneOf } = require('express-validator')
 const {
     validateUserName,
@@ -36,10 +37,11 @@ router.post('/create/:itineraryId', [
             path: 'itineraryByDateIds',
             populate: {path: 'destinationIds'}
         })
+        const ChangeDate = momentTimezone(req.body.date).tz("Asia/Seoul").format("YYYY-MM-DD HH:mm:ss")
+
         const itineraryByDate = new ItineraryByDate({
             itineraryId: req.params.itineraryId,
-            day: req.body.day,
-            date: req.body.date,
+            date: ChangeDate,
             accommodationName: req.body.accommodationName,
             accommodationAddress: req.body.accommodationAddress,
             accommodationCost: req.body.accommodationCost,

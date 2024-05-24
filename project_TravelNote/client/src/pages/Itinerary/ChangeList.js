@@ -58,19 +58,15 @@ function ChangeList(){
         // console.dir(e.target.innerText)
         switch(e.target.innerText){
             case '수정':
-                console.log('수정')
                 navigate(`/itinerary/details/${e.target.id}`)
                 break
             case '삭제':
-                console.log('삭제')
                 handleDelete(e)
                 break
             case '완료':
-                console.log('완료')
                 handleisDone(e, true)
                 break
             case '예정':
-                console.log('예정')
                 handleisDone(e, false)
                 break
         }
@@ -86,21 +82,26 @@ function ChangeList(){
         })
         .then((res) => setList(res.data.Itinerarys))
     }, [])
-    console.log(list)
     return (
         <div>
             <h1>Itinerary Change List PAGE</h1>
             {list.length !== 0 && list.map((itinerary, id) => {
-                console.log(itinerary)
-                const imgSrcSearched = itinerary.itineraryByDateIds.map((itineraryByDateId) => {
+                const imgSrcSearched1 = itinerary.itineraryByDateIds.map((itineraryByDateId) => {
                     return (
                         itineraryByDateId.destinationIds.map((destinationId) => {
                             return destinationId.destinationInfo.photoUrl
                         })
                     )
                 })
-                console.log(imgSrcSearched)
-                // console.log(`테스트: ${test}`)
+                const imgSrcSearched2 = imgSrcSearched1.find(res => {
+                    return res.length !== 0 && res[0] !== ''
+                })
+                let imgSrcSearched3 = undefined
+                if(imgSrcSearched2){
+                    imgSrcSearched3 = imgSrcSearched2.find(res => {
+                        return res
+                    })
+                }
                 return (
                     <ItineraryCard
                         key={id}
@@ -111,7 +112,7 @@ function ChangeList(){
                         title={itinerary.title}
                         status={itinerary.status}
                         open={itinerary.open}
-                        imgSrc={imgSrcSearched}
+                        imgSrc={imgSrcSearched3 || "https://images.unsplash.com/photo-1500835556837-99ac94a94552?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"}
                         // imgSrc={
                         //     itinerary.itineraryByDateIds.length === 0 ?
                         //     "https://images.unsplash.com/photo-1500835556837-99ac94a94552?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" :

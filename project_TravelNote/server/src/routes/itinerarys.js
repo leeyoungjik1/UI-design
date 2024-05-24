@@ -5,7 +5,7 @@ const Destination = require('../models/Destination')
 const { isAuth } = require('../../auth')
 const expressAsyncHandler = require('express-async-handler')
 const moment = require('moment')
-const momentTimezone = require('moment-timezone');
+const momentTimezone = require('moment-timezone')
 const { validationResult, oneOf } = require('express-validator')
 const {
     validateUserName,
@@ -127,8 +127,8 @@ router.put('/changelist/:itineraryId', [
 // 선택한 일정 삭제
 router.delete('/changelist/:itineraryId', isAuth, expressAsyncHandler(async (req, res, next) => {
     const itinerary = await Itinerary.findByIdAndDelete(req.params.itineraryId)
-    ItineraryByDate.deleteMany({itineraryId: req.params.itineraryId})
-    Destination.deleteMany({itineraryId: req.params.itineraryId})
+    const itineraryByDate = await ItineraryByDate.deleteMany({itineraryId: req.params.itineraryId})
+    const destination = await Destination.deleteMany({itineraryId: req.params.itineraryId})
     // console.log(itinerary)
     if(!itinerary){
         res.status(404).json({code: 404, message: '해당 일정 내역 없음'})
@@ -150,8 +150,8 @@ router.get('/details/:itineraryId', [
     if(!itinerary){
         res.status(404).json({code: 404, message: '해당 일정 내역 없음'})
     }else{
-        const {city, dateOfEnd, dateOfStart, description, itineraryByDateIds, title, _id, status, open} = itinerary
-        res.json({code: 200, city, dateOfEnd, dateOfStart, description, itineraryByDateIds, title, _id, status, open})
+        const {city, dateOfEnd, dateOfStart, description, itineraryByDateIds, title, _id, isPublic, status, open} = itinerary
+        res.json({code: 200, city, dateOfEnd, dateOfStart, description, itineraryByDateIds, title, _id, isPublic, status, open})
     }
 }))
 

@@ -5,10 +5,6 @@ const { Schema } = mongoose
 const { Types: { ObjectId } } = Schema
 
 const ItineraryByDateSchema = new Schema({
-    day: {
-        type: String,
-        required: true
-    },
     date: {
         type: Date,
         required: true
