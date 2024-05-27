@@ -5,6 +5,7 @@ const { isAuth } = require('../../auth')
 const expressAsyncHandler = require('express-async-handler')
 const moment = require('moment')
 const momentTimezone = require('moment-timezone');
+const mongoose = require('mongoose')
 const { validationResult, oneOf } = require('express-validator')
 const {
     validateUserName,
@@ -91,19 +92,23 @@ router.put('/:destinationId', [
         })
     }else{
         const destination = await Destination.findById(req.params.destinationId)
-        // console.log(destination)
+        console.log(req.body.timeOfStart)
+        console.log(destination.timeOfStart)
         if(!destination){
             res.status(404).json({code: 404, message: '해당 목적지 내역 없음'})
         }else{
             destination.title = req.body.title || destination.title
             destination.address = req.body.address || destination.address
             destination.category = req.body.category || destination.category
-            destination.timeOfStart = momentTimezone(req.body.timeOfStart).tz("Asia/Seoul").format("YYYY-MM-DD HH:mm:ss") || destination.timeOfStart
-            destination.timeOfEnd = momentTimezone(req.body.timeOfEnd).tz("Asia/Seoul").format("YYYY-MM-DD HH:mm:ss") || destination.timeOfEnd
+            destination.timeOfStart = req.body.timeOfStart ? momentTimezone(req.body.timeOfStart).tz("Asia/Seoul").format("YYYY-MM-DD HH:mm:ss") : destination.timeOfStart
+            destination.timeOfEnd = req.body.timeOfEnd ? momentTimezone(req.body.timeOfEnd).tz("Asia/Seoul").format("YYYY-MM-DD HH:mm:ss") : destination.timeOfEnd
             destination.description = req.body.description || destination.description
             destination.cost = req.body.cost || destination.cost
             destination.destinationInfo = req.body.destinationInfo || destination.destinationInfo
             destination.title = req.body.title || destination.title
+            if(req.body.isDone !== undefined){
+                destination.isDone = req.body.isDone
+            }
             destination.lastModifiedAt = moment()
 
             const updatedDestination = await destination.save()
@@ -117,39 +122,32 @@ router.put('/:destinationId', [
 }))
 
 // 선택한 목적지 삭제
-// router.delete('/:destinationId', isAuth, expressAsyncHandler(async (req, res, next) => {
-//     const destinationDeleted = await Destination.findByIdAndDelete(req.params.destinationId)
-//     const itineraryByDate = await ItineraryByDate.findById(req.params.itineraryByDateId)
-//     itineraryByDate.destinationIds = []
-//     itineraryByDate.save()
-//     // const destinations = await Destination.find({itineraryByDateId: req.params.itineraryByDateId})
-//     // destinations.forEach(destination => {
-//     //     console.log(destination._id)
-//     //     const destinationIdsDeleted = itineraryByDate.destinationIds.filter(destinationId => {
-//     //         return destinationId ==! destination._id
-//     //     })
-//     // })
-//     if(!destinationsDeleted){
-//         res.status(404).json({code: 404, message: '해당 일정 내역 없음'})
-//     }else{
-//         res.status(204).json({code: 204, message: 'Destinations deleted successfully'})
-//     }
-// }))
+router.delete('/:itineraryByDateId/:destinationId', isAuth, expressAsyncHandler(async (req, res, next) => {
+    const destinationDeleted = await Destination.findByIdAndDelete(req.params.destinationId)
+    const itineraryByDate = await ItineraryByDate.findById(req.params.itineraryByDateId)
+
+    const destinationIdsDeleted = itineraryByDate.destinationIds.filter(destinationId => {
+        return destinationId.toString() !== req.params.destinationId
+    })
+    itineraryByDate.destinationIds = destinationIdsDeleted
+    itineraryByDate.save()
+
+    if(!destinationDeleted){
+        res.status(404).json({code: 404, message: '해당 일정 내역 없음'})
+    }else{
+        res.status(204).json({code: 204, message: `Destination deleted successfully`})
+    }
+}))
 
 
 // 선택한 일차의 목적지 전체 삭제
 router.delete('/:itineraryByDateId', isAuth, expressAsyncHandler(async (req, res, next) => {
+    console.log(req.params)
     const destinationsDeleted = await Destination.deleteMany({itineraryByDateId: req.params.itineraryByDateId})
     const itineraryByDate = await ItineraryByDate.findById(req.params.itineraryByDateId)
     itineraryByDate.destinationIds = []
     itineraryByDate.save()
-    // const destinations = await Destination.find({itineraryByDateId: req.params.itineraryByDateId})
-    // destinations.forEach(destination => {
-    //     console.log(destination._id)
-    //     const destinationIdsDeleted = itineraryByDate.destinationIds.filter(destinationId => {
-    //         return destinationId ==! destination._id
-    //     })
-    // })
+
     if(!destinationsDeleted){
         res.status(404).json({code: 404, message: '해당 일정 내역 없음'})
     }else{

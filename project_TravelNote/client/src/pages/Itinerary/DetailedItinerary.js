@@ -63,7 +63,7 @@ function DetailedItinerary(){
     // console.log(itineraryByDate)
     // console.log(accommodationGoogleData)
     // console.log(day)
-    // console.log(formData)
+    console.log(formData)
 
     // 메인 일정 카드 수정 버튼
     const changeItinerary = (e) => {
@@ -175,6 +175,13 @@ function DetailedItinerary(){
             const modDestinationCardsDeleted = modDestinationCards.filter(id => id !== res.id)
             setModDestinationCards(modDestinationCardsDeleted)
         }else{
+            if(res.name === 'submitAddDes'){
+                setIsDestinationCard(false)
+            }else if(res.name === 'submitModDes'){
+                const modDestinationCardsDeleted = modDestinationCards.filter(id => id !== res.res.data.updatedDestination._id)
+                console.log(modDestinationCardsDeleted)
+                setModDestinationCards(modDestinationCardsDeleted)
+            }
             setSubmitServer(res)
         }  
     }
@@ -210,13 +217,37 @@ function DetailedItinerary(){
                 'Authorization': `Bearer ${localStorage.getItem("token")}`
             }
         }).then((res) => {
-            axios.delete(`http://127.0.0.1:5000/api/itinerarys/changelist/${e.target.id}`, {
+            axios.delete(`http://127.0.0.1:5000/api/itinerarys/destination/${itineraryByDate._id}/${e.target.id}`, {
                 headers: {
                     'Constent-Type': 'application/json',
                     'Authorization': `Bearer ${localStorage.getItem("token")}`
                 }
             }).then((res) => {
-                window.location.reload();
+                console.log(res)
+                setSubmitServer(res)
+            }).catch((err) => {
+                console.log(err)
+            })
+        })
+    }
+
+    // 선택한 목적지 상태(예정, 완료) 변경
+    const handleisDone = (e, changeStatus) => {
+        axios.get('http://127.0.0.1:5000/api/users/getId', {
+            headers: {
+                'Constent-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
+            }
+        }).then((res) => {
+            console.log(changeStatus)
+            axios.put(`http://127.0.0.1:5000/api/itinerarys/destination/${e.target.id}`, {isDone: changeStatus}, {
+                headers: {
+                    'Constent-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem("token")}`
+                }
+            }).then((res) => {
+                console.log(res)
+                setSubmitServer(res)
             }).catch((err) => {
                 console.log(err)
             })
@@ -232,13 +263,13 @@ function DetailedItinerary(){
                 // navigate(`/itinerary/details/${e.target.id}`)
                 break
             case '삭제':
-                // deleteDestination(e)
+                deleteDestination(e)
                 break
             case '완료':
-                // handleisDone(e, true)
+                handleisDone(e, true)
                 break
             case '예정':
-                // handleisDone(e, false)
+                handleisDone(e, false)
                 break
         }
     }
@@ -259,9 +290,11 @@ function DetailedItinerary(){
     useEffect(() => {
         // 해당 일정의 imgSrc 불러오기
         if(itinerary.length !== 0){
-            const imgSrcSearched1 = itinerary.itineraryByDateIds.map((itineraryByDateId) => {
+            const imgSrcSearched1 = itinerary.itineraryByDateIds.map(itineraryByDateId => {
+                // console.log(itineraryByDateId)
                 return (
-                    itineraryByDateId.destinationIds.map((destinationId) => {
+                    itineraryByDateId.destinationIds.map(destinationId => {
+                        // console.log(destinationId)
                         return destinationId.destinationInfo.photoUrl
                     })
                 )
@@ -302,7 +335,8 @@ function DetailedItinerary(){
                     date: itineraryByDateSearched.date,
                     accommodationName: itineraryByDateSearched.accommodationName,
                     accommodationAddress: itineraryByDateSearched.accommodationAddress,
-                    accommodationCost: itineraryByDateSearched.accommodationCost
+                    accommodationCost: itineraryByDateSearched.accommodationCost,
+                    accommodationInfo: itineraryByDateSearched.accommodationInfo
                 })
             }else{
                 setFormData({
@@ -310,7 +344,17 @@ function DetailedItinerary(){
                     date: day.date,
                     accommodationName: '',
                     accommodationAddress: '',
-                    accommodationCost: null
+                    accommodationCost: null,
+                    accommodationInfo: {
+                        name: '',
+                        formatted_address: '',
+                        location: {
+                            lat: '',
+                            lng: ''
+                        },
+                        photoUrl: '',
+                        place_id: '',
+                    }
                 })
             }
         }
@@ -388,6 +432,10 @@ function DetailedItinerary(){
                     <div>
                         <div>
                             <h2>숙소</h2>
+                            <img src={formData && 
+                                formData.accommodationInfo.photoUrl ||
+                                "https://images.unsplash.com/photo-1500835556837-99ac94a94552?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                }></img>
                             <form onSubmit={handleSubmit}>
                                 <label htmlFor="accommodationName">숙소명: </label>
                                 <input type="text" name="accommodationName" id="accommodationName" onChange={handleChange} value={accommodationName || ''} required/>
@@ -434,7 +482,7 @@ function DetailedItinerary(){
                                         >
                                             <button id={destinationId._id}>수정</button>
                                             <button id={destinationId._id}>삭제</button>
-                                            <button id={destinationId._id}>완료</button>
+                                            <button id={destinationId._id}>{destinationId.isDone ? "예정" : "완료"}</button>
                                         </DestinationCard>
                                     )
                                 })

@@ -73,15 +73,16 @@ function ChangeList(){
     }
 
 
-
+    // 변경할 전체 일정 리스트 가져오기
     useEffect(() => {
-        axios.get('http://127.0.0.1:5000/api/itinerarys/changelist', {
+        axios.get('http://127.0.0.1:5000/api/itinerarys/list', {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem("token")}`
             }
         })
         .then((res) => setList(res.data.Itinerarys))
     }, [])
+
     return (
         <div>
             <h1>Itinerary Change List PAGE</h1>

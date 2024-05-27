@@ -1,6 +1,16 @@
 import './App.css';
 import { Route, Routes } from 'react-router-dom'
-import { Home, Login, Join, ItinerMain, ItinerCreate, ItinerModify, ItinerChangeList, DetailedItinerary, NotFound } from './pages'
+import {
+  Home,
+  Login,
+  Join,
+  ItinerMain,
+  ItinerCreate,
+  ItinerModify,
+  ItinerChangeList,
+  DetailedItinerary,
+  MyItinerList,
+  NotFound } from './pages'
 
 function App() {
   return (
@@ -17,6 +27,9 @@ function App() {
           <Route exact path='/itinerary/changelist' element={<ItinerChangeList/>}/>
           <Route exact path='/itinerary/details' element={<DetailedItinerary/>}>
             <Route exact path=':itineraryId' element={<DetailedItinerary/>}/>
+          </Route>
+          <Route exact path='/itinerary/myitinerary' element={<MyItinerList/>}>
+            <Route exact path=':itineraryId' element={<MyItinerList/>}/>
           </Route>
         </Route>
         <Route path='*' element={<NotFound/>}/>

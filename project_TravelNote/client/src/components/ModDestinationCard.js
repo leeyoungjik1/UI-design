@@ -7,7 +7,7 @@ import './ModDestinationCard.css'
 
 // URL 주소: /itinerary/details/:itineraryId
 
-function ModDestinationCard({selectedDate, destinationId, changeSubmit, isShow}){
+function ModDestinationCard({destinationId, changeSubmit, isShow}){
     const navigate = useNavigate()
     const params = useParams()
 
@@ -33,7 +33,7 @@ function ModDestinationCard({selectedDate, destinationId, changeSubmit, isShow})
                 }
             })
             .then((res) => {
-                // console.log(res)
+                console.log(res)
                 setFormData({
                     title: res.data.title,
                     address: res.data.address,
@@ -99,7 +99,7 @@ function ModDestinationCard({selectedDate, destinationId, changeSubmit, isShow})
                     }
                 }).then((res) => {
                     console.log(res)
-                    changeSubmit(res)
+                    changeSubmit({name: 'submitModDes', res: res})
                 }).catch((err) => {
                     console.log(err)
                 })
@@ -156,9 +156,9 @@ function ModDestinationCard({selectedDate, destinationId, changeSubmit, isShow})
                     <option value="미정">미정</option>
                 </select>
                 <label htmlFor="timeOfStart">일정 시작 시작: </label>
-                <input type="datetime-local" name="timeOfStart" id="timeOfStart" required onChange={handleChange} value={timeOfStart} min={moment(selectedDate).startOf("day").format("YYYY-MM-DD HH:mm")} max={moment(selectedDate).endOf("day").format("YYYY-MM-DD HH:mm")}/>
+                <input type="datetime-local" name="timeOfStart" id="timeOfStart" required onChange={handleChange} value={timeOfStart} min={moment(timeOfStart).startOf("day").format("YYYY-MM-DD HH:mm")} max={moment(timeOfStart).endOf("day").format("YYYY-MM-DD HH:mm")}/>
                 <label htmlFor="timeOfEnd">일정 종료 시간: </label>
-                <input type="datetime-local" name="timeOfEnd" id="timeOfEnd" required onChange={handleChange} value={timeOfEnd} min={moment(timeOfStart).format("YYYY-MM-DD HH:mm")} max={moment(selectedDate).endOf("day").format("YYYY-MM-DD HH:mm")}/>
+                <input type="datetime-local" name="timeOfEnd" id="timeOfEnd" required onChange={handleChange} value={timeOfEnd} min={moment(timeOfStart).format("YYYY-MM-DD HH:mm")} max={moment(timeOfStart).endOf("day").format("YYYY-MM-DD HH:mm")}/>
                 <label htmlFor="description">여행지 내용: </label>
                 <input type="text" name="description" id="description" onChange={handleChange} value={description || ''}/>
                 <label htmlFor="cost">예상 비용: </label>

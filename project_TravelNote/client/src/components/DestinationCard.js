@@ -28,9 +28,7 @@ function DestinationCard({title, address, category, timeOfStart, timeOfEnd, desc
                 {children}
             </div>
             <ModDestinationCard 
-                // selectedDate={itineraryByDate.date}
                 destinationId={destinationId}
-                // changeSubmit={changeSubmitServer}
                 changeSubmit={changeSubmit}
                 isShow={findDestinationId ? true : false}
             />

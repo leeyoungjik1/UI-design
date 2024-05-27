@@ -6,6 +6,7 @@ const { isAuth } = require('../../auth')
 const expressAsyncHandler = require('express-async-handler')
 const moment = require('moment')
 const momentTimezone = require('moment-timezone')
+const mongoose = require('mongoose')
 const { validationResult, oneOf } = require('express-validator')
 const {
     validateUserName,
@@ -62,25 +63,65 @@ router.post('/create', [
 }))
 
 
-// 변경할 전체 일정 리스트 가져오기
-router.get('/changelist', [
+// 해당 사용자 전체 일정 리스트 가져오기
+router.get('/list', [
 
 ], isAuth, expressAsyncHandler(async (req, res, next) => {
-    const itinerarys = await Itinerary.find({userId: req.user._id}).populate({
-        path: 'itineraryByDateIds',
-        populate: {path: 'destinationIds'}
-    })
-    // console.log(itinerarys)
+    let itinerarys = null
+    if(req.query.filter === 'lastModifiedAt'){
+        itinerarys = await Itinerary.find({userId: req.user._id})
+        .sort({lastModifiedAt: -1})
+        .populate({
+            path: 'itineraryByDateIds',
+            populate: {path: 'destinationIds'}
+        })
+    }else{
+        itinerarys = await Itinerary.find({userId: req.user._id})
+        .sort({dateOfStart: 1})
+        .populate({
+            path: 'itineraryByDateIds',
+            populate: {path: 'destinationIds'}
+        })
+    }
     if(itinerarys.length === 0){
         res.status(404).json({code: 404, message: '사용자의 일정 내역 없음'})
     }else{
         const result = itinerarys.map((itinerary) => {
-            const {city, dateOfEnd, dateOfStart, description, itineraryByDateIds, title, _id, status, open, isDone} = itinerary
-            return {city, dateOfEnd, dateOfStart, description, itineraryByDateIds, title, _id, status, open, isDone}
+            const {city, dateOfEnd, dateOfStart, description, itineraryByDateIds, title, _id, status, open, isDone, lastModifiedAt} = itinerary
+            return {city, dateOfEnd, dateOfStart, description, itineraryByDateIds, title, _id, status, open, isDone, lastModifiedAt}
         })
         res.json({code: 200, Itinerarys: result})
     }
 }))
+
+// 해당 일정 전체 예상 비용 가져오기
+router.get('/totalcost', [
+
+], isAuth, expressAsyncHandler(async (req, res, next) => {
+    const accommodationCosts = await ItineraryByDate.aggregate([
+        {$match: {itineraryId: new mongoose.Types.ObjectId(req.query.itineraryId)}},
+        {$group: {
+            _id: "$itineraryId",
+            total: {$sum: "$accommodationCost"}
+        }}
+    ])
+    const destinationCosts = await Destination.aggregate([
+        {$match: {itineraryId: new mongoose.Types.ObjectId(req.query.itineraryId)}},
+        {$group: {
+            _id: "$itineraryId",
+            total: {$sum: "$cost"}
+        }}
+    ])
+    console.log(accommodationCosts)
+    console.log(destinationCosts)
+    let totalcost = 0
+    if(accommodationCosts.length !== 0 || destinationCosts.length !== 0){
+        totalcost = accommodationCosts[0].total + destinationCosts[0].total
+    }
+    // console.log(totalcost)
+    res.json({code: 200, totalcost})
+}))
+
 
 // 선택한 일정 수정
 router.put('/changelist/:itineraryId', [
