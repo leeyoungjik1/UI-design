@@ -32,7 +32,16 @@ function AddDestinationCard({selectedDate, itineraryByDateId, changeSubmit, isSh
         timeOfEnd: '',
         description: '',
         cost: '',
-        destinationInfo: {}
+        destinationInfo: {
+            name: '',
+            formatted_address: '',
+            location: {
+                lat: '',
+                lng: ''
+            },
+            photoUrl: '',
+            place_id: '',
+        }
     })
 
     // console.log(formData)
@@ -80,7 +89,7 @@ function AddDestinationCard({selectedDate, itineraryByDateId, changeSubmit, isSh
                     }
                 }).then((res) => {
                     console.log(res)
-                    changeSubmit(res)
+                    changeSubmit({name: 'submitAddDes', res: res})
                     setFormData({
                         title: '',
                         address: '',
@@ -89,7 +98,16 @@ function AddDestinationCard({selectedDate, itineraryByDateId, changeSubmit, isSh
                         timeOfEnd: '',
                         description: '',
                         cost: '',
-                        destinationInfo: {}
+                        destinationInfo: {
+                            name: '',
+                            formatted_address: '',
+                            location: {
+                                lat: '',
+                                lng: ''
+                            },
+                            photoUrl: '',
+                            place_id: '',
+                        }
                     })
                     // navigate(`/itinerary/details/${params.itineraryId}`)
                 }).catch((err) => {
