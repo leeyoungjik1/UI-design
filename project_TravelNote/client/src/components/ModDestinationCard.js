@@ -22,7 +22,7 @@ function ModDestinationCard({destinationId, changeSubmit, isShow}){
         cost: '',
         destinationInfo: {}
     })
-    // console.log(formData)
+    console.log(formData)
 
     // 목적지 데이터 가져오기
     useEffect(() => {
