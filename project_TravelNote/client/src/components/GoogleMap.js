@@ -12,7 +12,7 @@ import {
 } from "@vis.gl/react-google-maps";
 import './GoogleMap.css'
 
-const API_KEY = "AIzaSyC7aPamGSCDt9s5iw0Pl3Tx35R2zUVFs8I";
+const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY
 
 const GoogleMap = ({handleChange}) => {
     const [selectedPlace, setSelectedPlace] = useState(null);

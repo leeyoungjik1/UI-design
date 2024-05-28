@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios'
 import moment from 'moment'
+import { useParams, useNavigate, Link, useSearchParams, useLocation } from 'react-router-dom'
 
 
-function MyItineraryCard({itinerary}){
+function MyItineraryCard({itinerary, handleClick}){
+    const navigate = useNavigate()
+
     console.log(itinerary)
     const [totalcost, setTotalcost] = useState(0)
 
@@ -31,15 +34,24 @@ function MyItineraryCard({itinerary}){
         }
     }
 
+    const changePage = (e) => {
+        // console.dir(e.target.id)
+        if(e.target.tagName !== 'BUTTON'){
+            if(e.target.id){
+                navigate(`/itinerary/myitinerary/${e.target.id}`)
+            }
+        }
+    }
+
     // 일정 총 예상 비용 불러오기
     useEffect(() => {
-        axios.get(`http://127.0.0.1:5000/api/itinerarys/totalcost?itineraryId=${itinerary._id}`, {
+        axios.get(`http://127.0.0.1:5000/api/itinerarys/totalcost/${itinerary._id}`, {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem("token")}`
             }
         })
         .then((res) => {
-            console.log(res)
+            // console.log(res)
             setTotalcost(res.data.totalcost)
         })
     }, [])
@@ -47,24 +59,24 @@ function MyItineraryCard({itinerary}){
     // D-day 설정
     const diffDate = moment().startOf('day').diff(moment(itinerary.dateOfStart), 'days')
 
-    const {open, status, title, city, dateOfStart, dateOfEnd, description} = itinerary
+    const {open, status, title, city, dateOfStart, dateOfEnd, description, _id} = itinerary
     return (
-        <div>
+        <div onClick={changePage}>
             <div>
                 <div>{open}</div>
-                <button>{status}</button>
+                <button onClick={handleClick}>{status}</button>
             </div>
-            <div>
-                <img src={imgSrc}></img>
+            <div id={_id}>
+                <img src={imgSrc} alt={title} id={_id}></img>
                 <div>
                     <div>
                         <div>D{diffDate === 0 ? '-day' : diffDate > 0 ? '+' + diffDate : diffDate}</div>
                         <div>{title}</div>
-                        <div>공유하기 아이콘</div>
+                        <button>공유하기 아이콘</button>
                     </div>
                     <div>{city}</div>
                     <div>{moment(dateOfStart).format('YYYY-MM-DD')} ~ {moment(dateOfEnd).format('YYYY-MM-DD')}</div>
-                    <div>예상 비용: {totalcost.toLocaleString()}원</div>
+                    <div>예상 비용: {Number(totalcost).toLocaleString()}원</div>
                     <div>{description}</div>
                 </div>
             </div>

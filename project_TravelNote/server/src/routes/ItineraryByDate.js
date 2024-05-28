@@ -1,6 +1,8 @@
 const express = require('express')
 const Itinerary = require('../models/Itinerary')
 const ItineraryByDate = require('../models/ItineraryByDate')
+const Destination = require('../models/Destination')
+const mongoose = require('mongoose')
 const { isAuth } = require('../../auth')
 const expressAsyncHandler = require('express-async-handler')
 const moment = require('moment')
@@ -95,5 +97,26 @@ router.put('/:ItineraryByDateId', [
     }
 }))
 
+// 해당 일차의 전체 예상 비용 가져오기
+router.get('/totalcost/:ItineraryByDateId', [
+
+], isAuth, expressAsyncHandler(async (req, res, next) => {
+    const itineraryByDate = await ItineraryByDate.findById(req.params.ItineraryByDateId)
+
+    const destinationCosts = await Destination.aggregate([
+        {$match: {itineraryByDateId: new mongoose.Types.ObjectId(req.params.ItineraryByDateId)}},
+        {$group: {
+            _id: "$itineraryId",
+            total: {$sum: "$cost"}
+        }}
+    ])
+
+    let totalcost = itineraryByDate.accommodationCost
+    if(destinationCosts.length !== 0){
+        totalcost = totalcost + destinationCosts[0].total
+    }
+
+    res.json({code: 200, totalcost})
+}))
 
 module.exports = router

@@ -10,6 +10,7 @@ import {
   ItinerChangeList,
   DetailedItinerary,
   MyItinerList,
+  MyDetailedItinerary,
   NotFound } from './pages'
 
 function App() {
@@ -28,8 +29,9 @@ function App() {
           <Route exact path='/itinerary/details' element={<DetailedItinerary/>}>
             <Route exact path=':itineraryId' element={<DetailedItinerary/>}/>
           </Route>
-          <Route exact path='/itinerary/myitinerary' element={<MyItinerList/>}>
-            <Route exact path=':itineraryId' element={<MyItinerList/>}/>
+          <Route exact path='/itinerary/myitinerary' element={<MyItinerList/>}/>
+          <Route exact path='/itinerary/myitinerary' element={<MyDetailedItinerary/>}>
+            <Route exact path=':itineraryId' element={<MyDetailedItinerary/>}/>
           </Route>
         </Route>
         <Route path='*' element={<NotFound/>}/>
