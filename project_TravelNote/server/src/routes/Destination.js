@@ -92,8 +92,8 @@ router.put('/:destinationId', [
         })
     }else{
         const destination = await Destination.findById(req.params.destinationId)
-        console.log(req.body.timeOfStart)
-        console.log(destination.timeOfStart)
+        // console.log(req.body.timeOfStart)
+        // console.log(destination.timeOfStart)
         if(!destination){
             res.status(404).json({code: 404, message: '해당 목적지 내역 없음'})
         }else{
