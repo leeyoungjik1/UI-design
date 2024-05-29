@@ -64,7 +64,7 @@ function MyItineraryCard({itinerary, handleClick}){
         <div onClick={changePage}>
             <div>
                 <div>{open}</div>
-                <button onClick={handleClick}>{status}</button>
+                <button onClick={handleClick} id={_id}>{status}</button>
             </div>
             <div id={_id}>
                 <img src={imgSrc} alt={title} id={_id}></img>

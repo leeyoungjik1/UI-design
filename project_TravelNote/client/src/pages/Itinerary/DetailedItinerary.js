@@ -152,7 +152,7 @@ function DetailedItinerary(){
                 'Authorization': `Bearer ${localStorage.getItem("token")}`
             }
         }).then((res) => {
-            axios.put(`http://127.0.0.1:5000/api/itinerarys/bydate/${itineraryByDate._id}`, formData, {
+            axios.post(`http://127.0.0.1:5000/api/itinerarys/bydate/${itineraryByDate._id}`, formData, {
                 headers: {
                     'Constent-Type': 'application/json',
                     'Authorization': `Bearer ${localStorage.getItem("token")}`

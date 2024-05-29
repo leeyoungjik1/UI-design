@@ -4,6 +4,7 @@ import axios from 'axios'
 import moment from 'moment'
 import ItineraryByDateButton from '../../components/ItineraryByDateButton'
 import ItineraryByDateCard from '../../components/ItineraryByDateCard'
+import GoogleDirectionsMap from "../../components/GoogleDirectionsMap";
 
 
 // URL 주소: /itinerary/myitinerary/:itineraryId
@@ -107,7 +108,7 @@ function DetailedItinerary(){
                                 })
                             }
                         </div>
-                        <div>구글 지도</div>
+                        <div><GoogleDirectionsMap itinerary={itinerary}/></div>
                     </div>
                 </div>
             </div>

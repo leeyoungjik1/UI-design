@@ -7,16 +7,22 @@ import DestinationBox from "./DestinationBox";
 
 function ItineraryByDateCard({dateOfStart, itineraryByDate}){
     const [totalcost, setTotalcost] = useState(0)
-    const [weather, setWeather] = useState()
-    const [weatherSearched, setWeatherSearched] = useState()
+    const [weather, setWeather] = useState({
+        "weatherIconSrc": "",
+        "temp": {}
+    })
+
+    // console.log(itineraryByDate, weather)
 
     const weatherSearchInDestination = (Searched) => {
-        // console.log(Searched)
-        if(!weatherSearched){
-            setWeatherSearched(Searched)
-        }
+        // console.log('날씨 정보 대체')
+        setWeather(Searched)
+        // if(!weather.weatherIconSrc){
+            
+        //     console.log('날씨 정보 대체2')
+        // }
     }
-    console.log(itineraryByDate, weather)
+
     // 일정 총 예상 비용, 숙소 위치 기반 날씨 정보 불러오기
     useEffect(() => {
         axios.get(`http://127.0.0.1:5000/api/itinerarys/bydate/totalcost/${itineraryByDate._id}`, {
@@ -29,40 +35,42 @@ function ItineraryByDateCard({dateOfStart, itineraryByDate}){
             setTotalcost(res.data.totalcost)
         })
         
-        const lat = itineraryByDate.accommodationInfo.location.lat
-        const lng = itineraryByDate.accommodationInfo.location.lng
-        const APIKey = process.env.REACT_APP_OPENWEATHER_API_KEY
+        if(itineraryByDate.accommodationInfo.location.lat){
+            const lat = itineraryByDate.accommodationInfo.location.lat
+            const lng = itineraryByDate.accommodationInfo.location.lng
+            const APIKey = process.env.REACT_APP_OPENWEATHER_API_KEY
 
-        if(lat){
-            // 4일 후 예보까지 밖에 안나옴
-            // axios.get(`https://api.openweathermap.org/data/3.0/onecall/timemachine?lat=${lat}&lon=${lng}&dt=1716908400&appid=${APIKey}`)
-            axios.get(`https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lng}&exclude=minutely,hourly&units=metric&appid=${APIKey}`)
-            .then((res) => {
-                // console.log(res)
-                setWeather(res.data)
+            // console.log(itineraryByDate, lat, weather)
+            // if(lat){
+            //     axios.get(`https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lng}&exclude=minutely,hourly&units=metric&appid=${APIKey}`)
+            //     .then((res) => {
+            //         console.log(res.data)
+            //         const daySearched = res.data.daily.find(day => {
+            //             console.log(moment(day.dt*1000).format('YYYY-MM-DD'), moment(itineraryByDate.date).format('YYYY-MM-DD'))
+            //             return moment(day.dt*1000).format('YYYY-MM-DD') === moment(itineraryByDate.date).format('YYYY-MM-DD')
+            //         })
+            //         if(daySearched){
+            //             console.log(daySearched)
+            //             setWeather({
+            //                 weatherIconSrc: `http://openweathermap.org/img/wn/${daySearched.weather[0].icon}@2x.png`,
+            //                 temp: daySearched.temp
+            //             })
+            //         }
+            //     })
+            // }
+        }
+
+        return () => {
+            setWeather({
+                "weatherIconSrc": "",
+                "temp": {}
             })
         }
-    }, [])
-
-    // 날씨 아이콘 src불러오기
-    useEffect(() => {
-        if(weather){
-            const daySearched = weather.daily.find(day => {
-                return moment(day.dt*1000).format('YYYY-MM-DD') === moment(itineraryByDate.date).format('YYYY-MM-DD')
-            })
-            if(daySearched){
-                setWeatherSearched({
-                    WeatherIconSrc: `http://openweathermap.org/img/wn/${daySearched.weather[0].icon}@2x.png`,
-                    temp: daySearched.temp
-                })
-            }
-        }
-    }, [weather])
+    }, [itineraryByDate.date])
 
     // D-day 설정
     const diffDate = moment(itineraryByDate.date).diff(moment(dateOfStart), 'days')
 
-    // console.log(`${diffDate+1}일차 ${weatherSearched}`)
     const {
         accommodationName,
         accommodationAddress,
@@ -83,10 +91,10 @@ function ItineraryByDateCard({dateOfStart, itineraryByDate}){
                         <div>{Number(totalcost).toLocaleString()}원</div>
                     </div>
                 </div>
-                {weatherSearched &&
+                {weather.weatherIconSrc &&
                     <div>
-                        <img src={weatherSearched.WeatherIconSrc}></img>
-                        <div>{Math.round(weatherSearched.temp.min)}°C / {Math.round(weatherSearched.temp.max)}°C</div>
+                        <img src={weather.weatherIconSrc}></img>
+                        <div>{Math.round(weather.temp && weather.temp.min)}°C / {Math.round(weather.temp && weather.temp.max)}°C</div>
                     </div>
                 }
             </div>

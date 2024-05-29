@@ -5,11 +5,13 @@ import { useParams, useNavigate, Link, useSearchParams, useLocation } from 'reac
 
 
 function DestinationBox({destination, index, weatherSearch}){
-    const [weather, setWeather] = useState()
-    const [weatherSearched, setWeatherSearched] = useState()
+    const [weather, setWeather] = useState({
+        "weatherIconSrc": "",
+        "temp": {}
+    })
 
+    // console.log(weather, destination)
     // console.log(weather)
-    // console.log(weatherSearched)
     // console.log(`${moment(destination.timeOfStart).format('MM-DD')} ${weather}`)
 
     // 위치 기반 날씨 정보 불러오기
@@ -18,35 +20,33 @@ function DestinationBox({destination, index, weatherSearch}){
         const lng = destination.destinationInfo.location.lng
         const APIKey = process.env.REACT_APP_OPENWEATHER_API_KEY
 
-        if(lat){
-            // 4일 후 예보까지 밖에 안나옴
-            // axios.get(`https://api.openweathermap.org/data/3.0/onecall/timemachine?lat=${lat}&lon=${lng}&dt=1716908400&appid=${APIKey}`)
-            axios.get(`https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lng}&exclude=minutely,hourly&units=metric&appid=${APIKey}`)
-            .then((res) => {
-                // console.log(res)
-                setWeather(res.data)
-            })
-        }
-    }, [])
+        // if(lat){
+        //     axios.get(`https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lng}&exclude=minutely,hourly&units=metric&appid=${APIKey}`)
+        //     .then((res) => {
+        //         const daySearched = res.data.daily.find(day => {
+        //             return moment(day.dt*1000).format('YYYY-MM-DD') === moment(destination.date).format('YYYY-MM-DD')
+        //         })
+        //         if(daySearched){
+        //             setWeather({
+        //                 weatherIconSrc: `http://openweathermap.org/img/wn/${daySearched.weather[0].icon}@2x.png`,
+        //                 temp: daySearched.temp
+        //             })
+        //             // console.log('목적지 날씨 정보를 숙소 날씨로 전송')
+        //             weatherSearch({
+        //                 weatherIconSrc: `http://openweathermap.org/img/wn/${daySearched.weather[0].icon}@2x.png`,
+        //                 temp: daySearched.temp
+        //             })
+        //         }
+        //     })
+        // }
 
-    // 날씨 아이콘 src불러오기
-    useEffect(() => {
-        if(weather){
-            const daySearched = weather.daily.find(day => {
-                return moment(day.dt*1000).format('YYYY-MM-DD') === moment(timeOfStart).format('YYYY-MM-DD')
+        return () => {
+            setWeather({
+                "weatherIconSrc": "",
+                "temp": {}
             })
-            if(daySearched){
-                setWeatherSearched({
-                    WeatherIconSrc: `http://openweathermap.org/img/wn/${daySearched.weather[0].icon}@2x.png`,
-                    temp: daySearched.temp
-                })
-                weatherSearch({
-                    WeatherIconSrc: `http://openweathermap.org/img/wn/${daySearched.weather[0].icon}@2x.png`,
-                    temp: daySearched.temp
-                })
-            }
         }
-    }, [weather])
+    }, [destination.date])
 
     const {
         timeOfStart,
@@ -65,10 +65,10 @@ function DestinationBox({destination, index, weatherSearch}){
             <div>
                 <div>
                     <div>{moment(timeOfStart).format('HH:mm')} ~ {moment(timeOfEnd).format('HH:mm')}</div>
-                    {weatherSearched &&
+                    {weather.weatherIconSrc &&
                         <div>
-                            <img src={weatherSearched.WeatherIconSrc}></img>
-                            <div>{Math.round(weatherSearched.temp.min)}°C / {Math.round(weatherSearched.temp.max)}°C</div>
+                            <img src={weather.weatherIconSrc}></img>
+                            <div>{Math.round(weather.temp.min)}°C / {Math.round(weather.temp.max)}°C</div>
                         </div>
                     }
                     <button>{isDone ? '완료' : '예정'}</button>
