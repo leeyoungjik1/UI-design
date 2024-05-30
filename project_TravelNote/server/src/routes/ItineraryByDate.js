@@ -1,4 +1,5 @@
 const express = require('express')
+const User = require('../models/User')
 const Itinerary = require('../models/Itinerary')
 const ItineraryByDate = require('../models/ItineraryByDate')
 const Destination = require('../models/Destination')
@@ -35,7 +36,9 @@ router.post('/create/:itineraryId', [
         })
     }else{
         // itinerary 배열에 새로 생성된 byDate id값 추가
-        const itinerary = await Itinerary.findById(req.params.itineraryId).populate({
+        const user = await User.findById(req.user._id)
+        const itinerary = await Itinerary.findOne({_id: req.params.itineraryId, userId: user})
+        .populate({
             path: 'itineraryByDateIds',
             populate: {path: 'destinationIds'}
         })
