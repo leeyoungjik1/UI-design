@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Outlet } from 'react-router-dom'
 import axios from 'axios'
+import styles from './Main.module.css'
 
 // URL 주소: /itinerary
 
@@ -19,7 +20,7 @@ function Main(){
 
 
     return (
-        <div>
+        <div className={styles.mainPage}>
             <h1>Itinerary Main PAGE</h1>
             <Outlet/>
         </div>

@@ -1,4 +1,5 @@
-import './App.css';
+import styles from "./App.module.css";
+import './Root.css'
 import { Route, Routes } from 'react-router-dom'
 import {
   Home,
@@ -11,11 +12,14 @@ import {
   DetailedItinerary,
   MyItinerList,
   MyDetailedItinerary,
+  SharedItinerList,
+  SharedDetailedItinerary,
   NotFound } from './pages'
 
 function App() {
   return (
-    <div className="App">
+    <div className={styles.App}>
+      <div className={styles.gnb}>GNB</div>
       <Routes>
         <Route exact path='/' element={<Home/>}/>
         <Route exact path='/join' element={<Join/>}/>
@@ -32,6 +36,10 @@ function App() {
           <Route exact path='/itinerary/myitinerary' element={<MyItinerList/>}/>
           <Route exact path='/itinerary/myitinerary' element={<MyDetailedItinerary/>}>
             <Route exact path=':itineraryId' element={<MyDetailedItinerary/>}/>
+          </Route>
+          <Route exact path='/itinerary/shareditinerary' element={<SharedItinerList/>}/>
+          <Route exact path='/itinerary/shareditinerary' element={<SharedDetailedItinerary/>}>
+            <Route exact path=':itineraryId' element={<SharedDetailedItinerary/>}/>
           </Route>
         </Route>
         <Route path='*' element={<NotFound/>}/>

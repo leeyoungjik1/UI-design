@@ -2,12 +2,11 @@ import React, { useState, useEffect } from "react";
 import axios from 'axios'
 import moment from 'moment'
 import { useParams, useNavigate, Link, useSearchParams, useLocation } from 'react-router-dom'
-import styles from './MyItineraryCard.module.css'
 
-function MyItineraryCard({itinerary, handleClick}){
+
+function SharedItineraryCard({itinerary}){
     const navigate = useNavigate()
 
-    console.log(itinerary)
     const [totalcost, setTotalcost] = useState(0)
 
     // 해당 일정 이미지 불러오기
@@ -38,7 +37,7 @@ function MyItineraryCard({itinerary, handleClick}){
         // console.dir(e.target.id)
         if(e.target.tagName !== 'BUTTON'){
             if(e.target.id){
-                navigate(`/itinerary/myitinerary/${e.target.id}`)
+                navigate(`/itinerary/shareditinerary/${e.target.id}`)
             }
         }
     }
@@ -56,38 +55,25 @@ function MyItineraryCard({itinerary, handleClick}){
         })
     }, [])
 
-    // D-day 설정
-    const diffDate = moment().startOf('day').diff(moment(itinerary.dateOfStart), 'days')
-
-    const {open, status, title, city, dateOfStart, dateOfEnd, description, _id} = itinerary
+    const {title, city, dateOfStart, dateOfEnd, description, _id} = itinerary
     return (
-        <div className={styles.container} onClick={changePage}>
-            <div className={styles.top}>
-                <div>{open}</div>
-                <button onClick={handleClick} id={_id}>{status}</button>
-            </div>
-            <div className={styles.details} id={_id}>
-                <div className={styles.img}>
-                    <img src={imgSrc} alt={title} id={_id}></img>
-                </div>
-                <div className={styles.infomation}>
-                    <div className={styles.infoTop}>
-                        <div>
-                            <div>D{diffDate === 0 ? '-day' : diffDate > 0 ? '+' + diffDate : diffDate}</div>
-                            <div>{title}</div>
-                        </div>
+        <div onClick={changePage}>
+            <div id={_id}>
+                <img src={imgSrc} alt={title} id={_id}></img>
+                <div>
+                    <div>
+                        <div>{title}</div>
                         <button>공유하기 아이콘</button>
                     </div>
-                    <div className={styles.infoMain}>
-                        <div>{city}</div>
-                        <div>{moment(dateOfStart).format('YYYY-MM-DD')} ~ {moment(dateOfEnd).format('YYYY-MM-DD')}</div>
-                        <div>예상 비용: {Number(totalcost).toLocaleString()}원</div>
-                        <div>{description}</div>
-                    </div>
+                    <div>{city}</div>
+                    <div>{moment(dateOfStart).format('YYYY-MM-DD')} ~ {moment(dateOfEnd).format('YYYY-MM-DD')}</div>
+                    <div>예상 비용: {Number(totalcost).toLocaleString()}원</div>
+                    <div>{description}</div>
+                    <div>{`${itinerary.userId.nickName}님의 여행 계획`}</div>
                 </div>
             </div>
         </div>
     )
 }
 
-export default MyItineraryCard
+export default SharedItineraryCard

@@ -63,7 +63,7 @@ function DetailedItinerary(){
     // console.log(itineraryByDate)
     // console.log(accommodationGoogleData)
     // console.log(day)
-    console.log(formData)
+    // console.log(formData)
 
     // 메인 일정 카드 수정 버튼
     const changeItinerary = (e) => {

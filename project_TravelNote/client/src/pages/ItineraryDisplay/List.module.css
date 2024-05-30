@@ -1,0 +1,28 @@
+.listPage{
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid red;
+    box-sizing: border-box;
+}
+
+.filterContronBox{
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    display: flex;
+    margin: 1rem 0;
+    padding: 0 2rem;
+    box-sizing: border-box;
+}
+.filterBtns{
+    display: flex;
+    gap: .5rem;
+}
+.itinerarys{
+    display: flex;
+    flex-flow: column;
+    gap: 1.5rem;
+}

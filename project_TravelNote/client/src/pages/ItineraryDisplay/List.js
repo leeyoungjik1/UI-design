@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios'
 import MyItineraryCard from "../../components/MyItineraryCard";
+import styles from './List.module.css'
 
 
 // URL 주소: /itinerary/myitinerary
@@ -77,10 +78,10 @@ function List(){
     }, [sort, filter])
 
     return (
-        <div>
+        <div className={styles.listPage}>
             <h1>My Itinerary List PAGE</h1>
-            <div>
-                <div onClick={handleChange}>
+            <div className={styles.filterContronBox}>
+                <div className={styles.filterBtns} onClick={handleChange}>
                     <button>전체</button>
                     <button>예정</button>
                     <button>완료</button>
@@ -90,15 +91,17 @@ function List(){
                     <option value="dateOfStart">여행 시작일 순</option>
                 </select>
             </div>
-            {list.length !== 0 && list.map((itinerary, id) => {
-                return (
-                    <MyItineraryCard
-                        key={id}
-                        itinerary={itinerary}
-                        handleClick={changeItinerary}
-                    />
-                )
-            })}
+            <div className={styles.itinerarys}>
+                {list.length !== 0 && list.map((itinerary, id) => {
+                    return (
+                        <MyItineraryCard
+                            key={id}
+                            itinerary={itinerary}
+                            handleClick={changeItinerary}
+                        />
+                    )
+                })}
+            </div>
         </div>
     )
 }

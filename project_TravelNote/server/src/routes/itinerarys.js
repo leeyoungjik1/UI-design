@@ -1,4 +1,5 @@
 const express = require('express')
+const User = require('../models/User')
 const Itinerary = require('../models/Itinerary')
 const ItineraryByDate = require('../models/ItineraryByDate')
 const Destination = require('../models/Destination')
@@ -66,17 +67,19 @@ router.post('/create', [
 router.get('/list', [
 
 ], isAuth, expressAsyncHandler(async (req, res, next) => {
+    const user = await User.findById(req.user._id)
+
     let itinerarys = null
     if(req.query.filter === 'schedule'){
         if(req.query.sort === 'lastModifiedAt'){
-            itinerarys = await Itinerary.find({userId: req.user._id, isDone: false})
+            itinerarys = await Itinerary.find({userId: req.user._id, isDone: false, userId: user})
             .sort({lastModifiedAt: -1})
             .populate({
                 path: 'itineraryByDateIds',
                 populate: {path: 'destinationIds'}
             })
         }else{
-            itinerarys = await Itinerary.find({userId: req.user._id, isDone: false})
+            itinerarys = await Itinerary.find({userId: req.user._id, isDone: false, userId: user})
             .sort({dateOfStart: 1})
             .populate({
                 path: 'itineraryByDateIds',
@@ -85,14 +88,14 @@ router.get('/list', [
         }
     }else if(req.query.filter === 'completion'){
         if(req.query.sort === 'lastModifiedAt'){
-            itinerarys = await Itinerary.find({userId: req.user._id, isDone: true})
+            itinerarys = await Itinerary.find({userId: req.user._id, isDone: true, userId: user})
             .sort({lastModifiedAt: -1})
             .populate({
                 path: 'itineraryByDateIds',
                 populate: {path: 'destinationIds'}
             })
         }else{
-            itinerarys = await Itinerary.find({userId: req.user._id, isDone: true})
+            itinerarys = await Itinerary.find({userId: req.user._id, isDone: true, userId: user})
             .sort({dateOfStart: 1})
             .populate({
                 path: 'itineraryByDateIds',
@@ -101,14 +104,14 @@ router.get('/list', [
         }
     }else{
         if(req.query.sort === 'lastModifiedAt'){
-            itinerarys = await Itinerary.find({userId: req.user._id})
+            itinerarys = await Itinerary.find({userId: req.user._id, userId: user})
             .sort({lastModifiedAt: -1})
             .populate({
                 path: 'itineraryByDateIds',
                 populate: {path: 'destinationIds'}
             })
         }else{
-            itinerarys = await Itinerary.find({userId: req.user._id})
+            itinerarys = await Itinerary.find({userId: req.user._id, userId: user})
             .sort({dateOfStart: 1})
             .populate({
                 path: 'itineraryByDateIds',
@@ -180,7 +183,9 @@ router.put('/changelist/:itineraryId', [
             error: errors.array()
         })
     }else{
-        const itinerary = await Itinerary.findById(req.params.itineraryId).populate({
+        const user = await User.findById(req.user._id)
+        const itinerary = await Itinerary.findOne({_id: req.params.itineraryId, userId: user})
+        .populate({
             path: 'itineraryByDateIds',
             populate: {path: 'destinationIds'}
         })
@@ -211,13 +216,14 @@ router.put('/changelist/:itineraryId', [
 
 // 선택한 일정 삭제
 router.delete('/changelist/:itineraryId', isAuth, expressAsyncHandler(async (req, res, next) => {
-    const itinerary = await Itinerary.findByIdAndDelete(req.params.itineraryId)
-    const itineraryByDate = await ItineraryByDate.deleteMany({itineraryId: req.params.itineraryId})
-    const destination = await Destination.deleteMany({itineraryId: req.params.itineraryId})
+    const user = await User.findById(req.user._id)
+    const itinerary = await Itinerary.findOneAndDelete({_id: req.params.itineraryId, userId: user})
     // console.log(itinerary)
     if(!itinerary){
         res.status(404).json({code: 404, message: '해당 일정 내역 없음'})
     }else{
+        const itineraryByDate = await ItineraryByDate.deleteMany({itineraryId: req.params.itineraryId})
+        const destination = await Destination.deleteMany({itineraryId: req.params.itineraryId})
         res.status(204).json({code: 204, message: 'Itinerary deleted successfully'})
     }
 }))
@@ -227,7 +233,8 @@ router.delete('/changelist/:itineraryId', isAuth, expressAsyncHandler(async (req
 router.get('/details/:itineraryId', [
 
 ], isAuth, expressAsyncHandler(async (req, res, next) => {
-    const itinerary = await Itinerary.findById(req.params.itineraryId)
+    const user = await User.findById(req.user._id)
+    const itinerary = await Itinerary.findOne({_id: req.params.itineraryId, userId: user})
     .populate({
         path: 'itineraryByDateIds',
         options: { sort: { 'date': 1 } },
@@ -236,7 +243,7 @@ router.get('/details/:itineraryId', [
             options: { sort: { 'timeOfStart': 1 } }
         }
     })
-    
+    console.log(itinerary)
     const accommodationCosts = await ItineraryByDate.aggregate([
         {$match: {itineraryId: new mongoose.Types.ObjectId(req.params.itineraryId)}},
         {$group: {
@@ -270,7 +277,8 @@ router.get('/details/:itineraryId', [
 router.get('/details/ItineraryByDate/:itineraryId/:ItineraryByDate', [
 
 ], isAuth, expressAsyncHandler(async (req, res, next) => {
-    const itinerary = await Itinerary.findById(req.params.itineraryId)
+    const user = await User.findById(req.user._id)
+    const itinerary = await Itinerary.findOne({_id: req.params.itineraryId, userId: user})
     .populate({
         path: 'itineraryByDateIds',
         match: { _id: new mongoose.Types.ObjectId(req.params.ItineraryByDate) },
@@ -309,6 +317,29 @@ router.get('/details/ItineraryByDate/:itineraryId/:ItineraryByDate', [
     }
 }))
 
+
+// 모든 사용자의 공개된 전체 일정 리스트 가져오기
+router.get('/sharedlist', [
+
+], expressAsyncHandler(async (req, res, next) => {
+    const itinerarys = await Itinerary.find({isPublic: true})
+    .sort({lastModifiedAt: -1})
+    .populate('userId')
+    .populate({
+        path: 'itineraryByDateIds',
+        populate: {path: 'destinationIds'}
+    })
+
+    if(itinerarys.length === 0){
+        res.status(404).json({code: 404, message: '공개된 일정 내역 없음'})
+    }else{
+        const result = itinerarys.map((itinerary) => {
+            const {userId, city, dateOfEnd, dateOfStart, description, itineraryByDateIds, title, _id, status, open, isDone, lastModifiedAt} = itinerary
+            return {userId, city, dateOfEnd, dateOfStart, description, itineraryByDateIds, title, _id, status, open, isDone, lastModifiedAt}
+        })
+        res.json({code: 200, Itinerarys: result})
+    }
+}))
 
 
 
