@@ -67,9 +67,7 @@ function MyItineraryCard({itinerary, handleClick}){
                 <button onClick={handleClick} id={_id}>{status}</button>
             </div>
             <div className={styles.details} id={_id}>
-                <div className={styles.img}>
-                    <img src={imgSrc} alt={title} id={_id}></img>
-                </div>
+                <img src={imgSrc} alt={title} id={_id}></img>
                 <div className={styles.infomation}>
                     <div className={styles.infoTop}>
                         <div>

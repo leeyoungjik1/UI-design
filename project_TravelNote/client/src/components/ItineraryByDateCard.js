@@ -67,7 +67,7 @@ function ItineraryByDateCard({dateOfStart, itineraryByDate, changeDestinationSta
                 "temp": {}
             })
         }
-    }, [itineraryByDate.date])
+    }, [itineraryByDate])
 
     // D-day 설정
     const diffDate = moment(itineraryByDate.date).diff(moment(dateOfStart), 'days')

@@ -1,8 +1,8 @@
 import React from 'react'
 import moment from 'moment'
-import styles from './ItineraryCard.module.css'
+import styles from './ItineraryCardDetails.module.css'
 
-function ItineraryCard({city, dateOfEnd, dateOfStart, description, title, status, open, imgSrc, handleClick, children}){
+function ItineraryCardDetails({city, dateOfEnd, dateOfStart, description, title, status, open, imgSrc, handleClick, children}){
     return (
         <div className={styles.itineraryCardBox}>
             <div className={styles.itineraryCardState}>
@@ -13,8 +13,10 @@ function ItineraryCard({city, dateOfEnd, dateOfStart, description, title, status
                 <div className={styles.itineraryCardDetails}>
                     <img src={imgSrc}></img>
                     <div>
-                        <div>{title}</div>
-                        <div>{city}</div>
+                        <div className={styles.itineraryCardDetailsTitle}>
+                            <div>{title}</div>
+                            <div>{city}</div>
+                        </div>
                         <div>
                             {moment(dateOfStart).format('YYYY-MM-DD')} ~ {moment(dateOfEnd).format('YYYY-MM-DD')}
                         </div>
@@ -31,4 +33,4 @@ function ItineraryCard({city, dateOfEnd, dateOfStart, description, title, status
     )
 }
 
-export default ItineraryCard
+export default ItineraryCardDetails

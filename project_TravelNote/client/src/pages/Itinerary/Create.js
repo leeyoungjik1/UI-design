@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import API from '../../API'
 import moment from 'moment'
 import axios from 'axios'
+import styles from './Create.module.css'
 // import DatePicker from "../../components/DatePicker";
 
 // URL 주소: /itinerary/create
@@ -66,24 +67,40 @@ function Create(){
     } = formData 
 
     return (
-        <div>
-            <h1>Itinerary Create PAGE</h1>
+        <div className={styles.createPage}>
+            <h1>새로운 여행</h1>
             <form onSubmit={handleSubmit}>
-                <label htmlFor="title">일정명: </label>
-                <input type="text" name="title" id="title" onChange={handleChange} value={title}/>
-                <label htmlFor="city">대표도시명: </label>
-                <input type="text" name="city" id="city" onChange={handleChange} value={city}/>
-                <label htmlFor="dateOfStart">일정 시작일: </label>
-                <input type="date" name="dateOfStart" id="dateOfStart" required onChange={handleChange} value={dateOfStart} max={dateOfEnd}/>
-                <label htmlFor="dateOfEnd">일정 종료일: </label>
-                <input type="date" name="dateOfEnd" id="dateOfEnd" required onChange={handleChange} value={dateOfEnd} min={dateOfStart}/>
-                <label htmlFor="description">여행 내용: </label>
-                <input type="text" name="description" id="description" onChange={handleChange} value={description}/>
-                <label htmlFor="isPublic">공개 여부: </label>
-                <input type="radio" name="isPublic" id="isPublic" onChange={handleChange} defaultChecked value={true}/>공개
-                <input type="radio" name="isPublic" id="isPublic" onChange={handleChange} value={false}/>비공개
+                <div>
+                    <label htmlFor="title">여행 제목</label>
+                    <input type="text" name="title" id="title" onChange={handleChange} value={title}/>
+                </div>
+                <div>
+                    <label htmlFor="city">대표 도시</label>
+                    <input type="text" name="city" id="city" onChange={handleChange} value={city}/>
+                </div>
+                <div className={styles.dates}>
+                    <div>
+                        <label htmlFor="dateOfStart">여행 시작일</label>
+                        <input type="date" name="dateOfStart" id="dateOfStart" required onChange={handleChange} value={dateOfStart} max={dateOfEnd}/>
+                    </div>
+                    <div>
+                        <label htmlFor="dateOfEnd">여행 종료일</label>
+                        <input type="date" name="dateOfEnd" id="dateOfEnd" required onChange={handleChange} value={dateOfEnd} min={dateOfStart}/>
+                    </div>
+                </div>
+                <div>
+                    <label htmlFor="description">여행 내용</label>
+                    <input type="text" name="description" id="description" onChange={handleChange} value={description}/>
+                </div>
+                <div>
+                    <label htmlFor="isPublic">공개 여부</label>
+                    <div>
+                        <input type="radio" name="isPublic" id="isPublic" onChange={handleChange} defaultChecked value={true}/>공개
+                        <input type="radio" name="isPublic" id="isPublic" onChange={handleChange} value={false}/>비공개
+                    </div>
+                </div>
                 {/* <DatePicker/> */}
-                <button type="submit">일정 저장</button>
+                <button type="submit">여행 저장</button>
             </form>
         </div>
     )

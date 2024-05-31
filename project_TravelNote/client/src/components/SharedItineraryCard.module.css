@@ -7,6 +7,12 @@
     padding: 1rem;
     box-sizing: border-box;
     border: 1px solid gray;
+    gap: 1rem;
+}
+.user{
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
 }
 .top{
     width: 100%;
@@ -62,4 +68,9 @@
     display: flex;
     flex-flow: column;
     gap: .5rem;
+}
+.createdAt{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
 }

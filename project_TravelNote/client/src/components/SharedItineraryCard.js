@@ -2,12 +2,14 @@ import React, { useState, useEffect } from "react";
 import axios from 'axios'
 import moment from 'moment'
 import { useParams, useNavigate, Link, useSearchParams, useLocation } from 'react-router-dom'
+import styles from './SharedItineraryCard.module.css'
 
 
 function SharedItineraryCard({itinerary}){
     const navigate = useNavigate()
 
     const [totalcost, setTotalcost] = useState(0)
+    console.log(itinerary)
 
     // 해당 일정 이미지 불러오기
     let imgSrc = ''
@@ -55,23 +57,26 @@ function SharedItineraryCard({itinerary}){
         })
     }, [])
 
-    const {title, city, dateOfStart, dateOfEnd, description, _id} = itinerary
+    const {title, city, dateOfStart, dateOfEnd, description, _id, lastModifiedAt} = itinerary
     return (
-        <div onClick={changePage}>
-            <div id={_id}>
+        <div className={styles.container} onClick={changePage}>
+            <div className={styles.user}>{`${itinerary.userId.nickName}님의 여행 계획`}</div>
+            <div className={styles.details} id={_id}>
                 <img src={imgSrc} alt={title} id={_id}></img>
-                <div>
-                    <div>
+                <div className={styles.infomation}>
+                    <div className={styles.infoTop}>
                         <div>{title}</div>
                         <button>공유하기 아이콘</button>
                     </div>
-                    <div>{city}</div>
-                    <div>{moment(dateOfStart).format('YYYY-MM-DD')} ~ {moment(dateOfEnd).format('YYYY-MM-DD')}</div>
-                    <div>예상 비용: {Number(totalcost).toLocaleString()}원</div>
-                    <div>{description}</div>
-                    <div>{`${itinerary.userId.nickName}님의 여행 계획`}</div>
+                    <div className={styles.infoMain}>
+                        <div>{city}</div>
+                        <div>{moment(dateOfStart).format('YYYY-MM-DD')} ~ {moment(dateOfEnd).format('YYYY-MM-DD')}</div>
+                        <div>예상 비용: {Number(totalcost).toLocaleString()}원</div>
+                        <div>{description}</div>
+                    </div>
                 </div>
             </div>
+            <div className={styles.createdAt}>작성일자: {moment(lastModifiedAt).format('YYYY-MM-DD')}</div>
         </div>
     )
 }

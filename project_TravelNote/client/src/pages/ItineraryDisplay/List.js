@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios'
 import MyItineraryCard from "../../components/MyItineraryCard";
+import FilterButtons from "../../components/FilterButtons";
 import styles from './List.module.css'
 
 
@@ -79,13 +80,9 @@ function List(){
 
     return (
         <div className={styles.listPage}>
-            <h1>My Itinerary List PAGE</h1>
+            <h1>나의 여행</h1>
             <div className={styles.filterContronBox}>
-                <div className={styles.filterBtns} onClick={handleChange}>
-                    <button>전체</button>
-                    <button>예정</button>
-                    <button>완료</button>
-                </div>
+                <FilterButtons handleClick={handleChange}/>
                 <select name="sort" id="sort" onChange={handleChange} value={sort}>
                     <option value="lastModifiedAt">최근 수정일 순</option>
                     <option value="dateOfStart">여행 시작일 순</option>

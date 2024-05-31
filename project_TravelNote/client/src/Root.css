@@ -31,3 +31,7 @@
     --gray-color-4: #BDBDBD;
     --gray-color-5: #E0E0E0;
 }
+
+img{
+    width: 300px;
+}

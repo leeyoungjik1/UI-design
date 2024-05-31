@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios'
 import { useParams, useNavigate, Link, useSearchParams, useLocation } from 'react-router-dom'
-import ItineraryCard from "../../components/ItineraryCard";
+import ItineraryCardDetails from "../../components/ItineraryCardDetails";
 import DestinationCard from "../../components/DestinationCard";
 import AddDestinationCard from "../../components/AddDestinationCard";
 import moment from 'moment'
 import GoogleMap from "../../components/GoogleMap";
+import styles from './DetailedItinerary.module.css'
 
 // URL 주소: /itinerary/details ,/itinerary/details/:itineraryId
 
@@ -22,7 +23,7 @@ function DetailedItinerary(){
     // 하나의 일정 중 선택한 일자 : 1일차, 2일차...
     const [day, setDay] = useState({
         date: '', 
-        message: '일자를 선택하세요.'
+        message: '여행 일자를 선택하세요.'
     })
 
     // 선택한 일차에 대한 데이터
@@ -109,10 +110,10 @@ function DetailedItinerary(){
     const handleDestination = (e) => {
         // console.log(e.target.innerHTML)
         switch(e.target.innerHTML){
-            case '일정 추가':
+            case '여행지 추가':
                 setIsDestinationCard(true)
                 break
-            case '일정 전체 삭제':
+            case '여행지 전체 삭제':
                 if(itineraryByDate.destinationIds.length !== 0){
                     deleteAllDestination(e)
                 }
@@ -152,7 +153,7 @@ function DetailedItinerary(){
                 'Authorization': `Bearer ${localStorage.getItem("token")}`
             }
         }).then((res) => {
-            axios.post(`http://127.0.0.1:5000/api/itinerarys/bydate/${itineraryByDate._id}`, formData, {
+            axios.put(`http://127.0.0.1:5000/api/itinerarys/bydate/${itineraryByDate._id}`, formData, {
                 headers: {
                     'Constent-Type': 'application/json',
                     'Authorization': `Bearer ${localStorage.getItem("token")}`
@@ -403,65 +404,70 @@ function DetailedItinerary(){
     } = formData 
 
     return (
-        <div>
-            <h1>Detailed Itinerary PAGE</h1>
-            <div>
-                <div>
-                    <ItineraryCard
-                        city={itinerary.city}
-                        dateOfEnd={itinerary.dateOfEnd}
-                        dateOfStart={itinerary.dateOfStart}
-                        description={itinerary.description}
-                        title={itinerary.title}
-                        status={itinerary.status}
-                        open={itinerary.open}
-                        imgSrc={mainImgSrc}
-                        handleClick={changeItinerary}
-                    >
-                        <button id={itinerary._id}>수정</button>
-                    </ItineraryCard>
-                    <div>
-                        <label htmlFor="date">날짜 선택: </label>
-                        <input type="date" name="date" id="date" onChange={selectDayeDate} min={moment(itinerary.dateOfStart).format("YYYY-MM-DD")} max={moment(itinerary.dateOfEnd).format("YYYY-MM-DD")}/>
-                    </div>
+        <div className={styles.detailedItineraryPage}>
+            <div className={styles.itineraryCardContainer}>
+                <ItineraryCardDetails
+                    city={itinerary.city}
+                    dateOfEnd={itinerary.dateOfEnd}
+                    dateOfStart={itinerary.dateOfStart}
+                    description={itinerary.description}
+                    title={itinerary.title}
+                    status={itinerary.status}
+                    open={itinerary.open}
+                    imgSrc={mainImgSrc}
+                    handleClick={changeItinerary}
+                >
+                    <button id={itinerary._id}>수정</button>
+                </ItineraryCardDetails>
+                <div className={styles.selectDay}>
+                    <label htmlFor="date">일자 선택</label>
+                    <input type="date" name="date" id="date" onChange={selectDayeDate} min={moment(itinerary.dateOfStart).format("YYYY-MM-DD")} max={moment(itinerary.dateOfEnd).format("YYYY-MM-DD")}/>
                 </div>
-                <div>
-                    {day.message}
-                </div>
-                {day.date &&
-                    <div>
-                        <div>
-                            <h2>숙소</h2>
-                            <img src={formData && 
-                                formData.accommodationInfo.photoUrl ||
-                                "https://images.unsplash.com/photo-1500835556837-99ac94a94552?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                }></img>
-                            <form onSubmit={handleSubmit}>
-                                <label htmlFor="accommodationName">숙소명: </label>
-                                <input type="text" name="accommodationName" id="accommodationName" onChange={handleChange} value={accommodationName || ''} required/>
-                                <label htmlFor="accommodationAddress">숙소 주소: </label>
-                                <input type="text" name="accommodationAddress" id="accommodationAddress" onChange={handleChange} value={accommodationAddress || ''}/>
-                                <GoogleMap handleChange={getAccommodationSearched}/>
-                                <label htmlFor="accommodationCost">숙박 비용: </label>
-                                <input type="number" name="accommodationCost" id="accommodationCost" onChange={handleChange} value={accommodationCost || ''}/>
-                                
-                                <button type="submit">저장</button>
-                            </form>
-                        </div>
-                        <div>
-                            <h2>여행지</h2>
-                            <div onClick={handleDestination}>
-                                <button>일정 추가</button>
-                                <button id={itineraryByDate && itineraryByDate._id}>일정 전체 삭제</button>
+            </div>
+            <div className={styles.message}>
+                {day.message}
+            </div>
+            {day.date &&
+                <div className={styles.itineraryByDateCardContainer}>
+                    <div className={styles.accommodationContainer}>
+                        <h2>숙소</h2>
+                        <form onSubmit={handleSubmit}>
+                            <div className={styles.accommodationInfoContainer}>
+                                {formData && formData.accommodationInfo.photoUrl &&
+                                    <img src={formData.accommodationInfo.photoUrl}></img>
+                                }
+                                <div>
+                                    <div>
+                                        <label htmlFor="accommodationName">숙소명</label>
+                                        <input type="text" name="accommodationName" id="accommodationName" onChange={handleChange} value={accommodationName || ''} required/>
+                                    </div>
+                                    <div>
+                                        <label htmlFor="accommodationAddress">숙소 주소</label>
+                                        <input type="text" name="accommodationAddress" id="accommodationAddress" onChange={handleChange} value={accommodationAddress || ''}/>
+                                    </div>
+                                </div>
                             </div>
-                            {itineraryByDate && 
-                            <AddDestinationCard 
-                                selectedDate={itineraryByDate.date}
-                                itineraryByDateId={itineraryByDate._id}
-                                changeSubmit={changeSubmitServer}
-                                isShow={isDestinationCard}
-                            />
-                            }
+                            <GoogleMap handleChange={getAccommodationSearched}/>
+                            <label htmlFor="accommodationCost">숙박 비용</label>
+                            <input type="number" name="accommodationCost" id="accommodationCost" onChange={handleChange} value={accommodationCost || ''}/>
+                            <button type="submit">숙소 저장</button>
+                        </form>
+                    </div>
+                    <div className={styles.destinationContainer}>
+                        <h2>여행지</h2>
+                        <div className={styles.destinationBtns} onClick={handleDestination}>
+                            <button id={itineraryByDate && itineraryByDate._id}>여행지 전체 삭제</button>
+                            <button>여행지 추가</button>
+                        </div>
+                        {itineraryByDate && 
+                        <AddDestinationCard 
+                            selectedDate={itineraryByDate.date}
+                            itineraryByDateId={itineraryByDate._id}
+                            changeSubmit={changeSubmitServer}
+                            isShow={isDestinationCard}
+                        />
+                        }
+                        <div className={styles.destinationCardContainer}>
                             {itineraryByDate && itineraryByDate.destinationIds.length !== 0 &&
                                 itineraryByDate.destinationIds.map((destinationId, id) => {
                                     return (
@@ -489,8 +495,8 @@ function DetailedItinerary(){
                             }
                         </div>
                     </div>
-                }
-            </div>
+                </div>
+            }
         </div>
     )
 }

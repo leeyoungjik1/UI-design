@@ -3,7 +3,7 @@ import axios from 'axios'
 import { useParams, useNavigate, NavLink, useSearchParams, useLocation } from 'react-router-dom'
 import moment from 'moment'
 import GoogleMap from "./GoogleMap";
-import './ModDestinationCard.css'
+import styles from './ModDestinationCard.module.css'
 
 // URL 주소: /itinerary/details/:itineraryId
 
@@ -138,12 +138,24 @@ function ModDestinationCard({destinationId, changeSubmit, isShow}){
     } = formData 
 
     return (
-        <div className={`addDestinationContainer ${isShow && 'show'}`}>
+        <div className={isShow ?
+            `${styles.addDestinationContainer} ${styles.show}` :
+            `${styles.addDestinationContainer}`
+        }>
             <form onSubmit={handleSubmit}>
-                <label htmlFor="title">여행지명: </label>
-                <input type="text" name="title" id="title" onChange={handleChange} value={title || ''} required/>
-                <label htmlFor="address">여행지 주소: </label>
-                <input type="text" name="address" id="address" onChange={handleChange} value={address || ''}/>
+                <div className={styles.addDestinationInfoContainer}>
+                    {destinationGoogleData.photoUrl && <img src={destinationGoogleData.photoUrl}></img>}
+                    <div>
+                        <div>
+                            <label htmlFor="title">여행지명</label>
+                            <input type="text" name="title" id="title" onChange={handleChange} value={title || ''} required/>
+                        </div>
+                        <div>
+                            <label htmlFor="address">여행지 주소</label>
+                            <input type="text" name="address" id="address" onChange={handleChange} value={address || ''}/>
+                        </div>
+                    </div>
+                </div>
                 <GoogleMap handleChange={getDestinationSearched}/>
                 <label htmlFor="category">카테고리: </label>
                 <select name="category" id="category" onChange={handleChange} value={category}>
@@ -155,15 +167,21 @@ function ModDestinationCard({destinationId, changeSubmit, isShow}){
                     <option value="기타">기타</option>
                     <option value="미정">미정</option>
                 </select>
-                <label htmlFor="timeOfStart">일정 시작 시작: </label>
-                <input type="datetime-local" name="timeOfStart" id="timeOfStart" required onChange={handleChange} value={timeOfStart} min={moment(timeOfStart).startOf("day").format("YYYY-MM-DD HH:mm")} max={moment(timeOfStart).endOf("day").format("YYYY-MM-DD HH:mm")}/>
-                <label htmlFor="timeOfEnd">일정 종료 시간: </label>
-                <input type="datetime-local" name="timeOfEnd" id="timeOfEnd" required onChange={handleChange} value={timeOfEnd} min={moment(timeOfStart).format("YYYY-MM-DD HH:mm")} max={moment(timeOfStart).endOf("day").format("YYYY-MM-DD HH:mm")}/>
-                <label htmlFor="description">여행지 내용: </label>
+                <div className={styles.times}>
+                    <div>
+                        <label htmlFor="timeOfStart">일정 시작 시작</label>
+                        <input type="datetime-local" name="timeOfStart" id="timeOfStart" required onChange={handleChange} value={timeOfStart} min={moment(timeOfStart).startOf("day").format("YYYY-MM-DD HH:mm")} max={moment(timeOfStart).endOf("day").format("YYYY-MM-DD HH:mm")}/>
+                    </div>
+                    <div>
+                        <label htmlFor="timeOfEnd">일정 종료 시간</label>
+                        <input type="datetime-local" name="timeOfEnd" id="timeOfEnd" required onChange={handleChange} value={timeOfEnd} min={moment(timeOfStart).format("YYYY-MM-DD HH:mm")} max={moment(timeOfStart).endOf("day").format("YYYY-MM-DD HH:mm")}/>
+                    </div>
+                </div>
+                <label htmlFor="description">여행지 내용</label>
                 <input type="text" name="description" id="description" onChange={handleChange} value={description || ''}/>
-                <label htmlFor="cost">예상 비용: </label>
+                <label htmlFor="cost">예상 비용</label>
                 <input type="number" name="cost" id="cost" onChange={handleChange} value={cost || ''}/>
-                <button type="submit">저장</button>
+                <button type="submit">여행지 저장</button>
                 <button type="button" id='cancleModDes' onClick={handleSubmit}>취소</button>
             </form>
         </div>

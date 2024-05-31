@@ -10,8 +10,15 @@
     height: 100px;
     margin: auto;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-
-    border: 1px solid red;
+    /* border: 1px solid red; */
+}
+.mainMenu{
+    display: flex;
+    gap: 1rem;
+}
+.userMenu{
+    display: flex;
+    gap: 1rem;
 }

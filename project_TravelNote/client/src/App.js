@@ -1,6 +1,8 @@
+import { useState, useEffect } from "react";
+import axios from 'axios'
 import styles from "./App.module.css";
 import './Root.css'
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, NavLink } from 'react-router-dom'
 import {
   Home,
   Login,
@@ -16,10 +18,66 @@ import {
   SharedDetailedItinerary,
   NotFound } from './pages'
 
+
+
+const menus = [
+  {
+    url: '/',
+    name: '여행의 시작'
+  },
+  {
+    url: '/itinerary/create',
+    name: '새로운 여행'
+  },
+  {
+    url: '/itinerary/changelist',
+    name: '여행 관리'
+  },
+  {
+    url: '/itinerary/myitinerary',
+    name: '나의 여행'
+  },
+  {
+    url: '/itinerary/shareditinerary',
+    name: '다른 사람의 여행'
+  }
+]
+
+
 function App() {
+  const [user, setUser] = useState()
+
+  useEffect(() => {
+    axios.get('http://127.0.0.1:5000/api/users/getId', {
+      headers: {
+          'Constent-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem("token")}`
+      }
+    })
+    .then((res) => setUser(res.data))
+  }, [])
+
   return (
     <div className={styles.App}>
-      <div className={styles.gnb}>GNB</div>
+      <nav className={styles.gnb}>
+        <div className={styles.mainMenu}>
+          {menus.map((menu, id) => 
+            <NavLink key={id} to={menu.url}>{menu.name}</NavLink>
+          )}
+        </div>
+        <div className={styles.userMenu}>
+          {user ? 
+            <>
+              <NavLink to='/'>내 정보</NavLink> 
+              <NavLink to='/'>로그아웃</NavLink> 
+            </> :
+            <>
+              <NavLink to='/login'>로그인</NavLink>
+              <NavLink to='/join'>회원가입</NavLink>
+            </>
+          }
+        </div>
+      </nav>
       <Routes>
         <Route exact path='/' element={<Home/>}/>
         <Route exact path='/join' element={<Join/>}/>

@@ -47,7 +47,7 @@ function DestinationBox({destination, index, weatherSearch, handleClick, isShare
                 "temp": {}
             })
         }
-    }, [destination.date])
+    }, [destination])
 
     const {
         timeOfStart,

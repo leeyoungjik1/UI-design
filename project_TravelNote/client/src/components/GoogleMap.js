@@ -25,7 +25,7 @@ const GoogleMap = ({handleChange}) => {
     return (
         <APIProvider apiKey={API_KEY}>
             <Map
-            style={{width: '100vw', height: '300px'}}
+            style={{width: '100%', height: '500px'}}
             defaultCenter={{lat: 37.56793408029149, lng: 126.9795527802915}}
             defaultZoom={13}
             gestureHandling={'greedy'}

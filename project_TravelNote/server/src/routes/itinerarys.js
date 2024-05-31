@@ -72,14 +72,14 @@ router.get('/list', [
     let itinerarys = null
     if(req.query.filter === 'schedule'){
         if(req.query.sort === 'lastModifiedAt'){
-            itinerarys = await Itinerary.find({userId: req.user._id, isDone: false, userId: user})
+            itinerarys = await Itinerary.find({isDone: false, userId: user})
             .sort({lastModifiedAt: -1})
             .populate({
                 path: 'itineraryByDateIds',
                 populate: {path: 'destinationIds'}
             })
         }else{
-            itinerarys = await Itinerary.find({userId: req.user._id, isDone: false, userId: user})
+            itinerarys = await Itinerary.find({isDone: false, userId: user})
             .sort({dateOfStart: 1})
             .populate({
                 path: 'itineraryByDateIds',
@@ -88,14 +88,14 @@ router.get('/list', [
         }
     }else if(req.query.filter === 'completion'){
         if(req.query.sort === 'lastModifiedAt'){
-            itinerarys = await Itinerary.find({userId: req.user._id, isDone: true, userId: user})
+            itinerarys = await Itinerary.find({isDone: true, userId: user})
             .sort({lastModifiedAt: -1})
             .populate({
                 path: 'itineraryByDateIds',
                 populate: {path: 'destinationIds'}
             })
         }else{
-            itinerarys = await Itinerary.find({userId: req.user._id, isDone: true, userId: user})
+            itinerarys = await Itinerary.find({isDone: true, userId: user})
             .sort({dateOfStart: 1})
             .populate({
                 path: 'itineraryByDateIds',
@@ -104,14 +104,14 @@ router.get('/list', [
         }
     }else{
         if(req.query.sort === 'lastModifiedAt'){
-            itinerarys = await Itinerary.find({userId: req.user._id, userId: user})
+            itinerarys = await Itinerary.find({userId: user})
             .sort({lastModifiedAt: -1})
             .populate({
                 path: 'itineraryByDateIds',
                 populate: {path: 'destinationIds'}
             })
         }else{
-            itinerarys = await Itinerary.find({userId: req.user._id, userId: user})
+            itinerarys = await Itinerary.find({userId: user})
             .sort({dateOfStart: 1})
             .populate({
                 path: 'itineraryByDateIds',
@@ -131,7 +131,124 @@ router.get('/list', [
     }
 }))
 
+// 해당 사용자 검색된 전체 일정 리스트 가져오기
+router.get('/list/searched', [
 
+], isAuth, expressAsyncHandler(async (req, res, next) => {
+    const user = await User.findById(req.user._id)
+
+    let itinerarys = null
+    if(req.query.isDone === 'schedule'){
+        if(req.query.searchFilter === 'title'){
+            itinerarys = await Itinerary.find({
+                userId: user,
+                isDone: false,
+                title: {$regex: new RegExp(req.query.searchWord)}
+            })
+            .sort({lastModifiedAt: -1})
+            .populate({
+                path: 'itineraryByDateIds',
+                populate: {path: 'destinationIds'}
+            })
+        }else if(req.query.searchFilter === 'city'){
+            itinerarys = await Itinerary.find({
+                userId: user,
+                isDone: false,
+                city: {$regex: new RegExp(req.query.searchWord)}
+            })
+            .sort({lastModifiedAt: -1})
+            .populate({
+                path: 'itineraryByDateIds',
+                populate: {path: 'destinationIds'}
+            })
+        }else{
+            itinerarys = await Itinerary.find({
+                userId: user,
+                isDone: false,
+            })
+            .sort({lastModifiedAt: -1})
+            .populate({
+                path: 'itineraryByDateIds',
+                populate: {path: 'destinationIds'}
+            })
+        }
+    }else if(req.query.isDone === 'completion'){
+        if(req.query.searchFilter === 'title'){
+            itinerarys = await Itinerary.find({
+                userId: user,
+                isDone: true,
+                title: {$regex: new RegExp(req.query.searchWord)}
+            })
+            .sort({lastModifiedAt: -1})
+            .populate({
+                path: 'itineraryByDateIds',
+                populate: {path: 'destinationIds'}
+            })
+        }else if(req.query.searchFilter === 'city'){
+            itinerarys = await Itinerary.find({
+                userId: user,
+                isDone: true,
+                city: {$regex: new RegExp(req.query.searchWord)}
+            })
+            .sort({lastModifiedAt: -1})
+            .populate({
+                path: 'itineraryByDateIds',
+                populate: {path: 'destinationIds'}
+            })
+        }else{
+            itinerarys = await Itinerary.find({
+                userId: user,
+                isDone: true,
+            })
+            .sort({lastModifiedAt: -1})
+            .populate({
+                path: 'itineraryByDateIds',
+                populate: {path: 'destinationIds'}
+            })
+        }
+    }else{
+        if(req.query.searchFilter === 'title'){
+            itinerarys = await Itinerary.find({
+                userId: user,
+                title: {$regex: new RegExp(req.query.searchWord)}
+            })
+            .sort({lastModifiedAt: -1})
+            .populate({
+                path: 'itineraryByDateIds',
+                populate: {path: 'destinationIds'}
+            })
+        }else if(req.query.searchFilter === 'city'){
+            itinerarys = await Itinerary.find({
+                userId: user,
+                city: {$regex: new RegExp(req.query.searchWord)}
+            })
+            .sort({lastModifiedAt: -1})
+            .populate({
+                path: 'itineraryByDateIds',
+                populate: {path: 'destinationIds'}
+            })
+        }else{
+            itinerarys = await Itinerary.find({
+                userId: user,
+            })
+            .sort({lastModifiedAt: -1})
+            .populate({
+                path: 'itineraryByDateIds',
+                populate: {path: 'destinationIds'}
+            })
+        }
+    }
+
+    if(itinerarys.length === 0){
+        res.status(404).json({code: 404, message: '사용자의 일정 내역 없음'})
+    }else{
+        const result = itinerarys.map((itinerary) => {
+            const {city, dateOfEnd, dateOfStart, description, itineraryByDateIds, title, _id, status, open, isDone, lastModifiedAt} = itinerary
+            return {city, dateOfEnd, dateOfStart, description, itineraryByDateIds, title, _id, status, open, isDone, lastModifiedAt}
+        })
+        res.json({code: 200, Itinerarys: result})
+    }
+}))
 
 
 
@@ -243,7 +360,7 @@ router.get('/details/:itineraryId', [
             options: { sort: { 'timeOfStart': 1 } }
         }
     })
-    console.log(itinerary)
+    // console.log(itinerary)
     const accommodationCosts = await ItineraryByDate.aggregate([
         {$match: {itineraryId: new mongoose.Types.ObjectId(req.params.itineraryId)}},
         {$group: {
@@ -341,6 +458,68 @@ router.get('/sharedlist', [
     }
 }))
 
+// 모든 사용자의 공개된 일정 중 검색된 전체 일정 리스트 가져오기
+router.get('/list/sharedlist/searched', [
+
+], expressAsyncHandler(async (req, res, next) => {
+    let itinerarys = null
+    if(req.query.searchFilter === 'title'){
+        itinerarys = await Itinerary.find({
+            title: {$regex: new RegExp(req.query.searchWord)}
+        })
+        .sort({lastModifiedAt: -1})
+        .populate('userId')
+        .populate({
+            path: 'itineraryByDateIds',
+            populate: {path: 'destinationIds'}
+        })
+    }else if(req.query.searchFilter === 'city'){
+        itinerarys = await Itinerary.find({
+            city: {$regex: new RegExp(req.query.searchWord)}
+        })
+        .sort({lastModifiedAt: -1})
+        .populate('userId')
+        .populate({
+            path: 'itineraryByDateIds',
+            populate: {path: 'destinationIds'}
+        })
+    }
+    else if(req.query.searchFilter === 'nickName'){
+        const users = await User.find({
+            nickName: {$regex: new RegExp(req.query.searchWord)}
+        })
+        if(users){
+            itinerarys = await Itinerary.find({
+                userId: {$in: users.map(user => user._id)}
+            })
+            .sort({lastModifiedAt: -1})
+            .populate('userId')
+            .populate({
+                path: 'itineraryByDateIds',
+                populate: {path: 'destinationIds'}
+            })
+        }
+    }
+    else{
+        itinerarys = await Itinerary.find()
+        .sort({lastModifiedAt: -1})
+        .populate('userId')
+        .populate({
+            path: 'itineraryByDateIds',
+            populate: {path: 'destinationIds'}
+        })
+    }
+    
+    if(itinerarys.length === 0){
+        res.status(404).json({code: 404, message: '사용자의 일정 내역 없음'})
+    }else{
+        const result = itinerarys.map((itinerary) => {
+            const {userId, city, dateOfEnd, dateOfStart, description, itineraryByDateIds, title, _id, status, open, isDone, lastModifiedAt} = itinerary
+            return {userId, city, dateOfEnd, dateOfStart, description, itineraryByDateIds, title, _id, status, open, isDone, lastModifiedAt}
+        })
+        res.json({code: 200, Itinerarys: result})
+    }
+}))
 
 
 module.exports = router
