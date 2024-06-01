@@ -22,7 +22,6 @@ function ModDestinationCard({destinationId, changeSubmit, isShow}){
         cost: '',
         destinationInfo: {}
     })
-    // console.log(formData)
 
     // 목적지 데이터 가져오기
     useEffect(() => {
@@ -45,7 +44,21 @@ function ModDestinationCard({destinationId, changeSubmit, isShow}){
                 })
             })
         }
-    }, [])
+
+        return () => {
+            setDestinationGoogleData({
+                name: '',
+                address: '',
+                country: '',
+                location: {
+                    lat: '',
+                    lng: ''
+                },
+                photoUrl: '',
+                place_id: '',
+            })
+        }
+    }, [destinationId])
 
     const [destinationGoogleData, setDestinationGoogleData] = useState({
         name: '',
@@ -62,10 +75,10 @@ function ModDestinationCard({destinationId, changeSubmit, isShow}){
     // 구글 지도에서 위치를 선택하였을때 숙소 정보에 대한 데이터 저장
     const getDestinationSearched = (data) => {
         if(data && data.geometry){
-            const {name, geometry:{location}, formatted_address, photos, place_id, country} = data
+            const {name, geometry:{location}, vicinity, photos, place_id, country} = data
             setDestinationGoogleData({
                 name: name,
-                address: formatted_address,
+                address: vicinity,
                 country: country,
                 location: {
                     lat: location.lat(),
@@ -100,7 +113,7 @@ function ModDestinationCard({destinationId, changeSubmit, isShow}){
                         'Authorization': `Bearer ${localStorage.getItem("token")}`
                     }
                 }).then((res) => {
-                    console.log(res)
+                    // console.log(res)
                     changeSubmit({name: 'submitModDes', res: res})
                 }).catch((err) => {
                     console.log(err)

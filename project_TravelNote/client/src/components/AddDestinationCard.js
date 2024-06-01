@@ -35,7 +35,7 @@ function AddDestinationCard({selectedDate, itineraryByDateId, changeSubmit, isSh
         cost: '',
         destinationInfo: {
             name: '',
-            formatted_address: '',
+            address: '',
             location: {
                 lat: '',
                 lng: ''
@@ -52,10 +52,10 @@ function AddDestinationCard({selectedDate, itineraryByDateId, changeSubmit, isSh
     // 구글 지도에서 위치를 선택하였을때 숙소 정보에 대한 데이터 저장
     const getDestinationSearched = (data) => {
         if(data && data.geometry){
-            const {name, geometry:{location}, formatted_address, photos, place_id, country} = data
+            const {name, geometry:{location}, vicinity, photos, place_id, country} = data
             setDestinationGoogleData({
                 name: name,
-                address: formatted_address,
+                address: vicinity,
                 country: country,
                 location: {
                     lat: location.lat(),
@@ -102,7 +102,7 @@ function AddDestinationCard({selectedDate, itineraryByDateId, changeSubmit, isSh
                         cost: '',
                         destinationInfo: {
                             name: '',
-                            formatted_address: '',
+                            vicinity: '',
                             location: {
                                 lat: '',
                                 lng: ''

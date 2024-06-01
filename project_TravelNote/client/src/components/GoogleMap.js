@@ -76,7 +76,7 @@ const PlaceAutocomplete = ({ onPlaceSelect }) => {
     if (!places || !inputRef.current) return;
 
     const options = {
-      fields: ["geometry", "name", "formatted_address", "place_id", "photos", "address_components"],
+      fields: ["geometry", "name", "place_id", "photos", "address_components", "vicinity"],
     };
 
     setPlaceAutocomplete(new places.Autocomplete(inputRef.current, options));

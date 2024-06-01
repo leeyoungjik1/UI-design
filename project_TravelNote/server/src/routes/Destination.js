@@ -66,7 +66,7 @@ router.post('/create/:itineraryByDateId', [
 }))
 
 // 하나의 목적지 내역 가져오기
-router.get('/popularityItinerary', [
+router.get('/:destinationId', [
 
 ], isAuth, expressAsyncHandler(async (req, res, next) => {
     const destination = await Destination.findById(req.params.destinationId)

@@ -87,10 +87,10 @@ function DetailedItinerary(){
     // 구글 지도에서 위치를 선택하였을때 숙소 정보에 대한 데이터 저장
     const getAccommodationSearched = (data) => {
         if(data){
-            const {name, geometry:{location}, formatted_address, photos, place_id, country} = data
+            const {name, geometry:{location}, vicinity, photos, place_id, country} = data
             setAccommodationGoogleData({
                 name: name,
-                address: formatted_address,
+                address: vicinity,
                 country: country,
                 location: {
                     lat: location.lat(),
@@ -182,7 +182,6 @@ function DetailedItinerary(){
                 setIsDestinationCard(false)
             }else if(res.name === 'submitModDes'){
                 const modDestinationCardsDeleted = modDestinationCards.filter(id => id !== res.res.data.updatedDestination._id)
-                console.log(modDestinationCardsDeleted)
                 setModDestinationCards(modDestinationCardsDeleted)
             }
             setSubmitServer(res)
@@ -350,7 +349,7 @@ function DetailedItinerary(){
                     accommodationCost: null,
                     accommodationInfo: {
                         name: '',
-                        formatted_address: '',
+                        address: '',
                         location: {
                             lat: '',
                             lng: ''
