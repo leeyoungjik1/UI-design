@@ -30,7 +30,8 @@ function DetailedItinerary(){
     const [itineraryByDate, setItineraryByDate] = useState()
     const [accommodationGoogleData, setAccommodationGoogleData] = useState({
         name: '',
-        formatted_address: '',
+        address: '',
+        country: '',
         location: {
             lat: '',
             lng: ''
@@ -86,10 +87,11 @@ function DetailedItinerary(){
     // 구글 지도에서 위치를 선택하였을때 숙소 정보에 대한 데이터 저장
     const getAccommodationSearched = (data) => {
         if(data){
-            const {name, geometry:{location}, formatted_address, photos, place_id} = data
+            const {name, geometry:{location}, formatted_address, photos, place_id, country} = data
             setAccommodationGoogleData({
                 name: name,
                 address: formatted_address,
+                country: country,
                 location: {
                     lat: location.lat(),
                     lng: location.lng()

@@ -49,7 +49,8 @@ function ModDestinationCard({destinationId, changeSubmit, isShow}){
 
     const [destinationGoogleData, setDestinationGoogleData] = useState({
         name: '',
-        formatted_address: '',
+        address: '',
+        country: '',
         location: {
             lat: '',
             lng: ''
@@ -61,10 +62,11 @@ function ModDestinationCard({destinationId, changeSubmit, isShow}){
     // 구글 지도에서 위치를 선택하였을때 숙소 정보에 대한 데이터 저장
     const getDestinationSearched = (data) => {
         if(data && data.geometry){
-            const {name, geometry:{location}, formatted_address, photos, place_id} = data
+            const {name, geometry:{location}, formatted_address, photos, place_id, country} = data
             setDestinationGoogleData({
                 name: name,
                 address: formatted_address,
+                country: country,
                 location: {
                     lat: location.lat(),
                     lng: location.lng()

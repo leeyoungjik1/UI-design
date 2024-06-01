@@ -16,8 +16,8 @@ const validateUserName = () => {
 }
 const validateUserNickName = () => {
     return isFieldEmpty("nickName")
-            .isLength({min: 3, max: 10})
-            .withMessage("user nick name length must be between 5~10 characters")
+            .isLength({min: 2, max: 10})
+            .withMessage("user nick name length must be between 2~10 characters")
             .bail()
             .not()
             .matches(/[!@#$%^&*]/)

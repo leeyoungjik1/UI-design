@@ -16,6 +16,7 @@ import {
   MyDetailedItinerary,
   SharedItinerList,
   SharedDetailedItinerary,
+  PopularityDestination,
   NotFound } from './pages'
 
 
@@ -40,6 +41,10 @@ const menus = [
   {
     url: '/itinerary/shareditinerary',
     name: '다른 사람의 여행'
+  },
+  {
+    url: '/itinerary/popularitydestination',
+    name: '인기 여행지'
   }
 ]
 
@@ -55,6 +60,9 @@ function App() {
       }
     })
     .then((res) => setUser(res.data))
+    .catch(err => {
+      console.log(err)
+    })
   }, [])
 
   return (
@@ -99,6 +107,7 @@ function App() {
           <Route exact path='/itinerary/shareditinerary' element={<SharedDetailedItinerary/>}>
             <Route exact path=':itineraryId' element={<SharedDetailedItinerary/>}/>
           </Route>
+          <Route exact path='/itinerary/popularitydestination' element={<PopularityDestination/>}/>
         </Route>
         <Route path='*' element={<NotFound/>}/>
       </Routes>

@@ -66,7 +66,7 @@ router.post('/create/:itineraryByDateId', [
 }))
 
 // 하나의 목적지 내역 가져오기
-router.get('/:destinationId', [
+router.get('/popularityItinerary', [
 
 ], isAuth, expressAsyncHandler(async (req, res, next) => {
     const destination = await Destination.findById(req.params.destinationId)
@@ -75,6 +75,50 @@ router.get('/:destinationId', [
     }else{
         const {title, address, category, timeOfStart, timeOfEnd, description, destinationInfo, cost, status} = destination
         res.json({code: 200, title, address, category, timeOfStart, timeOfEnd, description, destinationInfo, cost, status})
+    }
+}))
+
+// 인기 여행지 내역 가져오기
+router.get('/popularity', [
+
+], expressAsyncHandler(async (req, res, next) => {
+    const destinations = await Destination.aggregate([
+        {
+            $group: {
+                _id: {
+                    destination: "$destinationInfo.place_id",
+                    country: "$destinationInfo.country"
+                },
+                count: {$sum: 1}
+            }
+        },
+        {
+            $sort: {
+                count: -1
+            }
+        },
+        {
+            $group: {
+                _id: "$_id.country",
+                place: {
+                    $push: {
+                        destinationId: "$_id.destination",
+                        count: "$count"
+                    }
+                },
+                count: {$sum: 1}
+            }
+        },
+        {
+            $sort: {
+                count: -1
+            }
+        }
+    ])
+    if(!destinations){
+        res.status(404).json({code: 404, message: '여행지 내역 없음'})
+    }else{
+        res.json({code: 200, destinations})
     }
 }))
 

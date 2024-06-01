@@ -58,6 +58,22 @@ function Create(){
         })
     }
 
+    useEffect(() => {
+        axios.get('http://127.0.0.1:5000/api/users/getId', {
+          headers: {
+              'Constent-Type': 'application/json',
+              'Authorization': `Bearer ${localStorage.getItem("token")}`
+          }
+        })
+        .then((res) => console.log(res))
+        .catch(err => {
+            if(err.response.data.message === '토큰 에러'){
+                alert('로그인이 필요한 페이지 입니다.')
+                navigate("/login")
+            }
+        })
+    }, [])
+
     const {
         title,
         city,

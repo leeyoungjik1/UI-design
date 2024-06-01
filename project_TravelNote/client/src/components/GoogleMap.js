@@ -19,7 +19,16 @@ const GoogleMap = ({handleChange}) => {
     const [markerRef, marker] = useAdvancedMarkerRef();
 
     useEffect(() => {
-      handleChange(selectedPlace)
+      if(selectedPlace){
+        let country = ''
+        for (let i=0;i<selectedPlace.address_components.length;i++){
+          for (let j=0;j<selectedPlace.address_components[i].types.length;j++){
+             if(selectedPlace.address_components[i].types[j]=="country")
+                country = selectedPlace.address_components[i].long_name
+          }
+        }
+        handleChange({...selectedPlace, country: country})
+      }
     }, [selectedPlace])
 
     return (
@@ -67,7 +76,7 @@ const PlaceAutocomplete = ({ onPlaceSelect }) => {
     if (!places || !inputRef.current) return;
 
     const options = {
-      fields: ["geometry", "name", "formatted_address", "place_id", "photos"],
+      fields: ["geometry", "name", "formatted_address", "place_id", "photos", "address_components"],
     };
 
     setPlaceAutocomplete(new places.Autocomplete(inputRef.current, options));
