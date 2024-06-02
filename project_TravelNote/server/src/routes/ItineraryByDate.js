@@ -103,7 +103,7 @@ router.put('/:ItineraryByDateId', [
 // 해당 일차의 전체 예상 비용 가져오기
 router.get('/totalcost/:ItineraryByDateId', [
 
-], isAuth, expressAsyncHandler(async (req, res, next) => {
+], expressAsyncHandler(async (req, res, next) => {
     const itineraryByDate = await ItineraryByDate.findById(req.params.ItineraryByDateId)
 
     const destinationCosts = await Destination.aggregate([

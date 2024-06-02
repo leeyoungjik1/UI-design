@@ -23,6 +23,7 @@ function Login(){
         API.post('api/users/login', formData).then((res) => {
             localStorage.setItem('token', res.data.token)
             navigate("/")
+            window.location.reload()
         }).catch((err) => {
             if(err.response.data.code === 401){
                 alert('요청하신 데이터가 유효하지 않습니다!')

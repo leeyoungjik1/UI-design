@@ -160,7 +160,9 @@ function DetailedItinerary(){
                             }
                         </div>
                         {day && 
-                            <div className={styles.googleMap}><GoogleDirectionsMap itinerary={itinerary}/></div>
+                            <div className={styles.googleMap}>
+                                <GoogleDirectionsMap itinerary={itinerary}/>
+                            </div>
                         }
                     </div>
                 </div>

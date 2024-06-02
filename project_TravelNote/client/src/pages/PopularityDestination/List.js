@@ -1,16 +1,24 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios'
+import { NavLink } from "react-router-dom";
+import PopularityOfContry from "../../components/PopularityOfContry";
+import styles from './List.module.css'
 
 // URL 주소: /itinerary/popularitydestination
-const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY
 
 function PopularityDestination(){
     const [list, setList] = useState([])
-    console.log(list)
+    const [filter, setFilter] = useState('all')
+    const [filteredList, setFilterList] = useState([])
+
+    const handleChange = (e) => {
+        const { value } = e.target 
+        setFilter(value)
+    }
 
     // 나라별 인기 여행지 리스트 5개씩 가져오기
     useEffect(() => {
-        axios.get(`http://127.0.0.1:5000/api/itinerarys/destination/popularity`)
+        axios.get(`http://127.0.0.1:5000/api/itinerarys/destination/list/popularity`)
         .then((res) => {
             const result = res.data.destinations.map(destination => {
                 const places = destination.place.filter((place, id) => {
@@ -24,26 +32,45 @@ function PopularityDestination(){
                         places: places
                     }
                 )
-            })
+            }).filter(res => res.contry)
             setList(result)
+            setFilterList(result)
         })
     }, [])
-    
-    // 구글 placeId를 이용한 여행지 정보 가져오기 테스트
-    if(list){
-        const test = list[0].places[0].destinationId
-        console.log(test)
-        if(test){
-            axios.get(`https://places.googleapis.com/v1/places/${test}?fields=*&key=${API_KEY}`)
-        .then((res) => {
-            console.log(res)
-        })
-        }
-    }
 
+    // 나라별 필터
+    useEffect(() => {
+        if(filter === 'all'){
+            setFilterList(list)
+        }else{
+            const listFiltered = list.filter(places => places.contry === filter)
+            setFilterList(listFiltered)
+        }
+    }, [filter])
+    
     return (
-        <div>
+        <div className={styles.listPage}>
             <h1>인기 여행지</h1>
+            <div className={styles.contents}>
+                {filteredList.length !== 0 &&
+                    <div className={styles.filter}>
+                        <label htmlFor="contry">나라별 보기</label>
+                        <select name="contry" id="contry" onChange={handleChange} value={filter}>   
+                            <option value="all">전체보기</option>
+                            {list.map((place, id) => 
+                                <option key={id} value={place.contry}>{place.contry}</option>
+                            )}              
+                        </select>
+                    </div>
+                }
+                <div className={styles.popularityOfContry}>
+                    {filteredList.length !== 0 &&
+                        filteredList.map((place, id) => 
+                            <PopularityOfContry key={id} place={place}/>
+                        )        
+                    }
+                </div>
+            </div>
         </div>
     )
 }

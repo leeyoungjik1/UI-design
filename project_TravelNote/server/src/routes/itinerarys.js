@@ -255,7 +255,7 @@ router.get('/list/searched', [
 // 해당 일정 전체 예상 비용 가져오기
 router.get('/totalcost/:itineraryId', [
 
-], isAuth, expressAsyncHandler(async (req, res, next) => {
+], expressAsyncHandler(async (req, res, next) => {
     const accommodationCosts = await ItineraryByDate.aggregate([
         {$match: {itineraryId: new mongoose.Types.ObjectId(req.params.itineraryId)}},
         {$group: {
@@ -521,5 +521,89 @@ router.get('/list/sharedlist/searched', [
     }
 }))
 
+// 선택한 공개 일정 하나의 내역 가져오기
+router.get('/details/sharedlist/:itineraryId', [
+
+], expressAsyncHandler(async (req, res, next) => {
+    const itinerary = await Itinerary.findById(req.params.itineraryId)
+    .populate({
+        path: 'itineraryByDateIds',
+        options: { sort: { 'date': 1 } },
+        populate: {
+            path: 'destinationIds',
+            options: { sort: { 'timeOfStart': 1 } }
+        }
+    })
+    // console.log(itinerary)
+    const accommodationCosts = await ItineraryByDate.aggregate([
+        {$match: {itineraryId: new mongoose.Types.ObjectId(req.params.itineraryId)}},
+        {$group: {
+            _id: "$itineraryId",
+            total: {$sum: "$accommodationCost"}
+        }}
+    ])
+    const destinationCosts = await Destination.aggregate([
+        {$match: {itineraryId: new mongoose.Types.ObjectId(req.params.itineraryId)}},
+        {$group: {
+            _id: "$itineraryId",
+            total: {$sum: "$cost"}
+        }}
+    ])
+
+    let totalcost = 0
+    if(accommodationCosts.total && destinationCosts.total && accommodationCosts.length !== 0 || destinationCosts.length !== 0){
+        totalcost = accommodationCosts[0].total + destinationCosts[0].total
+    }
+
+    if(!itinerary){
+        res.status(404).json({code: 404, message: '해당 일정 내역 없음'})
+    }else{
+        const {city, dateOfEnd, dateOfStart, description, itineraryByDateIds, title, _id, isPublic, status, open} = itinerary
+        res.json({code: 200, city, dateOfEnd, dateOfStart, description, itineraryByDateIds, title, _id, isPublic, status, open, totalcost})
+    }
+}))
+
+// 선택한 공개 일정 중 하나의 일차 내역 가져오기
+router.get('/details/sharedlist/ItineraryByDate/:itineraryId/:ItineraryByDate', [
+
+], expressAsyncHandler(async (req, res, next) => {
+    const itinerary = await Itinerary.findById(req.params.itineraryId)
+    .populate({
+        path: 'itineraryByDateIds',
+        match: { _id: new mongoose.Types.ObjectId(req.params.ItineraryByDate) },
+        options: { sort: { 'date': 1 } },
+        populate: {
+            path: 'destinationIds',
+            options: { sort: { 'timeOfStart': 1 } }
+        }
+    })
+
+    const accommodationCosts = await ItineraryByDate.aggregate([
+        {$match: {itineraryId: new mongoose.Types.ObjectId(req.params.itineraryId)}},
+        {$group: {
+            _id: "$itineraryId",
+            total: {$sum: "$accommodationCost"}
+        }}
+    ])
+    const destinationCosts = await Destination.aggregate([
+        {$match: {itineraryId: new mongoose.Types.ObjectId(req.params.itineraryId)}},
+        {$group: {
+            _id: "$itineraryId",
+            total: {$sum: "$cost"}
+        }}
+    ])
+
+    let totalcost = 0
+    if(accommodationCosts.total && destinationCosts.total && accommodationCosts.length !== 0 || destinationCosts.length !== 0){
+        totalcost = accommodationCosts[0].total + destinationCosts[0].total
+    }
+
+    if(!itinerary){
+        res.status(404).json({code: 404, message: '해당 일정 내역 없음'})
+    }else{
+        const {city, dateOfEnd, dateOfStart, description, itineraryByDateIds, title, _id, isPublic, status, open} = itinerary
+        res.json({code: 200, city, dateOfEnd, dateOfStart, description, itineraryByDateIds, title, _id, isPublic, status, open, totalcost})
+    }
+}))
 
 module.exports = router

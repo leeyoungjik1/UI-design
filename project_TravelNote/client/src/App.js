@@ -52,6 +52,11 @@ const menus = [
 function App() {
   const [user, setUser] = useState()
 
+  const logout = () => {
+    window.localStorage.removeItem("token")
+    window.location.reload()
+  }
+
   useEffect(() => {
     axios.get('http://127.0.0.1:5000/api/users/getId', {
       headers: {
@@ -77,7 +82,7 @@ function App() {
           {user ? 
             <>
               <NavLink to='/'>내 정보</NavLink> 
-              <NavLink to='/'>로그아웃</NavLink> 
+              <NavLink to='/' onClick={logout}>로그아웃</NavLink> 
             </> :
             <>
               <NavLink to='/login'>로그인</NavLink>

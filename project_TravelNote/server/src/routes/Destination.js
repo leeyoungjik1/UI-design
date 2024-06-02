@@ -79,9 +79,8 @@ router.get('/:destinationId', [
 }))
 
 // 인기 여행지 내역 가져오기
-router.get('/popularity', [
-
-], expressAsyncHandler(async (req, res, next) => {
+router.get('/list/popularity', expressAsyncHandler(async (req, res, next) => {
+    console.log('작동')
     const destinations = await Destination.aggregate([
         {
             $group: {

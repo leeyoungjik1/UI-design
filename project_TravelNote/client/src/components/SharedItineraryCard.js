@@ -9,7 +9,7 @@ function SharedItineraryCard({itinerary}){
     const navigate = useNavigate()
 
     const [totalcost, setTotalcost] = useState(0)
-    console.log(itinerary)
+    // console.log(itinerary)
 
     // 해당 일정 이미지 불러오기
     let imgSrc = ''
@@ -46,11 +46,7 @@ function SharedItineraryCard({itinerary}){
 
     // 일정 총 예상 비용 불러오기
     useEffect(() => {
-        axios.get(`http://127.0.0.1:5000/api/itinerarys/totalcost/${itinerary._id}`, {
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem("token")}`
-            }
-        })
+        axios.get(`http://127.0.0.1:5000/api/itinerarys/totalcost/${itinerary._id}`)
         .then((res) => {
             // console.log(res)
             setTotalcost(res.data.totalcost)
