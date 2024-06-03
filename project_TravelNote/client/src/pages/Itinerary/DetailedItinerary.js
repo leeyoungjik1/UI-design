@@ -116,8 +116,13 @@ function DetailedItinerary(){
                 setIsDestinationCard(true)
                 break
             case '여행지 전체 삭제':
+
                 if(itineraryByDate.destinationIds.length !== 0){
-                    deleteAllDestination(e)
+                    if(window.confirm("여행지 일정을 전체 삭제 하시겠습니까?")){
+                        deleteAllDestination(e)
+                    }else{
+                        return
+                    }  
                 }
                 break
         }
@@ -148,26 +153,32 @@ function DetailedItinerary(){
 
     // 최종 ItineraryByDate 모델에 대한 데이터 서버로 전송
     function handleSubmit(e){
-        e.preventDefault()
-        axios.get('http://127.0.0.1:5000/api/users/getId', {
-            headers: {
-                'Constent-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem("token")}`
-            }
-        }).then((res) => {
-            axios.put(`http://127.0.0.1:5000/api/itinerarys/bydate/${itineraryByDate._id}`, formData, {
+        if(window.confirm("숙소 정보를 저장하시겠습니까?")){
+            e.preventDefault()
+            axios.get('http://127.0.0.1:5000/api/users/getId', {
                 headers: {
                     'Constent-Type': 'application/json',
                     'Authorization': `Bearer ${localStorage.getItem("token")}`
                 }
             }).then((res) => {
-                console.log(res)
-                setSubmitServer(res)
-                setItineraryByDate(res.data.updateditineraryByDate)
-            }).catch((err) => {
-                console.log(err)
+                axios.put(`http://127.0.0.1:5000/api/itinerarys/bydate/${itineraryByDate._id}`, formData, {
+                    headers: {
+                        'Constent-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem("token")}`
+                    }
+                }).then((res) => {
+                    console.log(res)
+                    setSubmitServer(res)
+                    setItineraryByDate(res.data.updateditineraryByDate)
+                }).catch((err) => {
+                    console.log(err)
+                })
             })
-        })
+            alert('숙소 정보가 저장되었습니다.')
+        }else{
+            e.preventDefault()
+        }
+
     }
 
     // AddDestinationCard에서 서버 전송 시 setSubmitServer
@@ -265,7 +276,11 @@ function DetailedItinerary(){
                 // navigate(`/itinerary/details/${e.target.id}`)
                 break
             case '삭제':
-                deleteDestination(e)
+                if(window.confirm("여행지 일정을 삭제 하시겠습니까?")){
+                    deleteDestination(e)
+                }else{
+                    e.preventDefault()
+                }
                 break
             case '완료':
                 handleisDone(e, true)
@@ -285,6 +300,13 @@ function DetailedItinerary(){
                 }
             })
             .then((res) => setItinerary(res.data))
+            .catch(err =>{
+                console.log(err.response.data)
+                if(err.response.data.code === 401){
+                    alert('로그인이 필요한 페이지 입니다.')
+                    navigate("/login")
+                }
+            })
         }
     }, [])
 

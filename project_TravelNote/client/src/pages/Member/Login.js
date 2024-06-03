@@ -26,7 +26,7 @@ function Login(){
             window.location.reload()
         }).catch((err) => {
             if(err.response.data.code === 401){
-                alert('요청하신 데이터가 유효하지 않습니다!')
+                alert('입력하신 아이디와 비밀번호를 다시 확인해주세요.')
             }
         })
     }

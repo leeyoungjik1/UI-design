@@ -36,37 +36,37 @@ function ItineraryByDateCard({dateOfStart, itineraryByDate, changeDestinationSta
             setTotalcost(res.data.totalcost)
         })
         
-        if(itineraryByDate.accommodationInfo.location.lat){
-            const lat = itineraryByDate.accommodationInfo.location.lat
-            const lng = itineraryByDate.accommodationInfo.location.lng
-            const APIKey = process.env.REACT_APP_OPENWEATHER_API_KEY
+        // if(itineraryByDate.accommodationInfo.location.lat){
+        //     const lat = itineraryByDate.accommodationInfo.location.lat
+        //     const lng = itineraryByDate.accommodationInfo.location.lng
+        //     const APIKey = process.env.REACT_APP_OPENWEATHER_API_KEY
 
-            // console.log(itineraryByDate, lat, weather)
-            if(lat){
-                axios.get(`https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lng}&exclude=minutely,hourly&units=metric&appid=${APIKey}`)
-                .then((res) => {
-                    // console.log(res.data)
-                    const daySearched = res.data.daily.find(day => {
-                        // console.log(moment(day.dt*1000).format('YYYY-MM-DD'), moment(itineraryByDate.date).format('YYYY-MM-DD'))
-                        return moment(day.dt*1000).format('YYYY-MM-DD') === moment(itineraryByDate.date).format('YYYY-MM-DD')
-                    })
-                    if(daySearched){
-                        // console.log(daySearched)
-                        setWeather({
-                            weatherIconSrc: `http://openweathermap.org/img/wn/${daySearched.weather[0].icon}@2x.png`,
-                            temp: daySearched.temp
-                        })
-                    }
-                })
-            }
-        }
+        //     // console.log(itineraryByDate, lat, weather)
+        //     if(lat){
+        //         axios.get(`https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lng}&exclude=minutely,hourly&units=metric&appid=${APIKey}`)
+        //         .then((res) => {
+        //             // console.log(res.data)
+        //             const daySearched = res.data.daily.find(day => {
+        //                 // console.log(moment(day.dt*1000).format('YYYY-MM-DD'), moment(itineraryByDate.date).format('YYYY-MM-DD'))
+        //                 return moment(day.dt*1000).format('YYYY-MM-DD') === moment(itineraryByDate.date).format('YYYY-MM-DD')
+        //             })
+        //             if(daySearched){
+        //                 // console.log(daySearched)
+        //                 setWeather({
+        //                     weatherIconSrc: `http://openweathermap.org/img/wn/${daySearched.weather[0].icon}@2x.png`,
+        //                     temp: daySearched.temp
+        //                 })
+        //             }
+        //         })
+        //     }
+        // }
 
-        return () => {
-            setWeather({
-                "weatherIconSrc": "",
-                "temp": {}
-            })
-        }
+        // return () => {
+        //     setWeather({
+        //         "weatherIconSrc": "",
+        //         "temp": {}
+        //     })
+        // }
     }, [itineraryByDate])
 
     // D-day 설정

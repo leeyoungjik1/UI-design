@@ -119,7 +119,6 @@ router.get('/list', [
             })
         }
     }
-
     if(itinerarys.length === 0){
         res.status(404).json({code: 404, message: '사용자의 일정 내역 없음'})
     }else{

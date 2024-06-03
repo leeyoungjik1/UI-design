@@ -26,24 +26,29 @@ function Modify(){
     }
 
     const handleSubmit = (e) => {
-        e.preventDefault()
-        axios.get('http://127.0.0.1:5000/api/users/getId', {
-            headers: {
-                'Constent-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem("token")}`
-            }
-        }).then((res) => {
-            axios.put(`http://127.0.0.1:5000/api/itinerarys/changelist/${params.itineraryId}`, formData, {
+        if(window.confirm("일정을 수정 하시겠습니까?")){
+            e.preventDefault()
+            axios.get('http://127.0.0.1:5000/api/users/getId', {
                 headers: {
                     'Constent-Type': 'application/json',
                     'Authorization': `Bearer ${localStorage.getItem("token")}`
                 }
             }).then((res) => {
-                navigate(`/itinerary/details/${params.itineraryId}`)
-            }).catch((err) => {
-                console.log(err)
+                axios.put(`http://127.0.0.1:5000/api/itinerarys/changelist/${params.itineraryId}`, formData, {
+                    headers: {
+                        'Constent-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem("token")}`
+                    }
+                }).then((res) => {
+                    navigate(`/itinerary/details/${params.itineraryId}`)
+                }).catch((err) => {
+                    console.log(err)
+                })
             })
-        })
+        }else{
+            navigate(`/itinerary/details/${params.itineraryId}`)
+        }
+
     }
 
     useEffect(() => {

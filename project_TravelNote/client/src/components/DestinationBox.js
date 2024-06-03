@@ -16,38 +16,38 @@ function DestinationBox({destination, index, weatherSearch, handleClick, isShare
     // console.log(`${moment(destination.timeOfStart).format('MM-DD')} ${weather}`)
 
     // 위치 기반 날씨 정보 불러오기
-    useEffect(() => {
-        const lat = destination.destinationInfo.location.lat
-        const lng = destination.destinationInfo.location.lng
-        const APIKey = process.env.REACT_APP_OPENWEATHER_API_KEY
+    // useEffect(() => {
+    //     const lat = destination.destinationInfo.location.lat
+    //     const lng = destination.destinationInfo.location.lng
+    //     const APIKey = process.env.REACT_APP_OPENWEATHER_API_KEY
 
-        if(lat){
-            axios.get(`https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lng}&exclude=minutely,hourly&units=metric&appid=${APIKey}`)
-            .then((res) => {
-                const daySearched = res.data.daily.find(day => {
-                    return moment(day.dt*1000).format('YYYY-MM-DD') === moment(destination.date).format('YYYY-MM-DD')
-                })
-                if(daySearched){
-                    setWeather({
-                        weatherIconSrc: `http://openweathermap.org/img/wn/${daySearched.weather[0].icon}@2x.png`,
-                        temp: daySearched.temp
-                    })
-                    // console.log('목적지 날씨 정보를 숙소 날씨로 전송')
-                    weatherSearch({
-                        weatherIconSrc: `http://openweathermap.org/img/wn/${daySearched.weather[0].icon}@2x.png`,
-                        temp: daySearched.temp
-                    })
-                }
-            })
-        }
+    //     if(lat){
+    //         axios.get(`https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lng}&exclude=minutely,hourly&units=metric&appid=${APIKey}`)
+    //         .then((res) => {
+    //             const daySearched = res.data.daily.find(day => {
+    //                 return moment(day.dt*1000).format('YYYY-MM-DD') === moment(destination.date).format('YYYY-MM-DD')
+    //             })
+    //             if(daySearched){
+    //                 setWeather({
+    //                     weatherIconSrc: `http://openweathermap.org/img/wn/${daySearched.weather[0].icon}@2x.png`,
+    //                     temp: daySearched.temp
+    //                 })
+    //                 // console.log('목적지 날씨 정보를 숙소 날씨로 전송')
+    //                 weatherSearch({
+    //                     weatherIconSrc: `http://openweathermap.org/img/wn/${daySearched.weather[0].icon}@2x.png`,
+    //                     temp: daySearched.temp
+    //                 })
+    //             }
+    //         })
+    //     }
 
-        return () => {
-            setWeather({
-                "weatherIconSrc": "",
-                "temp": {}
-            })
-        }
-    }, [destination])
+    //     return () => {
+    //         setWeather({
+    //             "weatherIconSrc": "",
+    //             "temp": {}
+    //         })
+    //     }
+    // }, [destination])
 
     const {
         timeOfStart,

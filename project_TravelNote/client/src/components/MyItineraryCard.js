@@ -7,7 +7,7 @@ import styles from './MyItineraryCard.module.css'
 function MyItineraryCard({itinerary, handleClick}){
     const navigate = useNavigate()
 
-    console.log(itinerary)
+    // console.log(itinerary)
     const [totalcost, setTotalcost] = useState(0)
 
     // 해당 일정 이미지 불러오기

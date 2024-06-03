@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import MyItineraryCard from "../../components/MyItineraryCard";
 import FilterButtons from "../../components/FilterButtons";
 import styles from './List.module.css'
-
+import ReactPaginate from 'react-paginate';
 
 // URL 주소: /itinerary/myitinerary
 
 function List(){
+    const navigate = useNavigate()
+
     const [list, setList] = useState([])
     const [sort, setSort] = useState('lastModifiedAt')
     const [filter, setFilter] = useState('')
@@ -68,6 +71,47 @@ function List(){
         }
     }
 
+    function PaginatedItems({ itemsPerPage }) {
+        const [itemOffset, setItemOffset] = useState(0);
+      
+        const endOffset = itemOffset + itemsPerPage;
+        const currentItems = list.slice(itemOffset, endOffset);
+        const pageCount = Math.ceil(list.length / itemsPerPage);
+      
+        const handlePageClick = (event) => {
+          const newOffset = (event.selected * itemsPerPage) % list.length;
+          setItemOffset(newOffset);
+        };
+      
+        return (
+          <>
+            <div className={styles.itinerarys}>
+                {currentItems.length !== 0 && currentItems.map((itinerary, id) => {
+                    return (
+                        <MyItineraryCard
+                            key={id}
+                            itinerary={itinerary}
+                            handleClick={changeItinerary}
+                        />
+                    )
+                })}
+            </div>
+            <div>
+                <ReactPaginate
+                breakLabel="..."
+                nextLabel=">"
+                onPageChange={handlePageClick}
+                pageRangeDisplayed={5}
+                pageCount={pageCount}
+                previousLabel="<"
+                renderOnZeroPageCount={null}
+                className="pagination"
+                />
+            </div>
+          </>
+        );
+    }
+
     // 전체 일정 리스트 가져오기
     useEffect(() => {
         axios.get(`http://127.0.0.1:5000/api/itinerarys/list?sort=${sort}&filter=${filter}`, {
@@ -76,6 +120,13 @@ function List(){
             }
         })
         .then((res) => setList(res.data.Itinerarys))
+        .catch(err =>{
+            console.log(err.response.data)
+            if(err.response.data.message === '토큰 에러'){
+                alert('로그인이 필요한 페이지 입니다.')
+                navigate("/login")
+            }
+        })
     }, [sort, filter])
 
     return (
@@ -89,15 +140,7 @@ function List(){
                 </select>
             </div>
             <div className={styles.itinerarys}>
-                {list.length !== 0 && list.map((itinerary, id) => {
-                    return (
-                        <MyItineraryCard
-                            key={id}
-                            itinerary={itinerary}
-                            handleClick={changeItinerary}
-                        />
-                    )
-                })}
+                <PaginatedItems itemsPerPage={4}/>
             </div>
         </div>
     )

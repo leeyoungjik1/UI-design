@@ -4,7 +4,8 @@ import ItineraryCard from "../../components/ItineraryCard";
 import { useNavigate } from 'react-router-dom'
 import FilterButtons from "../../components/FilterButtons";
 import styles from './ChangeList.module.css'
-
+import ReactPaginate from 'react-paginate';
+import './ReactPaginate.css'
 
 // URL 주소: /itinerary/changelist
 
@@ -18,6 +19,7 @@ function ChangeList(){
         searchWord: '',
         isDone: ''
     })
+    // console.log(list)
 
     const handleChange = (e) => {
         const { name, value } = e.target 
@@ -95,7 +97,11 @@ function ChangeList(){
                 navigate(`/itinerary/details/${e.target.id}`)
                 break
             case '삭제':
-                handleDelete(e)
+                if(window.confirm("일정을 삭제 하시겠습니까?")){
+                    handleDelete(e)
+                }else{
+                    return
+                }
                 break
             case '완료':
                 handleisDone(e, true)
@@ -119,6 +125,82 @@ function ChangeList(){
             setIsDone('')
             setList(res.data.Itinerarys)
         })
+        .catch(err =>{
+            // console.log(err.response.data)
+            if(err.response.data.code === 404){
+                alert('검색 결과가 없습니다.')
+            }
+        })
+    }
+
+    function PaginatedItems({ itemsPerPage }) {
+        const [itemOffset, setItemOffset] = useState(0);
+      
+        const endOffset = itemOffset + itemsPerPage;
+        const currentItems = list.slice(itemOffset, endOffset);
+        const pageCount = Math.ceil(list.length / itemsPerPage);
+      
+        const handlePageClick = (event) => {
+          const newOffset = (event.selected * itemsPerPage) % list.length;
+          setItemOffset(newOffset);
+        };
+      
+        return (
+          <>
+            <div className={styles.itineraryCardBox}>
+                {currentItems &&
+                    currentItems.length !== 0 && currentItems.map((itinerary, id) => {
+                        const imgSrcSearched1 = itinerary.itineraryByDateIds.map((itineraryByDateId) => {
+                            return (
+                                itineraryByDateId.destinationIds.map((destinationId) => {
+                                    return destinationId.destinationInfo.photoUrl
+                                })
+                            )
+                        })
+                        const imgSrcSearched2 = imgSrcSearched1.find(res => {
+                            return res.length !== 0 && res[0] !== ''
+                        })
+                        let imgSrcSearched3 = undefined
+                        if(imgSrcSearched2){
+                            imgSrcSearched3 = imgSrcSearched2.find(res => {
+                                return res
+                            })
+                        }
+                        return (
+                            <ItineraryCard
+                                key={id}
+                                city={itinerary.city}
+                                dateOfEnd={itinerary.dateOfEnd}
+                                dateOfStart={itinerary.dateOfStart}
+                                description={itinerary.description}
+                                title={itinerary.title}
+                                status={itinerary.status}
+                                open={itinerary.open}
+                                imgSrc={imgSrcSearched3 || "https://images.unsplash.com/photo-1500835556837-99ac94a94552?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"}
+                                handleClick={changeItinerary}
+                            >
+                                <button id={itinerary._id}>수정</button>
+                                <button id={itinerary._id}>삭제</button>
+                                <button id={itinerary._id}>{itinerary.isDone ? "예정" : "완료"}</button>
+                            </ItineraryCard>
+                        )
+                    })
+                }
+            </div>
+            <div>
+                <ReactPaginate
+                breakLabel="..."
+                nextLabel=">"
+                onPageChange={handlePageClick}
+                pageRangeDisplayed={5}
+                pageCount={pageCount}
+                previousLabel="<"
+                renderOnZeroPageCount={null}
+                className="pagination"
+                />
+            </div>
+          </>
+        );
     }
 
     // 변경할 전체 일정 리스트 가져오기
@@ -131,6 +213,15 @@ function ChangeList(){
         .then((res) => {
             // console.log(res.data)
             setList(res.data.Itinerarys)
+        })
+        .catch(err =>{
+            console.log(err.response.data)
+            if(err.response.data.message === '토큰 에러'){
+                alert('로그인이 필요한 페이지 입니다.')
+                navigate("/login")
+            }else if(err.response.data.code === 404){
+                setList([])
+            }
         })
     }, [isDone])
 
@@ -154,51 +245,9 @@ function ChangeList(){
                 </form>
             </div>
             <div className={styles.itineraryCardContainer}>
-                {list.length !== 0 && list.map((itinerary, id) => {
-                    const imgSrcSearched1 = itinerary.itineraryByDateIds.map((itineraryByDateId) => {
-                        return (
-                            itineraryByDateId.destinationIds.map((destinationId) => {
-                                return destinationId.destinationInfo.photoUrl
-                            })
-                        )
-                    })
-                    const imgSrcSearched2 = imgSrcSearched1.find(res => {
-                        return res.length !== 0 && res[0] !== ''
-                    })
-                    let imgSrcSearched3 = undefined
-                    if(imgSrcSearched2){
-                        imgSrcSearched3 = imgSrcSearched2.find(res => {
-                            return res
-                        })
-                    }
-                    return (
-                        <ItineraryCard
-                            key={id}
-                            city={itinerary.city}
-                            dateOfEnd={itinerary.dateOfEnd}
-                            dateOfStart={itinerary.dateOfStart}
-                            description={itinerary.description}
-                            title={itinerary.title}
-                            status={itinerary.status}
-                            open={itinerary.open}
-                            imgSrc={imgSrcSearched3 || "https://images.unsplash.com/photo-1500835556837-99ac94a94552?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"}
-                            // imgSrc={
-                            //     itinerary.itineraryByDateIds.length === 0 ?
-                            //     "https://images.unsplash.com/photo-1500835556837-99ac94a94552?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" :
-                            //     itinerary.itineraryByDateIds[0].destinationIds.length === 0 ?
-                            //     "https://images.unsplash.com/photo-1500835556837-99ac94a94552?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" :
-                            //     itinerary.itineraryByDateIds[0].destinationIds[0].destinationInfo.photoUrl ||
-                            //     "https://images.unsplash.com/photo-1500835556837-99ac94a94552?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                            // }
-                            handleClick={changeItinerary}
-                        >
-                            <button id={itinerary._id}>수정</button>
-                            <button id={itinerary._id}>삭제</button>
-                            <button id={itinerary._id}>{itinerary.isDone ? "예정" : "완료"}</button>
-                        </ItineraryCard>
-                    )
-                })}
+                <PaginatedItems itemsPerPage={4}/>
             </div>
+            
         </div>
     )
 }

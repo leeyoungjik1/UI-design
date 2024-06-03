@@ -100,25 +100,30 @@ function ModDestinationCard({destinationId, changeSubmit, isShow}){
         if(e.target.type === 'button'){
             changeSubmit({name: 'cancleModDes', id: destinationId})
         }else{
-            e.preventDefault()
-            axios.get('http://127.0.0.1:5000/api/users/getId', {
-                headers: {
-                    'Constent-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem("token")}`
-                }
-            }).then((res) => {
-                axios.put(`http://127.0.0.1:5000/api/itinerarys/destination/${destinationId}`, formData, {
+            if(window.confirm("여행지 일정을 수정하시겠습니까?")){
+                e.preventDefault()
+                axios.get('http://127.0.0.1:5000/api/users/getId', {
                     headers: {
                         'Constent-Type': 'application/json',
                         'Authorization': `Bearer ${localStorage.getItem("token")}`
                     }
                 }).then((res) => {
-                    // console.log(res)
-                    changeSubmit({name: 'submitModDes', res: res})
-                }).catch((err) => {
-                    console.log(err)
+                    axios.put(`http://127.0.0.1:5000/api/itinerarys/destination/${destinationId}`, formData, {
+                        headers: {
+                            'Constent-Type': 'application/json',
+                            'Authorization': `Bearer ${localStorage.getItem("token")}`
+                        }
+                    }).then((res) => {
+                        // console.log(res)
+                        changeSubmit({name: 'submitModDes', res: res})
+                    }).catch((err) => {
+                        console.log(err)
+                    })
                 })
-            })
+            }else{
+                e.preventDefault()
+                changeSubmit({name: 'cancleModDes', id: destinationId})
+            }
         }
     }
     
@@ -196,7 +201,7 @@ function ModDestinationCard({destinationId, changeSubmit, isShow}){
                 <input type="text" name="description" id="description" onChange={handleChange} value={description || ''}/>
                 <label htmlFor="cost">예상 비용</label>
                 <input type="number" name="cost" id="cost" onChange={handleChange} value={cost || ''}/>
-                <button type="submit">여행지 저장</button>
+                <button type="submit">여행지 수정</button>
                 <button type="button" id='cancleModDes' onClick={handleSubmit}>취소</button>
             </form>
         </div>

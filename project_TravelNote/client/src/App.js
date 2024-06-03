@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from 'axios'
 import styles from "./App.module.css";
 import './Root.css'
-import { Route, Routes, NavLink } from 'react-router-dom'
+import { Route, Routes, NavLink, useNavigate } from 'react-router-dom'
 import {
   Home,
   Login,
@@ -50,11 +50,15 @@ const menus = [
 
 
 function App() {
+  const navigate = useNavigate()
+
   const [user, setUser] = useState()
 
   const logout = () => {
     window.localStorage.removeItem("token")
+    navigate('./')
     window.location.reload()
+    alert('로그아웃 되었습니다.')
   }
 
   useEffect(() => {

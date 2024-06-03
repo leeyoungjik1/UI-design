@@ -15,8 +15,7 @@ function DetailedItinerary(){
     const [itinerary, setItinerary] = useState([])
     const [itineraryFixed, setItineraryFixed] = useState([])
     const [day, setDay] = useState('')
-    console.log(day)
-
+    // console.log(day)
 
     // 일차별 버튼 선택(1일차, 2일차 ...)
     const changeDay = (e) => {

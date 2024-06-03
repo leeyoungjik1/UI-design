@@ -28,7 +28,7 @@ function AddDestinationCard({selectedDate, itineraryByDateId, changeSubmit, isSh
     const [formData, setFormData] = useState({
         title: '',
         address: '',
-        category: '음식점',
+        category: '미정',
         timeOfStart: '',
         timeOfEnd: '',
         description: '',
@@ -95,7 +95,7 @@ function AddDestinationCard({selectedDate, itineraryByDateId, changeSubmit, isSh
                     setFormData({
                         title: '',
                         address: '',
-                        category: '음식점',
+                        category: '미정',
                         timeOfStart: '',
                         timeOfEnd: '',
                         description: '',
@@ -112,6 +112,7 @@ function AddDestinationCard({selectedDate, itineraryByDateId, changeSubmit, isSh
                         }
                     })
                     // navigate(`/itinerary/details/${params.itineraryId}`)
+                    alert('여행지 일정이 추가되었습니다.')
                 }).catch((err) => {
                     console.log(err)
                 })

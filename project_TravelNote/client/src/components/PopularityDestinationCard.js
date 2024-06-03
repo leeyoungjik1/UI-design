@@ -24,7 +24,10 @@ function PopularityDestinationCard({placeId}){
                 const {displayName: {text: title}, googleMapsUri, photos, primaryTypeDisplayName, shortFormattedAddress} = res.data
                 setPlace({
                     category: primaryTypeDisplayName && primaryTypeDisplayName.text,
-                    imgUrl: photos.length !== 0 && `https://places.googleapis.com/v1/${photos[0].name}/media?maxHeightPx=300&maxWidthPx=300&key=${API_KEY}`,
+                    imgUrl: photos && photos.length !== 0 ?
+                        `https://places.googleapis.com/v1/${photos[0].name}/media?maxHeightPx=300&maxWidthPx=300&key=${API_KEY}` : 
+                        "https://images.unsplash.com/photo-1500835556837-99ac94a94552?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                        ,
                     title: title,
                     address: shortFormattedAddress,
                     count: placeId.count,
