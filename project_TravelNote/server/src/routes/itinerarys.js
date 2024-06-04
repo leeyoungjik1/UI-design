@@ -53,11 +53,11 @@ router.post('/create', [
         if(!newItinerary){
             res.status(400).json({code: 400, message: 'Invalid Itinerarys Data'})
         }else{
-            const {userId, title, city, dateOfStart, dateOfEnd, description, open} = newItinerary
+            const {userId, title, city, dateOfStart, dateOfEnd, description, open, _id} = newItinerary
             
             res.json({
                 code: 200,
-                userId, title, city, dateOfStart, dateOfEnd, description, open
+                userId, title, city, dateOfStart, dateOfEnd, description, open, _id
             })
         }
     }

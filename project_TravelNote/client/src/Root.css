@@ -15,8 +15,8 @@
     --gnb-heigt: 120px;
     --gnb-padding: 10px;
     --header-heigt: calc(var(--gnb-heigt) + var(--gnb-padding)*2);
-    --praimary-color: #F8ECEB; 
-    --secondary-color: #54A25C;
+    --praimary-color: #5DA9E9; 
+    --secondary-color: #FF6F61;
     --praimary-color-tp: 247, 236, 235;
     --secondary-color-tp: 84, 162, 92;
     --state-color-info: #2F80ED;
@@ -37,3 +37,7 @@
     justify-content: center;
 }
 
+input, textarea{
+    border: 1px solid var(--gray-color-4);
+    border-radius: 5px;
+}

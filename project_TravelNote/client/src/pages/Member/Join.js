@@ -30,6 +30,7 @@ function Join(){
             navigate("/")
             window.location.reload()
         }).catch((err) => {
+            console.log(err.response.data)
             if(err.response.data.code === 400){
                 alert('요청하신 데이터가 유효하지 않습니다!')
             }

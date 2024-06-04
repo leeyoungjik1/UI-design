@@ -3,6 +3,7 @@ import axios from 'axios'
 import styles from "./App.module.css";
 import './Root.css'
 import { Route, Routes, NavLink, useNavigate } from 'react-router-dom'
+import mainLogo from './assets/mainLogo.png'
 import {
   Home,
   Login,
@@ -78,6 +79,7 @@ function App() {
     <div className={styles.App}>
       <nav className={styles.gnb}>
         <div className={styles.mainMenu}>
+          <NavLink className={styles.logo} to='/'><img src={mainLogo}></img></NavLink>
           {menus.map((menu, id) => 
             <NavLink key={id} to={menu.url}>{menu.name}</NavLink>
           )}

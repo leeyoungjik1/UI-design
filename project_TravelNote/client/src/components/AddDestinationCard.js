@@ -111,6 +111,17 @@ function AddDestinationCard({selectedDate, itineraryByDateId, changeSubmit, isSh
                             place_id: '',
                         }
                     })
+                    setDestinationGoogleData({
+                        name: '',
+                        address: '',
+                        country: '',
+                        location: {
+                            lat: '',
+                            lng: ''
+                        },
+                        photoUrl: '',
+                        place_id: '',
+                    })
                     // navigate(`/itinerary/details/${params.itineraryId}`)
                     alert('여행지 일정이 추가되었습니다.')
                 }).catch((err) => {
@@ -130,6 +141,8 @@ function AddDestinationCard({selectedDate, itineraryByDateId, changeSubmit, isSh
             address: destinationGoogleData.address,
             destinationInfo: destinationGoogleData
         })
+
+
     }, [destinationGoogleData])
 
     // 시작 시간 < 종료 시간

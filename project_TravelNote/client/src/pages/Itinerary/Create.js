@@ -51,7 +51,8 @@ function Create(){
                     description: '',
                     isPublic: true
                 })
-                navigate("/itinerary/changelist")
+                alert("새로운 여행 일정이 생성되었습니다.\n세부 여행 계획을 추가해주세요.")
+                navigate(`/itinerary/details/${res.data._id}`)
             }).catch((err) => {
                 console.log(err)
             })

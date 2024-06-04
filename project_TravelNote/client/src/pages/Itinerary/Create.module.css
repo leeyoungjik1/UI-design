@@ -6,6 +6,8 @@
     justify-content: center;
     /* border: 1px solid red; */
     box-sizing: border-box;
+
+    /* background-color: var(--gray-color-5); */
 }
 .createPage form{
     width: 100%;
@@ -48,3 +50,20 @@
     align-items: center;
     gap: .5rem;
 }
+.createPage button{
+    background-color: #5DA9E9;
+    color: #fff;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.createPage button:hover {
+    background-color: #4A8FC4;
+}
+
+
+
