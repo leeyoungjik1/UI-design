@@ -3,7 +3,7 @@ import axios from 'axios'
 import styles from "./App.module.css";
 import './Root.css'
 import { Route, Routes, NavLink, useNavigate } from 'react-router-dom'
-import mainLogo from './assets/mainLogo.png'
+import mainLogo from './assets/mainLogo2.png'
 import {
   Home,
   Login,

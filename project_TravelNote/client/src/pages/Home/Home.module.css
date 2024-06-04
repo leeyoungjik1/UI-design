@@ -1,0 +1,63 @@
+.HomePage{
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    padding: 5rem 0 10rem 0;
+    gap: 8rem;
+}
+.mainImgContainer{
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+.img{
+    width: var(--base-width);
+    border-radius: 25px;
+}
+.phrase{
+    font-size: 100px;
+    color: white;
+    position: absolute;
+    top: 10%;
+    left: 20%;
+    font-family: "BMHANNA_11yrs";
+}
+.createBtn{
+    color: white;
+    position: absolute;
+    right: 19%;
+    bottom: 6%;
+    font-size: 60px;
+    text-decoration-line: none;
+    font-family: "BMHANNA_11yrs";
+    /* border: 1px solid red; */
+    padding: 20px 50px 10px 50px;
+    text-align: center;
+    background-color: rgba(255, 111, 97, 0.95);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.PopularityDestinationContainer{
+    width: 60%;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+}
+.filter{
+    width: 100%;
+    display: flex;
+    justify-content: end;
+}
+.PopularityOfContryContainer{
+    display: flex;
+    flex-wrap: wrap;
+}

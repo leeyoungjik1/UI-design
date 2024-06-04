@@ -49,29 +49,33 @@ function PopularityDestination(){
     }, [filter])
     
     return (
-        <div className={styles.listPage}>
-            <h1>인기 여행지</h1>
-            <div className={styles.contents}>
-                {filteredList.length !== 0 &&
-                    <div className={styles.filter}>
-                        <label htmlFor="contry">나라별 보기</label>
-                        <select name="contry" id="contry" onChange={handleChange} value={filter}>   
-                            <option value="all">전체보기</option>
-                            {list.map((place, id) => 
-                                <option key={id} value={place.contry}>{place.contry}</option>
-                            )}              
-                        </select>
+        <>
+            {list.length !== 0 && filteredList !== 0 &&
+                <div className={styles.listPage}>
+                    <h1>인기 여행지</h1>
+                    <div className={styles.contents}>
+                        {filteredList.length !== 0 &&
+                            <div className={styles.filter}>
+                                <label htmlFor="contry">나라별 보기</label>
+                                <select name="contry" id="contry" onChange={handleChange} value={filter}>   
+                                    <option value="all">전체보기</option>
+                                    {list.map((place, id) => 
+                                        <option key={id} value={place.contry}>{place.contry}</option>
+                                    )}              
+                                </select>
+                            </div>
+                        }
+                        <div className={styles.popularityOfContry}>
+                            {filteredList.length !== 0 &&
+                                filteredList.map((place, id) => 
+                                    <PopularityOfContry key={id} place={place}/>
+                                )        
+                            }
+                        </div>
                     </div>
-                }
-                <div className={styles.popularityOfContry}>
-                    {filteredList.length !== 0 &&
-                        filteredList.map((place, id) => 
-                            <PopularityOfContry key={id} place={place}/>
-                        )        
-                    }
                 </div>
-            </div>
-        </div>
+            }
+        </>
     )
 }
 export default PopularityDestination

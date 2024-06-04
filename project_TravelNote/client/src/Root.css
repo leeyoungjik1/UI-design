@@ -36,6 +36,24 @@
     display: flex;
     justify-content: center;
 }
+@font-face {
+    font-family: "BMHANNA_11yrs";
+    font-weight: normal;
+    src: url("./assets/BMHANNA_11yrs_ttf.ttf") format("truetype");
+}
+select{
+    padding: 10px;
+    padding-right: 40px;
+    border: 1.5px solid var(--gray-color-5);
+    border-radius: 20px;
+    text-align: center;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: url('./assets/chevron-down-solid.svg') no-repeat 85% 50%;  
+    background-size: 15px;
+    font-weight: bold;
+}
 
 input, textarea{
     border: 1px solid var(--gray-color-4);

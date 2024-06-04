@@ -3,6 +3,7 @@ import axios from 'axios'
 import moment from 'moment'
 import { useParams, useNavigate, NavLink, Link, useSearchParams, useLocation } from 'react-router-dom'
 import styles from './PopularityDestinationCard.module.css'
+import { FaStar } from "react-icons/fa6";
 
 const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY
 
@@ -13,15 +14,16 @@ function PopularityDestinationCard({placeId}){
         title: '',
         address: '',
         count: placeId.count,
-        googleUrl: ''
+        googleUrl: '',
+        rating: ''
     })
 
     useEffect(() => {
         if(placeId){
-            axios.get(`https://places.googleapis.com/v1/places/${placeId.destinationId}?fields=displayName.text,googleMapsUri,photos,primaryTypeDisplayName.text,shortFormattedAddress&key=${API_KEY}`)
+            axios.get(`https://places.googleapis.com/v1/places/${placeId.destinationId}?fields=displayName.text,googleMapsUri,photos,primaryTypeDisplayName.text,shortFormattedAddress,rating&key=${API_KEY}`)
             .then((res) => {
-                // console.log(res)
-                const {displayName: {text: title}, googleMapsUri, photos, primaryTypeDisplayName, shortFormattedAddress} = res.data
+                console.log(res)
+                const {displayName: {text: title}, googleMapsUri, photos, primaryTypeDisplayName, shortFormattedAddress, rating} = res.data
                 setPlace({
                     category: primaryTypeDisplayName && primaryTypeDisplayName.text,
                     imgUrl: photos && photos.length !== 0 ?
@@ -31,7 +33,8 @@ function PopularityDestinationCard({placeId}){
                     title: title,
                     address: shortFormattedAddress,
                     count: placeId.count,
-                    googleUrl: googleMapsUri
+                    googleUrl: googleMapsUri,
+                    rating: rating || '없음'
                 })
             })
         }
@@ -54,19 +57,25 @@ function PopularityDestinationCard({placeId}){
         title,
         address,
         count,
-        googleUrl
+        googleUrl,
+        rating
     } = place
 
     return (
         <>
         {place && 
             <div className={styles.popularityDestinationCard}>
-                <div>{category}</div>
+                {/* <div>{category}</div> */}
+                {/* <div>{address}</div>
+                <div>여행지 등록 수: {count}</div> */}
                 <img src={imgUrl} alt={title}></img>
-                <div>{title}</div>
-                <div>{address}</div>
-                <div>여행지 등록 수: {count}</div>
-                <NavLink to={googleUrl} target="_blank">상세보기</NavLink>
+                <div className={styles.details}>
+                    <div className={styles.text}>
+                        <div>{title}</div>
+                        <div className={styles.rating}><FaStar size="15" color="#FF6F61"/>{rating}</div>
+                    </div>
+                    <NavLink className={styles.detailsBtn} to={googleUrl} target="_blank">상세보기</NavLink>
+                </div>
             </div>
         }
         </>
