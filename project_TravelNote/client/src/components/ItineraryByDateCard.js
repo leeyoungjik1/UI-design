@@ -5,6 +5,7 @@ import { useParams, useNavigate, Link, useSearchParams, useLocation } from 'reac
 import DestinationBox from "./DestinationBox";
 import styles from './ItineraryByDateCard.module.css'
 
+const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY
 
 function ItineraryByDateCard({dateOfStart, itineraryByDate, changeDestinationState, isShared}){
     const [totalcost, setTotalcost] = useState(0)
@@ -12,6 +13,7 @@ function ItineraryByDateCard({dateOfStart, itineraryByDate, changeDestinationSta
         "weatherIconSrc": "",
         "temp": {}
     })
+    const [accommodationImgSrc, setAccommodationImgSrc] = useState()
 
     // console.log(itineraryByDate, weather)
 
@@ -69,6 +71,24 @@ function ItineraryByDateCard({dateOfStart, itineraryByDate, changeDestinationSta
         // }
     }, [itineraryByDate])
 
+    useEffect(() => {
+        if(accommodationName){
+            axios.get(`https://places.googleapis.com/v1/places/${place_id}?fields=photos&key=${API_KEY}`)
+            .then((res) => {
+                const {photos} = res.data
+                setAccommodationImgSrc(photos && photos.length !== 0 &&
+                            `https://places.googleapis.com/v1/${photos[0].name}/media?maxHeightPx=300&maxWidthPx=300&key=${API_KEY}`
+                        )
+            })
+        }else{
+            setAccommodationImgSrc("https://images.unsplash.com/photo-1500835556837-99ac94a94552?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")
+        }
+
+        return () => {
+            setAccommodationImgSrc()
+        }
+    }, [itineraryByDate])
+
     // D-day 설정
     const diffDate = moment(itineraryByDate.date).diff(moment(dateOfStart), 'days')
 
@@ -76,7 +96,7 @@ function ItineraryByDateCard({dateOfStart, itineraryByDate, changeDestinationSta
         accommodationName,
         accommodationAddress,
         accommodationCost,
-        accommodationInfo: {photoUrl}
+        accommodationInfo: {place_id}
     } = itineraryByDate
 
     return (
@@ -108,7 +128,7 @@ function ItineraryByDateCard({dateOfStart, itineraryByDate, changeDestinationSta
                             <div>{accommodationAddress}</div>
                             <div>숙소비용: {Number(accommodationCost).toLocaleString()}원</div>
                         </div>
-                        <img src={photoUrl || "https://images.unsplash.com/photo-1500835556837-99ac94a94552?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"} alt={accommodationName}></img>
+                        <img src={accommodationImgSrc} alt={accommodationName}></img>
                     </div>
                 </div>
             }

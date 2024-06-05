@@ -2,6 +2,7 @@
     width: var(--base-width);
     display: flex;
     flex-flow: column;
-    justify-content: center;
+    /* justify-content: center; */
     align-items: center;
+    padding: 0 0 8rem 0;
 }

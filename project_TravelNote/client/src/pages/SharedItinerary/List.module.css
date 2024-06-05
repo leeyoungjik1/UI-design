@@ -12,8 +12,8 @@
 .listPage>form{
     width: 100%;
     display: flex;
-    gap: .2rem;
-    justify-content: flex-end
+    justify-content: flex-end;
+    position: relative;
 }
 .filterContronBox{
     width: 100%;
@@ -29,4 +29,23 @@
     display: flex;
     flex-flow: column;
     gap: 1.5rem;
+}
+.listPage>form input{
+    padding-right: 45px;
+    border-radius: 0 20px 20px 0;
+    border-left: none;
+}
+.listPage>form button{
+    background: none;
+    border: none;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translate(0, -50%);
+    cursor: pointer;
+}
+.listPage select{
+    border-right: none;
+    border-radius: 20px 0 0 20px;
+    padding: 10px 40px 10px 20px;
 }

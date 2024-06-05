@@ -33,6 +33,8 @@
 }
 #root{
     width: 100%;
+    min-width: 1800px;
+    max-width: 2500px;
     display: flex;
     justify-content: center;
 }
@@ -44,7 +46,7 @@
 select{
     padding: 10px;
     padding-right: 40px;
-    border: 1.5px solid var(--gray-color-5);
+    border: 1.5px solid var(--gray-color-4);
     border-radius: 20px;
     text-align: center;
     -webkit-appearance: none;
@@ -58,4 +60,5 @@ select{
 input, textarea{
     border: 1px solid var(--gray-color-4);
     border-radius: 5px;
+    padding: 5px 10px;
 }

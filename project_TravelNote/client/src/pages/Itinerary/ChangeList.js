@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from 'axios'
 import ItineraryCard from "../../components/ItineraryCard";
 import { useNavigate } from 'react-router-dom'
@@ -6,6 +6,7 @@ import FilterButtons from "../../components/FilterButtons";
 import styles from './ChangeList.module.css'
 import ReactPaginate from 'react-paginate';
 import './ReactPaginate.css'
+import { FaSearch } from "react-icons/fa";
 
 // URL 주소: /itinerary/changelist
 
@@ -133,7 +134,7 @@ function ChangeList(){
         })
     }
 
-    function PaginatedItems({ itemsPerPage }) {
+    const PaginatedItems = ({ itemsPerPage }) => {
         const [itemOffset, setItemOffset] = useState(0);
       
         const endOffset = itemOffset + itemsPerPage;
@@ -150,22 +151,23 @@ function ChangeList(){
             <div className={styles.itineraryCardBox}>
                 {currentItems &&
                     currentItems.length !== 0 && currentItems.map((itinerary, id) => {
-                        const imgSrcSearched1 = itinerary.itineraryByDateIds.map((itineraryByDateId) => {
+                        const placeIdSearched1 = itinerary.itineraryByDateIds.map((itineraryByDateId) => {
                             return (
                                 itineraryByDateId.destinationIds.map((destinationId) => {
-                                    return destinationId.destinationInfo.photoUrl
+                                    return destinationId.destinationInfo.place_id
                                 })
                             )
                         })
-                        const imgSrcSearched2 = imgSrcSearched1.find(res => {
+                        const placeIdSearched2 = placeIdSearched1.find(res => {
                             return res.length !== 0 && res[0] !== ''
                         })
-                        let imgSrcSearched3 = undefined
-                        if(imgSrcSearched2){
-                            imgSrcSearched3 = imgSrcSearched2.find(res => {
+                        let placeIdSearched3 = undefined
+                        if(placeIdSearched2){
+                            placeIdSearched3 = placeIdSearched2.find(res => {
                                 return res
                             })
                         }
+
                         return (
                             <ItineraryCard
                                 key={id}
@@ -176,7 +178,7 @@ function ChangeList(){
                                 title={itinerary.title}
                                 status={itinerary.status}
                                 open={itinerary.open}
-                                imgSrc={imgSrcSearched3 || "https://images.unsplash.com/photo-1500835556837-99ac94a94552?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"}
+                                placeId={placeIdSearched3}
                                 handleClick={changeItinerary}
                             >
                                 <button id={itinerary._id}>수정</button>
@@ -189,14 +191,14 @@ function ChangeList(){
             </div>
             <div>
                 <ReactPaginate
-                breakLabel="..."
-                nextLabel=">"
-                onPageChange={handlePageClick}
-                pageRangeDisplayed={5}
-                pageCount={pageCount}
-                previousLabel="<"
-                renderOnZeroPageCount={null}
-                className="pagination"
+                    breakLabel="..."
+                    nextLabel=">"
+                    onPageChange={handlePageClick}
+                    pageRangeDisplayed={5}
+                    pageCount={pageCount}
+                    previousLabel="<"
+                    renderOnZeroPageCount={null}
+                    className="pagination"
                 />
             </div>
           </>
@@ -216,7 +218,7 @@ function ChangeList(){
         })
         .catch(err =>{
             console.log(err.response.data)
-            if(err.response.data.message === '토큰 에러'){
+            if(err.response.data.code === 401 || err.response.data.code === 419){
                 alert('로그인이 필요한 페이지 입니다.')
                 navigate("/login")
             }else if(err.response.data.code === 404){
@@ -241,7 +243,7 @@ function ChangeList(){
                         <option value="city">대표 도시</option>
                     </select>
                     <input type='text' name="searchWord" id="searchWord" onChange={handleChange} value={searchWord}></input>
-                    <button type="submit">검색</button>
+                    <button type="submit"><FaSearch size="20" color="#828282"/></button>
                 </form>
             </div>
             <div className={styles.itineraryCardContainer}>

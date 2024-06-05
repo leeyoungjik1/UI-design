@@ -72,7 +72,7 @@ function PopularityDestinationCard({placeId}){
                 <div className={styles.details}>
                     <div className={styles.text}>
                         <div>{title}</div>
-                        <div className={styles.rating}><FaStar size="15" color="#FF6F61"/>{rating}</div>
+                        <div className={styles.rating}><FaStar size="15" color="#FFD700"/>{rating}</div>
                     </div>
                     <NavLink className={styles.detailsBtn} to={googleUrl} target="_blank">상세보기</NavLink>
                 </div>

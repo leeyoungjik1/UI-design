@@ -4,6 +4,7 @@ import moment from 'moment'
 import { useParams, useNavigate, Link, useSearchParams, useLocation } from 'react-router-dom'
 import styles from './SharedItineraryCard.module.css'
 
+const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY
 
 function SharedItineraryCard({itinerary}){
     const navigate = useNavigate()
@@ -11,29 +12,45 @@ function SharedItineraryCard({itinerary}){
     const [totalcost, setTotalcost] = useState(0)
     // console.log(itinerary)
 
+    const [imgSrc, setImgSrc] = useState()
+
     // 해당 일정 이미지 불러오기
-    let imgSrc = ''
-    if(itinerary.length !== 0){
-        const imgSrcSearched1 = itinerary.itineraryByDateIds.map(itineraryByDateId => {
-            // console.log(itineraryByDateId)
-            return (
-                itineraryByDateId.destinationIds.map(destinationId => {
-                    // console.log(destinationId)
-                    return destinationId.destinationInfo.photoUrl
-                })
-            )
-        })
-        const imgSrcSearched2 = imgSrcSearched1.find(res => {
-            return res.length !== 0 && res[0] !== ''
-        })
-        if(imgSrcSearched2){
-            imgSrc = imgSrcSearched2.find(res => {
-                return res
+    useEffect(() => {
+        // 해당 일정의 imgSrc 불러오기
+        if(itinerary.length !== 0){
+            const placeIdSearched1 = itinerary.itineraryByDateIds.map((itineraryByDateId) => {
+                return (
+                    itineraryByDateId.destinationIds.map((destinationId) => {
+                        return destinationId.destinationInfo.place_id
+                    })
+                )
             })
-        }else{
-            imgSrc = "https://images.unsplash.com/photo-1500835556837-99ac94a94552?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            const placeIdSearched2 = placeIdSearched1.find(res => {
+                return res.length !== 0 && res[0] !== ''
+            })
+            let placeIdSearched3 = undefined
+            if(placeIdSearched2){
+                placeIdSearched3 = placeIdSearched2.find(res => {
+                    return res
+                })
+            }
+            if(placeIdSearched3){
+                axios.get(`https://places.googleapis.com/v1/places/${placeIdSearched3}?fields=photos&key=${API_KEY}`)
+                .then((res) => {
+                    const {photos} = res.data
+                    setImgSrc(photos && photos.length !== 0 &&
+                                `https://places.googleapis.com/v1/${photos[0].name}/media?maxHeightPx=300&maxWidthPx=300&key=${API_KEY}`
+                            )
+                })
+            }else{
+                setImgSrc("https://images.unsplash.com/photo-1500835556837-99ac94a94552?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")
+            }
         }
-    }
+
+        return () => {
+            setImgSrc()
+        }
+    }, [itinerary])
 
     const changePage = (e) => {
         // console.dir(e.target.id)

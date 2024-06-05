@@ -3,6 +3,7 @@ import axios from 'axios'
 import SharedItineraryCard from "../../components/SharedItineraryCard";
 import styles from './List.module.css'
 import ReactPaginate from 'react-paginate';
+import { FaSearch } from "react-icons/fa";
 
 // URL 주소: /itinerary/shareditinerary
 
@@ -58,14 +59,14 @@ function List(){
                 )
             })}
             <ReactPaginate
-            breakLabel="..."
-            nextLabel=">"
-            onPageChange={handlePageClick}
-            pageRangeDisplayed={5}
-            pageCount={pageCount}
-            previousLabel="<"
-            renderOnZeroPageCount={null}
-            className="pagination"
+                breakLabel="..."
+                nextLabel=">"
+                onPageChange={handlePageClick}
+                pageRangeDisplayed={5}
+                pageCount={pageCount}
+                previousLabel="<"
+                renderOnZeroPageCount={null}
+                className="pagination"
             />
           </>
         );
@@ -92,7 +93,7 @@ function List(){
                     <option value="nickName">닉네임</option>
                 </select>
                 <input type='text' name="searchWord" id="searchWord" onChange={handleChange} value={searchWord}></input>
-                <button type="submit">검색</button>
+                <button type="submit"><FaSearch size="20" color="#828282"/></button>
             </form>
             <PaginatedItems itemsPerPage={4}/>
         </div>

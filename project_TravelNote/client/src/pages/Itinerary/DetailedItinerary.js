@@ -10,6 +10,8 @@ import styles from './DetailedItinerary.module.css'
 
 // URL 주소: /itinerary/details ,/itinerary/details/:itineraryId
 
+const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY
+
 function DetailedItinerary(){
     const navigate = useNavigate()
     const params = useParams()
@@ -17,8 +19,9 @@ function DetailedItinerary(){
     // 해당 사용자의 선택된 일정
     const [itinerary, setItinerary] = useState([])
 
-    // 선택된 일정의 메인 imgSrc
+    // 선택된 일정의 메인 imgSrc, 숙소 imgSrc
     const [mainImgSrc, setMainImgSrc] = useState(undefined)
+    const [accommodationImgSrc, setAccommodationImgSrc] = useState(undefined)
 
     // 하나의 일정 중 선택한 일자 : 1일차, 2일차...
     const [day, setDay] = useState({
@@ -302,7 +305,7 @@ function DetailedItinerary(){
             .then((res) => setItinerary(res.data))
             .catch(err =>{
                 console.log(err.response.data)
-                if(err.response.data.code === 401){
+                if(err.response.data.code === 401 || err.response.data.code === 419){
                     alert('로그인이 필요한 페이지 입니다.')
                     navigate("/login")
                 }
@@ -314,27 +317,52 @@ function DetailedItinerary(){
     useEffect(() => {
         // 해당 일정의 imgSrc 불러오기
         if(itinerary.length !== 0){
-            const imgSrcSearched1 = itinerary.itineraryByDateIds.map(itineraryByDateId => {
-                // console.log(itineraryByDateId)
+            const placeIdSearched1 = itinerary.itineraryByDateIds.map((itineraryByDateId) => {
                 return (
-                    itineraryByDateId.destinationIds.map(destinationId => {
-                        // console.log(destinationId)
-                        return destinationId.destinationInfo.photoUrl
+                    itineraryByDateId.destinationIds.map((destinationId) => {
+                        return destinationId.destinationInfo.place_id
                     })
                 )
             })
-            const imgSrcSearched2 = imgSrcSearched1.find(res => {
+            const placeIdSearched2 = placeIdSearched1.find(res => {
                 return res.length !== 0 && res[0] !== ''
             })
-            if(imgSrcSearched2){
-                setMainImgSrc(imgSrcSearched2.find(res => {
+            let placeIdSearched3 = undefined
+            if(placeIdSearched2){
+                placeIdSearched3 = placeIdSearched2.find(res => {
                     return res
-                }))
+                })
+            }
+            if(placeIdSearched3){
+                axios.get(`https://places.googleapis.com/v1/places/${placeIdSearched3}?fields=photos&key=${API_KEY}`)
+                .then((res) => {
+                    const {photos} = res.data
+                    setMainImgSrc(photos && photos.length !== 0 &&
+                                `https://places.googleapis.com/v1/${photos[0].name}/media?maxHeightPx=300&maxWidthPx=300&key=${API_KEY}`
+                            )
+                })
             }else{
                 setMainImgSrc("https://images.unsplash.com/photo-1500835556837-99ac94a94552?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")
             }
         }
     }, [itinerary])
+
+    // 숙소 이미지 로드
+    useEffect(() => {
+        if(formData.accommodationInfo.place_id){
+            axios.get(`https://places.googleapis.com/v1/places/${formData.accommodationInfo.place_id}?fields=photos&key=${API_KEY}`)
+            .then((res) => {
+                const {photos} = res.data
+                setAccommodationImgSrc(photos && photos.length !== 0 &&
+                            `https://places.googleapis.com/v1/${photos[0].name}/media?maxHeightPx=300&maxWidthPx=300&key=${API_KEY}`
+                        )
+            })
+        }
+
+        return () => {
+            setAccommodationImgSrc()
+        }
+    }, [selectDay])
 
     // 구글 지도 선택 시 서버로 전송할 데이터 변경
     useEffect(() => {
@@ -344,6 +372,7 @@ function DetailedItinerary(){
             accommodationAddress: accommodationGoogleData.address,
             accommodationInfo: accommodationGoogleData
         })
+        setSelectDay(accommodationGoogleData)
     }, [accommodationGoogleData])
 
     // 달력에서 날짜를 선택하면 선택된 날짜의 일차 데이터 변경 저장
@@ -456,8 +485,8 @@ function DetailedItinerary(){
                         <h2>숙소</h2>
                         <form onSubmit={handleSubmit}>
                             <div className={styles.accommodationInfoContainer}>
-                                {formData && formData.accommodationInfo.photoUrl &&
-                                    <img src={formData.accommodationInfo.photoUrl}></img>
+                                {accommodationImgSrc &&
+                                    <img src={accommodationImgSrc}></img>
                                 }
                                 <div>
                                     <div>
@@ -503,7 +532,7 @@ function DetailedItinerary(){
                                             timeOfEnd={destinationId.timeOfEnd}
                                             cost={destinationId.cost}
                                             isDone={destinationId.isDone}
-                                            imgSrc={destinationId.destinationInfo.photoUrl || "https://images.unsplash.com/photo-1500835556837-99ac94a94552?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"}
+                                            placeId={destinationId.destinationInfo.place_id}
                                             modDestinationCards={modDestinationCards}
                                             destinationId={destinationId._id}
                                             handleClick={changeDestination}

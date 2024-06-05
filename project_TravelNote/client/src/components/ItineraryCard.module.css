@@ -1,17 +1,21 @@
 .itineraryCardBox{
-    /* width: 30%; */
+    width: 23%;
     display: flex;
     flex-flow: column;
     gap: 1rem;
-    border: 1px solid gray;
-    padding: .5rem;
+    /* border: 1px solid gray; */
+    border-radius: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); 
+    position: relative;
 }
 .itineraryCardState{
     width: 100%;
     display: flex;
     justify-content: space-between;
-    padding: 0 .5rem;
+    padding: 0 1rem;
     box-sizing: border-box;
+    position: absolute;
+    top: 3%;
 }
 .itineraryCardMain{
     width: 100%;
@@ -20,6 +24,7 @@
     flex-flow: column;
     justify-content: space-between;
     gap: 1rem;
+    padding-bottom: 1rem;
 }
 .itineraryCardDetails{
     width: 100%;
@@ -31,16 +36,71 @@
     width: 100%;
     display: flex;
     flex-flow: column;
-    gap: 1rem;
+    gap: .5rem;
+    padding: .5rem 1rem 1rem 1rem;
+    box-sizing: border-box;
 }
 .itineraryCardDetails>img{
-    width: 300px;
+    width: 100%;
     height: 300px;
     object-fit: cover;
+    border-radius: 15px 15px 0 0;
 }
 .itineraryCardBtns{
     width: 100%;
     display: flex;
-    gap: .5rem;
+    gap: .3rem;
     justify-content: flex-end;
+    padding-right: 1rem;
+    box-sizing: border-box;
+}
+.title{
+    font-weight: bold;
+    margin-bottom: .5rem;
+}
+.description{
+    font-size: var(--font-size-text-small);
+    color: var(--gray-color-3);
+    margin-top: .5rem;
+}
+.isPublic{
+    color: #2A4040;
+    background-color: white;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-weight: bold;
+}
+.state{
+    color: white;
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+
+
+.itineraryCardBtns button {
+    color: #2A4040;
+    background-color: white;
+    border: 2px solid #F2F2F2;
+    padding: 4px 8px;
+    text-align: center;
+    text-decoration: none;
+    /* display: inline-block; */
+    font-size: var(--font-size-text-small);
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.itineraryCardBtns button:hover {
+    color: white; 
+    background-color: #2A4040; 
+}
+
+.itineraryCardBtns button.active {
+    background-color: #ccc; 
+    color: #000;
 }

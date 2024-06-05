@@ -6,12 +6,13 @@
     justify-content: center;
     /* border: 1px solid red; */
     box-sizing: border-box;
+    gap: 1rem;
 }
 .itineraryCardContainer{
     width: 100%;
     display: flex;
     flex-flow: column;
-    gap: 1rem;
+    gap: 3rem;
     align-items: center;
 }
 .filterContronBox{
@@ -24,13 +25,32 @@
 }
 .filterContronBox>form{
     display: flex;
-    gap: .2rem;
+    /* gap: .2rem; */
+    position: relative;
 }
 .itineraryCardBox{
     width: 100%;
     display: flex;
-    /* justify-content: space-between; */
+    justify-content: space-between;
     flex-wrap: wrap;
-    gap: 1rem;
+    /* gap: 1rem; */
 }
-
+.filterContronBox select{
+    border-right: none;
+    border-radius: 20px 0 0 20px;
+    padding: 10px 40px 10px 20px;
+}
+.filterContronBox>form input{
+    padding-right: 45px;
+    border-radius: 0 20px 20px 0;
+    border-left: none;
+}
+.filterContronBox>form button{
+    background: none;
+    border: none;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translate(0, -50%);
+    cursor: pointer;
+}

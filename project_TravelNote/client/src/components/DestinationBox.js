@@ -4,12 +4,32 @@ import moment from 'moment'
 import { useParams, useNavigate, Link, useSearchParams, useLocation } from 'react-router-dom'
 import styles from './DestinationBox.module.css'
 
+const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY
 
 function DestinationBox({destination, index, weatherSearch, handleClick, isShared}){
     const [weather, setWeather] = useState({
         "weatherIconSrc": "",
         "temp": {}
     })
+    const [imgSrc, setImgSrc] = useState()
+
+    useEffect(() => {
+        if(place_id){
+            axios.get(`https://places.googleapis.com/v1/places/${place_id}?fields=photos&key=${API_KEY}`)
+            .then((res) => {
+                const {photos} = res.data
+                setImgSrc(photos && photos.length !== 0 &&
+                            `https://places.googleapis.com/v1/${photos[0].name}/media?maxHeightPx=300&maxWidthPx=300&key=${API_KEY}`
+                        )
+            })
+        }else{
+            setImgSrc("https://images.unsplash.com/photo-1500835556837-99ac94a94552?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")
+        }
+
+        return () => {
+            setImgSrc()
+        }
+    }, [destination])
 
     // console.log(weather, destination)
     // console.log(weather)
@@ -57,7 +77,7 @@ function DestinationBox({destination, index, weatherSearch, handleClick, isShare
         title,
         address,
         description,
-        destinationInfo: {photoUrl},
+        destinationInfo: {place_id},
         cost,
         _id
     } = destination
@@ -90,7 +110,7 @@ function DestinationBox({destination, index, weatherSearch, handleClick, isShare
                         <div>{description}</div>
                         <div>예상 비용: {Number(cost).toLocaleString()}원</div>
                     </div>
-                    <img src={photoUrl || "https://images.unsplash.com/photo-1500835556837-99ac94a94552?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"} alt={title}></img>
+                    <img src={imgSrc} alt={title}></img>
                 </div>
             </div>
         </div>

@@ -6,14 +6,19 @@
     justify-content: center;
     /* border: 1px solid red; */
     box-sizing: border-box;
-
+    gap: 2rem;
     /* background-color: var(--gray-color-5); */
 }
 .createPage form{
-    width: 100%;
+    width: 60%;
     display: flex;
     flex-flow: column;
     gap: 1.5rem;
+
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.8); 
+    border-radius: 20px; 
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); 
 }
 .title input{
     width: 300px;
@@ -36,7 +41,7 @@
     width: 150px;
 }
 .description textarea{
-    width: 500px;
+    width: 71%;
     height: 150px;
 }
 .createPage form>div:not(.dates){
@@ -60,20 +65,22 @@
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
-
 .createPage button:hover {
-    background-color: #4A8FC4;
+    background-color: #3D8BCD;
+}
+label{
+    font-weight: bold;
 }
 
 
 /* .createPage form{
-    background-color: rgba(255, 255, 255, 0.8); 
-    padding: 20px;
-    border-radius: 20px; 
+
+    
+
     display: flex;
     flex-direction: column; 
     align-items: center;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); 
+
 } */
 
 /* .createPage form{

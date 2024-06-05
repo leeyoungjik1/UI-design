@@ -98,14 +98,14 @@ function List(){
             </div>
             <div>
                 <ReactPaginate
-                breakLabel="..."
-                nextLabel=">"
-                onPageChange={handlePageClick}
-                pageRangeDisplayed={5}
-                pageCount={pageCount}
-                previousLabel="<"
-                renderOnZeroPageCount={null}
-                className="pagination"
+                    breakLabel="..."
+                    nextLabel=">"
+                    onPageChange={handlePageClick}
+                    pageRangeDisplayed={5}
+                    pageCount={pageCount}
+                    previousLabel="<"
+                    renderOnZeroPageCount={null}
+                    className="pagination"
                 />
             </div>
           </>
@@ -122,7 +122,7 @@ function List(){
         .then((res) => setList(res.data.Itinerarys))
         .catch(err =>{
             console.log(err.response.data)
-            if(err.response.data.message === '토큰 에러'){
+            if(err.response.data.code === 401 || err.response.data.code === 419){
                 alert('로그인이 필요한 페이지 입니다.')
                 navigate("/login")
             }
