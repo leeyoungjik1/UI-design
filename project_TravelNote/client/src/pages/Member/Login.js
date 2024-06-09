@@ -1,6 +1,7 @@
 import React, {useState} from "react";
-import { useNavigate } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import API from '../../API'
+import styles from './Login.module.css'
 
 // URL 주소: /login
 
@@ -37,15 +38,30 @@ function Login(){
     } = formData 
 
     return (
-    <div>
-        <h1>Login PAGE</h1>
-        <form onSubmit={handleSubmit}>
-            <label htmlFor="id">아이디: </label>
-            <input type="text" name="userId" id="id" required onChange={handleChange} value={userId}/>
-            <label htmlFor="password">비밀번호: </label>
-            <input type="password" name="password" id="password" required onChange={handleChange} value={password}/>
-            <button type="submit">로그인</button>
-        </form>
+    <div className={styles.loginPage}>
+        <div className={styles.loginContainer}>
+            <div className={styles.logo}></div>
+            <form onSubmit={handleSubmit}>
+                <div>
+                    <label htmlFor="id">아이디</label>
+                    <input type="text" name="userId" id="id" required onChange={handleChange} value={userId}/>
+                </div>
+                <div>
+                    <label htmlFor="password">비밀번호</label>
+                    <input type="password" name="password" id="password" required onChange={handleChange} value={password}/>
+                </div>
+                <button type="submit">로그인</button>
+                <div className={styles.find}>
+                    <NavLink>아이디 찾기</NavLink>
+                    <div>|</div>
+                    <NavLink>비밀번호 찾기</NavLink>
+                </div>
+                <div className={styles.join}>
+                    <div>아직 회원이 아니세요?</div>
+                    <NavLink to={'../join'}>회원가입</NavLink>
+                </div>
+            </form>
+        </div>
     </div>
     )
 }

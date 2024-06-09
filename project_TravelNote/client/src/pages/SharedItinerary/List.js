@@ -50,14 +50,16 @@ function List(){
       
         return (
           <>
-            {currentItems.length !== 0 && currentItems.map((itinerary, id) => {
-                return (
-                    <SharedItineraryCard
-                        key={id}
-                        itinerary={itinerary}
-                    />
-                )
-            })}
+            <div className={styles.itinerarysContainer}>
+                {currentItems.length !== 0 && currentItems.map((itinerary, id) => {
+                    return (
+                        <SharedItineraryCard
+                            key={id}
+                            itinerary={itinerary}
+                        />
+                    )
+                })}
+            </div>
             <ReactPaginate
                 breakLabel="..."
                 nextLabel=">"
@@ -95,7 +97,9 @@ function List(){
                 <input type='text' name="searchWord" id="searchWord" onChange={handleChange} value={searchWord}></input>
                 <button type="submit"><FaSearch size="20" color="#828282"/></button>
             </form>
-            <PaginatedItems itemsPerPage={4}/>
+            <div className={styles.itinerarys}>
+                <PaginatedItems itemsPerPage={4}/>
+            </div>
         </div>
     )
 }

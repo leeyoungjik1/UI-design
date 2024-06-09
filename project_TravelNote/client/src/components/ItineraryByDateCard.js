@@ -4,10 +4,11 @@ import moment from 'moment'
 import { useParams, useNavigate, Link, useSearchParams, useLocation } from 'react-router-dom'
 import DestinationBox from "./DestinationBox";
 import styles from './ItineraryByDateCard.module.css'
+import { FaRegMoneyBillAlt } from "react-icons/fa";
 
 const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY
 
-function ItineraryByDateCard({dateOfStart, itineraryByDate, changeDestinationState, isShared}){
+function ItineraryByDateCard({dateOfStart, itineraryByDate, changeDestinationState, isShared, number}){
     const [totalcost, setTotalcost] = useState(0)
     const [weather, setWeather] = useState({
         "weatherIconSrc": "",
@@ -38,37 +39,37 @@ function ItineraryByDateCard({dateOfStart, itineraryByDate, changeDestinationSta
             setTotalcost(res.data.totalcost)
         })
         
-        // if(itineraryByDate.accommodationInfo.location.lat){
-        //     const lat = itineraryByDate.accommodationInfo.location.lat
-        //     const lng = itineraryByDate.accommodationInfo.location.lng
-        //     const APIKey = process.env.REACT_APP_OPENWEATHER_API_KEY
+        if(itineraryByDate.accommodationInfo.location.lat){
+            const lat = itineraryByDate.accommodationInfo.location.lat
+            const lng = itineraryByDate.accommodationInfo.location.lng
+            const APIKey = process.env.REACT_APP_OPENWEATHER_API_KEY
 
-        //     // console.log(itineraryByDate, lat, weather)
-        //     if(lat){
-        //         axios.get(`https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lng}&exclude=minutely,hourly&units=metric&appid=${APIKey}`)
-        //         .then((res) => {
-        //             // console.log(res.data)
-        //             const daySearched = res.data.daily.find(day => {
-        //                 // console.log(moment(day.dt*1000).format('YYYY-MM-DD'), moment(itineraryByDate.date).format('YYYY-MM-DD'))
-        //                 return moment(day.dt*1000).format('YYYY-MM-DD') === moment(itineraryByDate.date).format('YYYY-MM-DD')
-        //             })
-        //             if(daySearched){
-        //                 // console.log(daySearched)
-        //                 setWeather({
-        //                     weatherIconSrc: `http://openweathermap.org/img/wn/${daySearched.weather[0].icon}@2x.png`,
-        //                     temp: daySearched.temp
-        //                 })
-        //             }
-        //         })
-        //     }
-        // }
+            // console.log(itineraryByDate, lat, weather)
+            if(lat){
+                axios.get(`https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lng}&exclude=minutely,hourly&units=metric&appid=${APIKey}`)
+                .then((res) => {
+                    // console.log(res.data)
+                    const daySearched = res.data.daily.find(day => {
+                        // console.log(moment(day.dt*1000).format('YYYY-MM-DD'), moment(itineraryByDate.date).format('YYYY-MM-DD'))
+                        return moment(day.dt*1000).format('YYYY-MM-DD') === moment(itineraryByDate.date).format('YYYY-MM-DD')
+                    })
+                    if(daySearched){
+                        // console.log(daySearched)
+                        setWeather({
+                            weatherIconSrc: `http://openweathermap.org/img/wn/${daySearched.weather[0].icon}@2x.png`,
+                            temp: daySearched.temp
+                        })
+                    }
+                })
+            }
+        }
 
-        // return () => {
-        //     setWeather({
-        //         "weatherIconSrc": "",
-        //         "temp": {}
-        //     })
-        // }
+        return () => {
+            setWeather({
+                "weatherIconSrc": "",
+                "temp": {}
+            })
+        }
     }, [itineraryByDate])
 
     useEffect(() => {
@@ -77,7 +78,8 @@ function ItineraryByDateCard({dateOfStart, itineraryByDate, changeDestinationSta
             .then((res) => {
                 const {photos} = res.data
                 setAccommodationImgSrc(photos && photos.length !== 0 &&
-                            `https://places.googleapis.com/v1/${photos[0].name}/media?maxHeightPx=300&maxWidthPx=300&key=${API_KEY}`
+                            `https://places.googleapis.com/v1/${photos[0].name}/media?maxWidthPx=150&key=${API_KEY}` ||
+                            "https://images.unsplash.com/photo-1500835556837-99ac94a94552?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                         )
             })
         }else{
@@ -108,8 +110,7 @@ function ItineraryByDateCard({dateOfStart, itineraryByDate, changeDestinationSta
                         <div>{moment(itineraryByDate.date).format('YYYY-MM-DD')}</div>
                     </div>
                     <div className={styles.totalInfoBoxCost}>
-                        <div>예상 비용</div>
-                        <div>{Number(totalcost).toLocaleString()}원</div>
+                        <FaRegMoneyBillAlt size="20" color="#01796F"/>{Number(totalcost).toLocaleString()}원
                     </div>
                 </div>
                 {weather.weatherIconSrc &&
@@ -121,12 +122,12 @@ function ItineraryByDateCard({dateOfStart, itineraryByDate, changeDestinationSta
             </div>
             {accommodationName && 
                 <div className={styles.accommodationInfoContainer}>
-                    <div>숙소</div>
+                    <h2>숙소</h2>
                     <div>
                         <div className={styles.accommodationInfoTitle}>
                             <div>{accommodationName}</div>
                             <div>{accommodationAddress}</div>
-                            <div>숙소비용: {Number(accommodationCost).toLocaleString()}원</div>
+                            <div className={styles.accommodationCost}><FaRegMoneyBillAlt size="20" color="#01796F"/>{Number(accommodationCost).toLocaleString()}원</div>
                         </div>
                         <img src={accommodationImgSrc} alt={accommodationName}></img>
                     </div>
@@ -142,6 +143,7 @@ function ItineraryByDateCard({dateOfStart, itineraryByDate, changeDestinationSta
                             weatherSearch={weatherSearchInDestination}
                             handleClick={changeDestinationState}
                             isShared={isShared}
+                            number={number}
                         />
                     )
                 })}

@@ -177,30 +177,32 @@ function ModDestinationCard({destinationId, changeSubmit, isShow}){
                     </div>
                 </div>
                 <GoogleMap handleChange={getDestinationSearched}/>
-                <label htmlFor="category">카테고리: </label>
-                <select name="category" id="category" onChange={handleChange} value={category}>
-                    <option value="음식점">음식점</option>
-                    <option value="관광명소">관광명소</option>
-                    <option value="카페">카페</option>
-                    <option value="쇼핑센터">쇼핑센터</option>
-                    <option value="바">바</option>
-                    <option value="기타">기타</option>
-                    <option value="미정">미정</option>
-                </select>
-                <div className={styles.times}>
-                    <div>
-                        <label htmlFor="timeOfStart">일정 시작 시작</label>
-                        <input type="datetime-local" name="timeOfStart" id="timeOfStart" required onChange={handleChange} value={timeOfStart} min={moment(timeOfStart).startOf("day").format("YYYY-MM-DD HH:mm")} max={moment(timeOfStart).endOf("day").format("YYYY-MM-DD HH:mm")}/>
+                <div className={styles.addDestinationInfo}>
+                    <label htmlFor="category">카테고리</label>
+                    <select name="category" id="category" onChange={handleChange} value={category}>
+                        <option value="음식점">음식점</option>
+                        <option value="관광명소">관광명소</option>
+                        <option value="카페">카페</option>
+                        <option value="쇼핑센터">쇼핑센터</option>
+                        <option value="바">바</option>
+                        <option value="기타">기타</option>
+                        <option value="미정">미정</option>
+                    </select>
+                    <div className={styles.times}>
+                        <div>
+                            <label htmlFor="timeOfStart">일정 시작 시작</label>
+                            <input type="datetime-local" name="timeOfStart" id="timeOfStart" required onChange={handleChange} value={timeOfStart} min={moment(timeOfStart).startOf("day").format("YYYY-MM-DD HH:mm")} max={moment(timeOfStart).endOf("day").format("YYYY-MM-DD HH:mm")}/>
+                        </div>
+                        <div>
+                            <label htmlFor="timeOfEnd">일정 종료 시간</label>
+                            <input type="datetime-local" name="timeOfEnd" id="timeOfEnd" required onChange={handleChange} value={timeOfEnd} min={moment(timeOfStart).format("YYYY-MM-DD HH:mm")} max={moment(timeOfStart).endOf("day").format("YYYY-MM-DD HH:mm")}/>
+                        </div>
                     </div>
-                    <div>
-                        <label htmlFor="timeOfEnd">일정 종료 시간</label>
-                        <input type="datetime-local" name="timeOfEnd" id="timeOfEnd" required onChange={handleChange} value={timeOfEnd} min={moment(timeOfStart).format("YYYY-MM-DD HH:mm")} max={moment(timeOfStart).endOf("day").format("YYYY-MM-DD HH:mm")}/>
-                    </div>
+                    <label htmlFor="description">여행지 내용</label>
+                    <input type="text" name="description" id="description" onChange={handleChange} value={description || ''}/>
+                    <label htmlFor="cost">예상 비용</label>
+                    <input type="number" name="cost" id="cost" onChange={handleChange} value={cost || ''}/>
                 </div>
-                <label htmlFor="description">여행지 내용</label>
-                <input type="text" name="description" id="description" onChange={handleChange} value={description || ''}/>
-                <label htmlFor="cost">예상 비용</label>
-                <input type="number" name="cost" id="cost" onChange={handleChange} value={cost || ''}/>
                 <button type="submit">여행지 수정</button>
                 <button type="button" id='cancleModDes' onClick={handleSubmit}>취소</button>
             </form>

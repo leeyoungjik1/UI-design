@@ -116,7 +116,6 @@ function Create(){
                         <input type="radio" name="isPublic" id="isPublic" onChange={handleChange} value={false}/>비공개
                     </div>
                 </div>
-                {/* <DatePicker/> */}
                 <button type="submit">여행 저장</button>
             </form>
         </div>

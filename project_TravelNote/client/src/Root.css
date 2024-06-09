@@ -33,15 +33,26 @@
 }
 #root{
     width: 100%;
-    min-width: 1800px;
+    min-width: 1900px;
     max-width: 2500px;
     display: flex;
     justify-content: center;
+    font-family: "suite-Regular";
 }
 @font-face {
     font-family: "BMHANNA_11yrs";
     font-weight: normal;
     src: url("./assets/BMHANNA_11yrs_ttf.ttf") format("truetype");
+}
+@font-face {
+    font-family: "suite-Bold";
+    font-weight: normal;
+    src: url("./assets/SUITE-Bold.ttf") format("truetype");
+}
+@font-face {
+    font-family: "suite-Regular";
+    font-weight: normal;
+    src: url("./assets/SUITE-Regular.ttf") format("truetype");
 }
 select{
     padding: 10px;
@@ -56,8 +67,14 @@ select{
     background-size: 15px;
     font-weight: bold;
 }
-
-input, textarea{
+input{
+    border: 1px solid var(--gray-color-4);
+    /* border-radius: 5px; */
+    padding: 5px 10px;
+    border: none;
+    border-bottom: 1px solid var(--gray-color-4);
+}
+textarea{
     border: 1px solid var(--gray-color-4);
     border-radius: 5px;
     padding: 5px 10px;

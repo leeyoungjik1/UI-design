@@ -26,11 +26,6 @@
     background-color: #2A4040; 
 }
 
-.filterBtns button.active {
-    background-color: #ccc; 
-    color: #000;
-}
-
 /* .filterBtns button {
     background-color: #f2f2f2; 
     border: none;

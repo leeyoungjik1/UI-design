@@ -3,6 +3,10 @@ import axios from 'axios'
 import moment from 'moment'
 import { useParams, useNavigate, Link, useSearchParams, useLocation } from 'react-router-dom'
 import styles from './MyItineraryCard.module.css'
+import { FaTreeCity } from "react-icons/fa6";
+import { FaCalendarDays } from "react-icons/fa6";
+import { FaRegMoneyBillAlt } from "react-icons/fa";
+import { FaShareNodes } from "react-icons/fa6";
 
 const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY
 
@@ -37,7 +41,8 @@ function MyItineraryCard({itinerary, handleClick}){
                 .then((res) => {
                     const {photos} = res.data
                     setImgSrc(photos && photos.length !== 0 &&
-                                `https://places.googleapis.com/v1/${photos[0].name}/media?maxHeightPx=300&maxWidthPx=300&key=${API_KEY}`
+                                `https://places.googleapis.com/v1/${photos[0].name}/media?maxWidthPx=500&key=${API_KEY}` ||
+                                "https://images.unsplash.com/photo-1500835556837-99ac94a94552?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                             )
                 })
             }else{
@@ -51,7 +56,7 @@ function MyItineraryCard({itinerary, handleClick}){
     }, [itinerary])
 
     const changePage = (e) => {
-        // console.dir(e.target.id)
+        console.dir(e.target)
         if(e.target.tagName !== 'BUTTON'){
             if(e.target.id){
                 navigate(`/itinerary/myitinerary/${e.target.id}`)
@@ -79,24 +84,30 @@ function MyItineraryCard({itinerary, handleClick}){
     return (
         <div className={styles.container} onClick={changePage}>
             <div className={styles.top}>
-                <div>{open}</div>
+                <div className={styles.isPublic}>{open}</div>
                 <button onClick={handleClick} id={_id}>{status}</button>
             </div>
             <div className={styles.details} id={_id}>
                 <img src={imgSrc} alt={title} id={_id}></img>
-                <div className={styles.infomation}>
-                    <div className={styles.infoTop}>
-                        <div>
-                            <div>D{diffDate === 0 ? '-day' : diffDate > 0 ? '+' + diffDate : diffDate}</div>
+                <div className={styles.infomation} id={_id}>
+                    <div className={styles.infoTop} id={_id}>
+                        <div className={styles.title}>
+                            <div className={styles.Dday}>D{diffDate === 0 ? '-day' : diffDate > 0 ? '+' + diffDate : diffDate}</div>
                             <div>{title}</div>
                         </div>
-                        <button>공유하기 아이콘</button>
+                        <button className={styles.shareBtn}><FaShareNodes size='25'/></button>
                     </div>
-                    <div className={styles.infoMain}>
-                        <div>{city}</div>
-                        <div>{moment(dateOfStart).format('YYYY-MM-DD')} ~ {moment(dateOfEnd).format('YYYY-MM-DD')}</div>
-                        <div>예상 비용: {Number(totalcost).toLocaleString()}원</div>
-                        <div>{description}</div>
+                    <div className={styles.infoMain} id={_id}>
+                        {city &&
+                            <div><FaTreeCity size='15' color='#607D8B'/> {city}</div>
+                        }
+                        <div>
+                            <FaCalendarDays size='15' color='#2F80ED'/>  {moment(dateOfStart).format('YYYY-MM-DD')} ~ {moment(dateOfEnd).format('YYYY-MM-DD')}
+                        </div>
+                        {totalcost !== 0 &&
+                            <div><FaRegMoneyBillAlt size="15" color="#01796F"/>{Number(totalcost).toLocaleString()}원</div>
+                        }
+                        <div className={styles.description}>{description}</div>
                     </div>
                 </div>
             </div>

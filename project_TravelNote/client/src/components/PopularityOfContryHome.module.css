@@ -14,6 +14,11 @@
     gap: 3rem;
     justify-content: space-between;
 }
+.decription{
+    display: flex;
+    flex-flow: column;
+    gap: 3rem;
+}
 .decription>h2{
     margin-top: 0;
     font-size: 60px;

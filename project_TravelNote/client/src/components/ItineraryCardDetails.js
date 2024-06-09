@@ -1,27 +1,27 @@
 import React from 'react'
 import moment from 'moment'
 import styles from './ItineraryCardDetails.module.css'
+import { FaTreeCity } from "react-icons/fa6";
+import { FaCalendarDays } from "react-icons/fa6";
 
 function ItineraryCardDetails({city, dateOfEnd, dateOfStart, description, title, status, open, imgSrc, handleClick, children}){
     return (
         <div className={styles.itineraryCardBox}>
             <div className={styles.itineraryCardState}>
-                <div>{open}</div>
-                <div>{status}</div>
+                <div className={styles.isPublic}>{open}</div>
+                <div className={styles.state}>{status}</div>
             </div>
             <div className={styles.itineraryCardMain}>
                 <div className={styles.itineraryCardDetails}>
                     <img src={imgSrc}></img>
                     <div>
-                        <div className={styles.itineraryCardDetailsTitle}>
-                            <div>{title}</div>
-                            <div>{city}</div>
-                        </div>
+                        <div className={styles.title}>{title}</div>
+                        <div><FaTreeCity size='15' color='#607D8B'/> {city}</div>
                         <div>
-                            {moment(dateOfStart).format('YYYY-MM-DD')} ~ {moment(dateOfEnd).format('YYYY-MM-DD')}
+                            <FaCalendarDays size='15' color='#2F80ED'/> {moment(dateOfStart).format('YYYY-MM-DD')} ~ {moment(dateOfEnd).format('YYYY-MM-DD')}
                         </div>
                         {description &&
-                            <div>내용: {description}</div>
+                            <div className={styles.description}>{description}</div>
                         }
                     </div>
                 </div>

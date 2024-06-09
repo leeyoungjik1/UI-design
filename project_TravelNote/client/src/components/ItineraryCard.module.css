@@ -40,6 +40,11 @@
     padding: .5rem 1rem 1rem 1rem;
     box-sizing: border-box;
 }
+.itineraryCardDetails>div>div{
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+}
 .itineraryCardDetails>img{
     width: 100%;
     height: 300px;
@@ -69,6 +74,7 @@
     padding: 5px 12px;
     border-radius: 20px;
     font-weight: bold;
+    text-align: center;
 }
 .state{
     color: white;
@@ -76,6 +82,7 @@
     padding: 5px 12px;
     border-radius: 20px;
     font-weight: bold;
+    text-align: center;
 }
 
 
@@ -92,15 +99,9 @@
     font-weight: bold;
     cursor: pointer;
     border-radius: 20px;
-    transition: background-color 0.3s ease;
+    transition: 0.3s;
 }
-
 .itineraryCardBtns button:hover {
     color: white; 
     background-color: #2A4040; 
-}
-
-.itineraryCardBtns button.active {
-    background-color: #ccc; 
-    color: #000;
 }

@@ -85,11 +85,11 @@ function Modify(){
         <div className={styles.createPage}>
             <h1>여행 수정</h1>
             <form onSubmit={handleSubmit}>
-                <div>
+                <div className={styles.title}>
                     <label htmlFor="title">여행 제목</label>
                     <input type="text" name="title" id="title" onChange={handleChange} value={title}/>
                 </div>
-                <div>
+                <div className={styles.city}>
                     <label htmlFor="city">대표 도시</label>
                     <input type="text" name="city" id="city" onChange={handleChange} value={city}/>
                 </div>
@@ -103,11 +103,11 @@ function Modify(){
                         <input type="date" name="dateOfEnd" id="dateOfEnd" required onChange={handleChange} value={dateOfEnd} min={dateOfStart}/>
                     </div>
                 </div>
-                <div>
+                <div className={styles.description}>
                     <label htmlFor="description">여행 내용</label>
-                    <input type="text" name="description" id="description" onChange={handleChange} value={description}/>
+                    <textarea type="text" name="description" id="description" onChange={handleChange} value={description}/>
                 </div>
-                <div>
+                <div className={styles.isPublic}>
                     <label htmlFor="isPublic">공개 여부</label>
                     <div>
                         <input type="radio" name="isPublic" id="isPublic" onChange={handleChange} defaultChecked value={true}/>공개

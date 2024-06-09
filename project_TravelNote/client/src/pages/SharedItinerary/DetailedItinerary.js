@@ -6,6 +6,7 @@ import ItineraryByDateButton from '../../components/ItineraryByDateButton'
 import ItineraryByDateCard from '../../components/ItineraryByDateCard'
 import GoogleDirectionsMap from "../../components/GoogleDirectionsMap";
 import styles from './DetailedItinerary.module.css'
+import { FaRegMoneyBillAlt } from "react-icons/fa";
 
 // URL 주소: /itinerary/shareditinerary/:itineraryId
 
@@ -59,10 +60,9 @@ function DetailedItinerary(){
 
     return (
         <div className={styles.detailedItineraryPage}>
-            <h1>다른 사람의 여행</h1>
             <div>
                 <div className={styles.selectDayBtns}>
-                    <button onClick={showAllItinerary}>전체일정</button>
+                    <button  className={styles.showAllBtn} onClick={showAllItinerary}>전체일정</button>
                     {itineraryFixed.length !== 0 && 
                         itineraryFixed.itineraryByDateIds.map((itineraryByDate, id) => {
                             return (
@@ -79,10 +79,13 @@ function DetailedItinerary(){
                 <div className={styles.itineraryByDateContainer}>
                     <div className={styles.itineraryByDateInfo}>
                         <div className={styles.itineraryByDateTitle}>
-                            <div>{itinerary.title}</div>
-                            <div>{moment(itinerary.dateOfStart).format('YYYY-MM-DD')} ~ {moment(itinerary.dateOfEnd).format('YYYY-MM-DD')}</div>
+                            <div className={styles.title}>{itinerary.title}</div>
+                            <div className={styles.date}>{moment(itinerary.dateOfStart).format('YYYY-MM-DD')} ~ {moment(itinerary.dateOfEnd).format('YYYY-MM-DD')}</div>
                         </div>
-                        <div>총 예상 비용: {itinerary.lenght !== 0 ? Number(itinerary.totalcost).toLocaleString() : 0}원</div>
+                        <div className={styles.totalCost}>
+                            <FaRegMoneyBillAlt size="25" color="#01796F"/>
+                            {itinerary.lenght !== 0 ? Number(itinerary.totalcost).toLocaleString() : 0}원
+                        </div>
                     </div>
                     <div className={styles.mainContents}>
                         <div className={styles.dayContents}>
@@ -95,6 +98,7 @@ function DetailedItinerary(){
                                             itineraryByDate={itineraryByDate}
                                             handelClick={changeDay}
                                             isShared={true}
+                                            number={id}
                                         />
                                     )
                                 })

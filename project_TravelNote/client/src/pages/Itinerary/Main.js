@@ -21,7 +21,6 @@ function Main(){
 
     return (
         <div className={styles.mainPage}>
-            <h1>Itinerary Main PAGE</h1>
             <Outlet/>
         </div>
     )

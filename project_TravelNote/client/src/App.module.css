@@ -2,6 +2,7 @@
     width: 100%;
     /* min-width: 1800px;
     max-width: 2500px; */
+    height: 100%;
     box-sizing: border-box;
     display: flex;
     flex-flow: column;

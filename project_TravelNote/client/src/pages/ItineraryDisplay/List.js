@@ -85,7 +85,7 @@ function List(){
       
         return (
           <>
-            <div className={styles.itinerarys}>
+            <div className={styles.itinerarysContainer}>
                 {currentItems.length !== 0 && currentItems.map((itinerary, id) => {
                     return (
                         <MyItineraryCard

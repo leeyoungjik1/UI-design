@@ -1,7 +1,14 @@
 import React from 'react'
+import { useLocation } from "react-router-dom";
 import styles from './Footer.module.css'
 
 const Footer = () => {
+    const locationNow = useLocation()
+    if(locationNow.pathname.includes('/itinerary/myitinerary/') || locationNow.pathname.includes('/itinerary/shareditinerary/')){
+        return null
+    }
+    console.log(locationNow)
+    console.log(window.location)
     return (
         <footer>
             <div>
@@ -26,7 +33,7 @@ const Footer = () => {
                     </address>
                     <div>© 2024. TravelNote. all rights reserved.</div>    
                 </div>
-                <div class="icon footer-insta"></div>    
+                <div className="icon footer-insta"></div>    
             </div>
         </footer>
     )

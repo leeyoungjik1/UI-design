@@ -15,10 +15,7 @@ const validateUserName = () => {
             .withMessage("user name length must be between 2~20 characters")
 }
 const validateUserNickName = () => {
-    return isFieldEmpty("nickName")
-            .isLength({min: 2, max: 10})
-            .withMessage("user nick name length must be between 2~10 characters")
-            .bail()
+    return body("nickName")
             .not()
             .matches(/[!@#$%^&*]/)
             .withMessage("user nick name can not use special character")

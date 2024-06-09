@@ -338,7 +338,7 @@ function DetailedItinerary(){
                 .then((res) => {
                     const {photos} = res.data
                     setMainImgSrc(photos && photos.length !== 0 &&
-                                `https://places.googleapis.com/v1/${photos[0].name}/media?maxHeightPx=300&maxWidthPx=300&key=${API_KEY}`
+                                `https://places.googleapis.com/v1/${photos[0].name}/media?maxWidthPx=500&key=${API_KEY}`
                             )
                 })
             }else{
@@ -354,7 +354,8 @@ function DetailedItinerary(){
             .then((res) => {
                 const {photos} = res.data
                 setAccommodationImgSrc(photos && photos.length !== 0 &&
-                            `https://places.googleapis.com/v1/${photos[0].name}/media?maxHeightPx=300&maxWidthPx=300&key=${API_KEY}`
+                            `https://places.googleapis.com/v1/${photos[0].name}/media?maxWidthPx=500&key=${API_KEY}` ||
+                            "https://images.unsplash.com/photo-1500835556837-99ac94a94552?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                         )
             })
         }
@@ -497,54 +498,59 @@ function DetailedItinerary(){
                                         <label htmlFor="accommodationAddress">숙소 주소</label>
                                         <input type="text" name="accommodationAddress" id="accommodationAddress" onChange={handleChange} value={accommodationAddress || ''}/>
                                     </div>
+                                    <div>
+                                        <label htmlFor="accommodationCost">숙박 비용</label>
+                                        <input type="number" name="accommodationCost" id="accommodationCost" onChange={handleChange} value={accommodationCost || ''}/>
+                                    </div>
                                 </div>
                             </div>
                             <GoogleMap handleChange={getAccommodationSearched}/>
-                            <label htmlFor="accommodationCost">숙박 비용</label>
-                            <input type="number" name="accommodationCost" id="accommodationCost" onChange={handleChange} value={accommodationCost || ''}/>
                             <button type="submit">숙소 저장</button>
                         </form>
                     </div>
                     <div className={styles.destinationContainer}>
                         <h2>여행지</h2>
-                        <div className={styles.destinationBtns} onClick={handleDestination}>
-                            <button id={itineraryByDate && itineraryByDate._id}>여행지 전체 삭제</button>
-                            <button>여행지 추가</button>
-                        </div>
-                        {itineraryByDate && 
-                        <AddDestinationCard 
-                            selectedDate={itineraryByDate.date}
-                            itineraryByDateId={itineraryByDate._id}
-                            changeSubmit={changeSubmitServer}
-                            isShow={isDestinationCard}
-                        />
-                        }
-                        <div className={styles.destinationCardContainer}>
-                            {itineraryByDate && itineraryByDate.destinationIds.length !== 0 &&
-                                itineraryByDate.destinationIds.map((destinationId, id) => {
-                                    return (
-                                        <DestinationCard
-                                            key={id}
-                                            title={destinationId.title}
-                                            address={destinationId.address}
-                                            category={destinationId.category}
-                                            timeOfStart={destinationId.timeOfStart}
-                                            timeOfEnd={destinationId.timeOfEnd}
-                                            cost={destinationId.cost}
-                                            isDone={destinationId.isDone}
-                                            placeId={destinationId.destinationInfo.place_id}
-                                            modDestinationCards={modDestinationCards}
-                                            destinationId={destinationId._id}
-                                            handleClick={changeDestination}
-                                            changeSubmit={changeSubmitServer}
-                                        >
-                                            <button id={destinationId._id}>수정</button>
-                                            <button id={destinationId._id}>삭제</button>
-                                            <button id={destinationId._id}>{destinationId.isDone ? "예정" : "완료"}</button>
-                                        </DestinationCard>
-                                    )
-                                })
+                        <div>
+                            <div className={styles.destinationBtns} onClick={handleDestination}>
+                                <button id={itineraryByDate && itineraryByDate._id}>여행지 전체 삭제</button>
+                                <button>여행지 추가</button>
+                            </div>
+                            {itineraryByDate && 
+                            <AddDestinationCard 
+                                selectedDate={itineraryByDate.date}
+                                itineraryByDateId={itineraryByDate._id}
+                                changeSubmit={changeSubmitServer}
+                                isShow={isDestinationCard}
+                            />
                             }
+                            <div className={styles.destinationCardContainer}>
+                                {itineraryByDate && itineraryByDate.destinationIds.length !== 0 &&
+                                    itineraryByDate.destinationIds.map((destinationId, id) => {
+                                        return (
+                                            <DestinationCard
+                                                key={id}
+                                                title={destinationId.title}
+                                                address={destinationId.address}
+                                                description={destinationId.description}
+                                                category={destinationId.category}
+                                                timeOfStart={destinationId.timeOfStart}
+                                                timeOfEnd={destinationId.timeOfEnd}
+                                                cost={destinationId.cost}
+                                                isDone={destinationId.isDone}
+                                                placeId={destinationId.destinationInfo.place_id}
+                                                modDestinationCards={modDestinationCards}
+                                                destinationId={destinationId._id}
+                                                handleClick={changeDestination}
+                                                changeSubmit={changeSubmitServer}
+                                            >
+                                                <button id={destinationId._id}>수정</button>
+                                                <button id={destinationId._id}>삭제</button>
+                                                <button id={destinationId._id}>{destinationId.isDone ? "예정" : "완료"}</button>
+                                            </DestinationCard>
+                                        )
+                                    })
+                                }
+                            </div>
                         </div>
                     </div>
                 </div>

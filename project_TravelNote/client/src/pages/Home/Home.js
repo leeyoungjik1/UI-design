@@ -11,6 +11,8 @@ function Home(){
     const [list, setList] = useState([])
     const [filter, setFilter] = useState()
     const [filteredList, setFilterList] = useState([])
+    const [isLoad, setIsLoad] = useState(false)
+    const [isLoad2, setIsLoad2] = useState(false)
     // console.log(filteredList)
     const handleChange = (e) => {
         const { value } = e.target 
@@ -46,14 +48,31 @@ function Home(){
         setFilterList(listFiltered)
     }, [filter])
 
+        // 나라별 필터
+    useEffect(() => {
+        setTimeout(() => {
+            setIsLoad(true)
+        }, 100)
+
+        setTimeout(() => {
+            setIsLoad2(true)
+        }, 800) 
+    }, [])
+
     return (
         <>
             {list.length !== 0 && filteredList !== 0 &&
                 <div className={styles.HomePage}>
                     <div className={styles.mainImgContainer}>
                         <img className={styles.img} src={mainImg}></img>
-                        <div className={styles.phrase}>여행을 기록하다.</div>
-                        <NavLink className={styles.createBtn} to='/itinerary/create'>시작하기</NavLink>
+                        <div className={isLoad ?
+                            `${styles.phrase} ${styles.sizeUp}` :
+                            `${styles.phrase}`
+                        }>여행을 기록하다.</div>
+                        <NavLink className={isLoad2 ?
+                            `${styles.createBtn} ${styles.sizeUp}` :
+                            `${styles.createBtn}`
+                        } to='/itinerary/create'>시작하기</NavLink>
                     </div>
                     <div className={styles.PopularityDestinationContainer}>
                         <div className={styles.filter}>
