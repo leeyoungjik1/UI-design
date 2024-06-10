@@ -13,7 +13,7 @@ function List(){
         searchFilter: 'title',
         searchWord: '',
     })
-    // console.log(formData)
+    // console.log(list)
 
     const handleChange = (e) => {
         const { name, value } = e.target 

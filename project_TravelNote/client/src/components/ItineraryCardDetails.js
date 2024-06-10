@@ -16,7 +16,9 @@ function ItineraryCardDetails({city, dateOfEnd, dateOfStart, description, title,
                     <img src={imgSrc}></img>
                     <div>
                         <div className={styles.title}>{title}</div>
-                        <div><FaTreeCity size='15' color='#607D8B'/> {city}</div>
+                        {city &&
+                            <div><FaTreeCity size='15' color='#607D8B'/> {city}</div>
+                        }
                         <div>
                             <FaCalendarDays size='15' color='#2F80ED'/> {moment(dateOfStart).format('YYYY-MM-DD')} ~ {moment(dateOfEnd).format('YYYY-MM-DD')}
                         </div>

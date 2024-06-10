@@ -7,8 +7,8 @@ const Footer = () => {
     if(locationNow.pathname.includes('/itinerary/myitinerary/') || locationNow.pathname.includes('/itinerary/shareditinerary/')){
         return null
     }
-    console.log(locationNow)
-    console.log(window.location)
+    // console.log(locationNow)
+    // console.log(window.location)
     return (
         <footer>
             <div>
@@ -25,7 +25,7 @@ const Footer = () => {
                         <div>
                             <p>연락처: 00-000-0000</p>
                             <p>|</p>
-                            <p>이메일: example.example.com</p>
+                            <p>이메일: example@example.com</p>
                         </div>
                         <div>
                             <p>주소: 충청남도 공주시 반포면 제석골길 35-5</p>

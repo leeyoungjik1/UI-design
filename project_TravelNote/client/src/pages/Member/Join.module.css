@@ -1,6 +1,6 @@
 .joinPage{
     width: var(--base-width);
-    min-height: calc(100vh - 100px - 17px);
+    min-height: calc(130vh - 100px - 17px);
     display: flex;
     flex-flow: column;
     align-items: center;

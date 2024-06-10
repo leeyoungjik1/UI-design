@@ -10,7 +10,7 @@ function PopularityDestination(){
     const [list, setList] = useState([])
     const [filter, setFilter] = useState('all')
     const [filteredList, setFilterList] = useState([])
-
+    // console.log(list)
     const handleChange = (e) => {
         const { value } = e.target 
         setFilter(value)

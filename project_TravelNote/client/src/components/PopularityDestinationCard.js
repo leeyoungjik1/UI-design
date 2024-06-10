@@ -22,7 +22,7 @@ function PopularityDestinationCard({placeId}){
         if(placeId){
             axios.get(`https://places.googleapis.com/v1/places/${placeId.destinationId}?fields=displayName.text,googleMapsUri,photos,primaryTypeDisplayName.text,shortFormattedAddress,rating&key=${API_KEY}`)
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 const {displayName: {text: title}, googleMapsUri, photos, primaryTypeDisplayName, shortFormattedAddress, rating} = res.data
                 setPlace({
                     category: primaryTypeDisplayName && primaryTypeDisplayName.text,
@@ -65,17 +65,19 @@ function PopularityDestinationCard({placeId}){
         <>
         {place && 
             <div className={styles.popularityDestinationCard}>
+                <NavLink to={googleUrl} target="_blank">
+                    <img src={imgUrl} alt={title}></img>
+                    <div className={styles.details}>
+                        <div className={styles.text}>
+                            <div>{title}</div>
+                            <div className={styles.rating}><FaStar size="15" color="#FFD700"/>{rating}</div>
+                        </div>
+                        {/* <NavLink className={styles.detailsBtn} to={googleUrl} target="_blank">상세보기</NavLink> */}
+                    </div>
+                </NavLink>
                 {/* <div>{category}</div> */}
                 {/* <div>{address}</div>
                 <div>여행지 등록 수: {count}</div> */}
-                <img src={imgUrl} alt={title}></img>
-                <div className={styles.details}>
-                    <div className={styles.text}>
-                        <div>{title}</div>
-                        <div className={styles.rating}><FaStar size="15" color="#FFD700"/>{rating}</div>
-                    </div>
-                    <NavLink className={styles.detailsBtn} to={googleUrl} target="_blank">상세보기</NavLink>
-                </div>
             </div>
         }
         </>
