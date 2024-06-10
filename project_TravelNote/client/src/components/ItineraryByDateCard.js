@@ -125,7 +125,7 @@ function ItineraryByDateCard({dateOfStart, itineraryByDate, changeDestinationSta
                     <h2>숙소</h2>
                     <div>
                         <div className={styles.accommodationInfoTitle}>
-                            <div>{accommodationName}</div>
+                            <div className={styles.accommodationName}>{accommodationName}</div>
                             <div>{accommodationAddress}</div>
                             <div className={styles.accommodationCost}><FaRegMoneyBillAlt size="20" color="#01796F"/>{Number(accommodationCost).toLocaleString()}원</div>
                         </div>

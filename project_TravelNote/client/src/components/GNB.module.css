@@ -10,8 +10,9 @@
     box-sizing: border-box;
 }
 .gnb{
-    width: var(--base-width);
-    min-width: 1300px;
+    width: 60%;
+    min-width: 1330px;
+    max-width: 1750px;
     height: 100px;
     display: flex;
     justify-content: space-between;

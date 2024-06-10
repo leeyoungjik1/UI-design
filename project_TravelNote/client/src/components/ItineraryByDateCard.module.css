@@ -78,6 +78,10 @@
     flex-flow: column;
     gap: .5rem;
 }
+.accommodationName{
+    font-weight: bold;
+    font-size: var(--font-size-text-medium);
+}
 .accommodationCost{
     display: flex;
     align-items: center;

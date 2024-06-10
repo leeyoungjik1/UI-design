@@ -13,7 +13,9 @@ footer{
 }
 footer>div{
     width: var(--base-width);
-    min-width: var(--base-width);
+    /* min-width: var(--base-width);
+    max-width: 1750px; */
+    min-width: 1330px;
     max-width: 1750px;
     /* min-width: var(--min-width);
     max-width: var(--max-width); */
