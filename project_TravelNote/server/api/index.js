@@ -3,10 +3,10 @@ const app = express()
 const port = 5000
 const cors = require('cors')
 const mongoose = require('mongoose')
-const config = require('./config')
+const config = require('../config')
 const logger = require('morgan')
-const usersRouter = require('./src/routes/users')
-const itinerarysRouter = require('./src/routes/itinerarys')
+const usersRouter = require('../src/routes/users')
+const itinerarysRouter = require('../src/routes/itinerarys')
 
 
 const corsOptions = {
