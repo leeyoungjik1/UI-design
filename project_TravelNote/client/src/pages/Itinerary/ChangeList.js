@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import axios from 'axios'
+import API from "../../API";
 import ItineraryCard from "../../components/ItineraryCard";
 import { useNavigate } from 'react-router-dom'
 import FilterButtons from "../../components/FilterButtons";
@@ -50,14 +51,14 @@ function ChangeList(){
 
     // 선택한 일정 상태(예정, 완료) 변경
     const handleisDone = (e, changeStatus) => {
-        axios.get('http://127.0.0.1:5000/api/users/getId', {
+        API.get('api/users/getId', {
             headers: {
                 'Constent-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem("token")}`
             }
         }).then((res) => {
             console.log(changeStatus)
-            axios.put(`http://127.0.0.1:5000/api/itinerarys/changelist/${e.target.id}`, {isDone: changeStatus}, {
+            API.put(`api/itinerarys/changelist/${e.target.id}`, {isDone: changeStatus}, {
                 headers: {
                     'Constent-Type': 'application/json',
                     'Authorization': `Bearer ${localStorage.getItem("token")}`
@@ -72,13 +73,13 @@ function ChangeList(){
 
     // 선택한 일정 삭제
     const handleDelete = (e) => {
-        axios.get('http://127.0.0.1:5000/api/users/getId', {
+        API.get('api/users/getId', {
             headers: {
                 'Constent-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem("token")}`
             }
         }).then((res) => {
-            axios.delete(`http://127.0.0.1:5000/api/itinerarys/changelist/${e.target.id}`, {
+            API.delete(`api/itinerarys/changelist/${e.target.id}`, {
                 headers: {
                     'Constent-Type': 'application/json',
                     'Authorization': `Bearer ${localStorage.getItem("token")}`
@@ -116,7 +117,7 @@ function ChangeList(){
     // 검색어 검색
     const handleSubmit = (e) => {
         e.preventDefault()
-        axios.get(`http://127.0.0.1:5000/api/itinerarys/list/searched?searchFilter=${searchFilter}&searchWord=${searchWord}&isDone=${formData.isDone}`, {
+        API.get(`api/itinerarys/list/searched?searchFilter=${searchFilter}&searchWord=${searchWord}&isDone=${formData.isDone}`, {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem("token")}`
             }
@@ -207,7 +208,7 @@ function ChangeList(){
 
     // 변경할 전체 일정 리스트 가져오기
     useEffect(() => {
-        axios.get(`http://127.0.0.1:5000/api/itinerarys/list/searched?searchFilter=${searchFilter}&searchWord=${searchWord}&isDone=${formData.isDone}`, {
+        API.get(`api/itinerarys/list/searched?searchFilter=${searchFilter}&searchWord=${searchWord}&isDone=${formData.isDone}`, {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem("token")}`
             }

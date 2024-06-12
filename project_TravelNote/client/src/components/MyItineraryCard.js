@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios'
+import API from "../API";
 import moment from 'moment'
 import { useParams, useNavigate, Link, useSearchParams, useLocation } from 'react-router-dom'
 import styles from './MyItineraryCard.module.css'
@@ -66,7 +67,7 @@ function MyItineraryCard({itinerary, handleClick}){
 
     // 일정 총 예상 비용 불러오기
     useEffect(() => {
-        axios.get(`http://127.0.0.1:5000/api/itinerarys/totalcost/${itinerary._id}`, {
+        API.get(`api/itinerarys/totalcost/${itinerary._id}`, {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem("token")}`
             }

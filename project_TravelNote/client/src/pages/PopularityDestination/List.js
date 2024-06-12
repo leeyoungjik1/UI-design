@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios'
+import API from "../../API";
 import { NavLink } from "react-router-dom";
 import PopularityOfContry from "../../components/PopularityOfContry";
 import styles from './List.module.css'
@@ -18,7 +19,7 @@ function PopularityDestination(){
 
     // 나라별 인기 여행지 리스트 5개씩 가져오기
     useEffect(() => {
-        axios.get(`http://127.0.0.1:5000/api/itinerarys/destination/list/popularity`)
+        API.get(`api/itinerarys/destination/list/popularity`)
         .then((res) => {
             const result = res.data.destinations.map(destination => {
                 const places = destination.place.filter((place, id) => {

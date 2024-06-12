@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate, Link, useSearchParams, useLocation } from 'react-router-dom'
 import axios from 'axios'
+import API from "../../API";
 import moment from 'moment'
 import ItineraryByDateButton from '../../components/ItineraryByDateButton'
 import ItineraryByDateCard from '../../components/ItineraryByDateCard'
@@ -32,7 +33,7 @@ function DetailedItinerary(){
     // url 파라미터를 이용하여 선택된 일정 데이터 가져오기
     useEffect(() => {
         if(params.itineraryId){
-            axios.get(`http://127.0.0.1:5000/api/itinerarys/details/sharedlist/${params.itineraryId}`, {
+            API.get(`api/itinerarys/details/sharedlist/${params.itineraryId}`, {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem("token")}`
                 }
@@ -47,10 +48,10 @@ function DetailedItinerary(){
     // 일차 버튼 클릭 시 선택된 일정 데이터 가져오기
     useEffect(() => {
         if(params.itineraryId && day){
-            axios.get(`http://127.0.0.1:5000/api/itinerarys/details/sharedlist/ItineraryByDate/${params.itineraryId}/${day}`)
+            API.get(`api/itinerarys/details/sharedlist/ItineraryByDate/${params.itineraryId}/${day}`)
             .then((res) => setItinerary(res.data))
         }else{
-            axios.get(`http://127.0.0.1:5000/api/itinerarys/details/sharedlist/${params.itineraryId}`)
+            API.get(`api/itinerarys/details/sharedlist/${params.itineraryId}`)
             .then((res) => {
                 setItinerary(res.data)
                 setItineraryFixed(res.data)

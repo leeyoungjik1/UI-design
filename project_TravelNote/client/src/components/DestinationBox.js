@@ -19,6 +19,8 @@ function DestinationBox({destination, index, weatherSearch, handleClick, isShare
         if(place_id){
             axios.get(`https://places.googleapis.com/v1/places/${place_id}?fields=photos&key=${API_KEY}`)
             .then((res) => {
+                // console.log(place_id)
+                // console.log(res)
                 const {photos} = res.data
                 setImgSrc(photos && photos.length !== 0 &&
                             `https://places.googleapis.com/v1/${photos[0].name}/media?maxWidthPx=500&key=${API_KEY}` ||
@@ -84,7 +86,7 @@ function DestinationBox({destination, index, weatherSearch, handleClick, isShare
         cost,
         _id
     } = destination
-    console.log((number+1) % 7)
+    // console.log((number+1) % 7)
     return (
         <div className={styles.destinationBox}>
             <div className={styles.order}>

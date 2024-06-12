@@ -26,7 +26,7 @@ function Create(){
     }
     const handleSubmit = (e) => {
         e.preventDefault()
-        axios.get('http://127.0.0.1:5000/api/users/getId', {
+        API.get('api/users/getId', {
             headers: {
                 'Constent-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem("token")}`
@@ -37,7 +37,7 @@ function Create(){
                 const {userId, city, dateOfStart, dateOfEnd, description, isPublic} = postData
                 postData = {userId, city, dateOfStart, dateOfEnd, description, isPublic}
             }
-            axios.post('http://127.0.0.1:5000/api/itinerarys/create', postData, {
+            API.post('api/itinerarys/create', postData, {
                 headers: {
                     'Constent-Type': 'application/json',
                     'Authorization': `Bearer ${localStorage.getItem("token")}`
@@ -60,7 +60,7 @@ function Create(){
     }
 
     useEffect(() => {
-        axios.get('http://127.0.0.1:5000/api/users/getId', {
+        API.get('api/users/getId', {
           headers: {
               'Constent-Type': 'application/json',
               'Authorization': `Bearer ${localStorage.getItem("token")}`

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
+import API from '../API'
 import styles from './GNB.module.css'
 import { NavLink, useNavigate } from 'react-router-dom'
 import mainLogo from '../assets/mainLogo.png'
@@ -44,7 +45,7 @@ const GNB = () => {
     }
 
     useEffect(() => {
-        axios.get('http://127.0.0.1:5000/api/users/getId', {
+        API.get('api/users/getId', {
           headers: {
               'Constent-Type': 'application/json',
               'Authorization': `Bearer ${localStorage.getItem("token")}`

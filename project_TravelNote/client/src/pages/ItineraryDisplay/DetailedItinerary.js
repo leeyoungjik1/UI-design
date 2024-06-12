@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate, Link, useSearchParams, useLocation } from 'react-router-dom'
 import axios from 'axios'
+import API from "../../API";
 import moment from 'moment'
 import ItineraryByDateButton from '../../components/ItineraryByDateButton'
 import ItineraryByDateCard from '../../components/ItineraryByDateCard'
@@ -42,13 +43,13 @@ function DetailedItinerary(){
 
     // 선택한 목적지 상태(예정, 완료) 변경
     const handleDestinationisDone = (e, changeStatus) => {
-        axios.get('http://127.0.0.1:5000/api/users/getId', {
+        API.get('api/users/getId', {
             headers: {
                 'Constent-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem("token")}`
             }
         }).then((res) => {
-            axios.put(`http://127.0.0.1:5000/api/itinerarys/destination/${e.target.id}`, {isDone: changeStatus}, {
+            API.put(`api/itinerarys/destination/${e.target.id}`, {isDone: changeStatus}, {
                 headers: {
                     'Constent-Type': 'application/json',
                     'Authorization': `Bearer ${localStorage.getItem("token")}`
@@ -56,14 +57,14 @@ function DetailedItinerary(){
             }).then((res) => {
                 console.log(res)
                 if(params.itineraryId && day){
-                    axios.get(`http://127.0.0.1:5000/api/itinerarys/details/ItineraryByDate/${params.itineraryId}/${day}`, {
+                    API.get(`api/itinerarys/details/ItineraryByDate/${params.itineraryId}/${day}`, {
                         headers: {
                             'Authorization': `Bearer ${localStorage.getItem("token")}`
                         }
                     })
                     .then((res) => setItinerary(res.data))
                 }else{
-                    axios.get(`http://127.0.0.1:5000/api/itinerarys/details/${params.itineraryId}`, {
+                    API.get(`api/itinerarys/details/${params.itineraryId}`, {
                         headers: {
                             'Authorization': `Bearer ${localStorage.getItem("token")}`
                         }
@@ -82,7 +83,7 @@ function DetailedItinerary(){
     // url 파라미터를 이용하여 선택된 일정 데이터 가져오기
     useEffect(() => {
         if(params.itineraryId){
-            axios.get(`http://127.0.0.1:5000/api/itinerarys/details/${params.itineraryId}`, {
+            API.get(`api/itinerarys/details/${params.itineraryId}`, {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem("token")}`
                 }
@@ -97,14 +98,14 @@ function DetailedItinerary(){
     // 일차 버튼 클릭 시 선택된 일정 데이터 가져오기
     useEffect(() => {
         if(params.itineraryId && day){
-            axios.get(`http://127.0.0.1:5000/api/itinerarys/details/ItineraryByDate/${params.itineraryId}/${day}`, {
+            API.get(`api/itinerarys/details/ItineraryByDate/${params.itineraryId}/${day}`, {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem("token")}`
                 }
             })
             .then((res) => setItinerary(res.data))
         }else{
-            axios.get(`http://127.0.0.1:5000/api/itinerarys/details/${params.itineraryId}`, {
+            API.get(`api/itinerarys/details/${params.itineraryId}`, {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem("token")}`
                 }

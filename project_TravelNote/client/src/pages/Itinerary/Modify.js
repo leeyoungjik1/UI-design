@@ -28,13 +28,13 @@ function Modify(){
     const handleSubmit = (e) => {
         if(window.confirm("일정을 수정 하시겠습니까?")){
             e.preventDefault()
-            axios.get('http://127.0.0.1:5000/api/users/getId', {
+            API.get('api/users/getId', {
                 headers: {
                     'Constent-Type': 'application/json',
                     'Authorization': `Bearer ${localStorage.getItem("token")}`
                 }
             }).then((res) => {
-                axios.put(`http://127.0.0.1:5000/api/itinerarys/changelist/${params.itineraryId}`, formData, {
+                API.put(`api/itinerarys/changelist/${params.itineraryId}`, formData, {
                     headers: {
                         'Constent-Type': 'application/json',
                         'Authorization': `Bearer ${localStorage.getItem("token")}`
@@ -53,7 +53,7 @@ function Modify(){
 
     useEffect(() => {
         if(params.itineraryId){
-            axios.get(`http://127.0.0.1:5000/api/itinerarys/details/${params.itineraryId}`, {
+            API.get(`api/itinerarys/details/${params.itineraryId}`, {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem("token")}`
                 }

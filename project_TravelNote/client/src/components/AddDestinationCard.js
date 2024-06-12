@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios'
+import API from "../API";
 import { useParams, useNavigate, NavLink, useSearchParams, useLocation } from 'react-router-dom'
 import moment from 'moment'
 import GoogleMap from "./GoogleMap";
@@ -78,13 +79,13 @@ function AddDestinationCard({selectedDate, itineraryByDateId, changeSubmit, isSh
             changeSubmit(e.target.id)
         }else{
             e.preventDefault()
-            axios.get('http://127.0.0.1:5000/api/users/getId', {
+            API.get('api/users/getId', {
                 headers: {
                     'Constent-Type': 'application/json',
                     'Authorization': `Bearer ${localStorage.getItem("token")}`
                 }
             }).then((res) => {
-                axios.post(`http://127.0.0.1:5000/api/itinerarys/destination/create/${itineraryByDateId}`, formData, {
+                API.post(`api/itinerarys/destination/create/${itineraryByDateId}`, formData, {
                     headers: {
                         'Constent-Type': 'application/json',
                         'Authorization': `Bearer ${localStorage.getItem("token")}`

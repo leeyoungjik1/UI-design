@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import API from "../../API";
 import MyItineraryCard from "../../components/MyItineraryCard";
 import FilterButtons from "../../components/FilterButtons";
 import styles from './List.module.css'
@@ -37,14 +38,14 @@ function List(){
 
     // 선택한 일정 상태(예정, 완료) 변경
     const handleisDone = (e, changeStatus) => {
-        axios.get('http://127.0.0.1:5000/api/users/getId', {
+        API.get('api/users/getId', {
             headers: {
                 'Constent-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem("token")}`
             }
         }).then((res) => {
             console.log(changeStatus)
-            axios.put(`http://127.0.0.1:5000/api/itinerarys/changelist/${e.target.id}`, {isDone: changeStatus}, {
+            API.put(`api/itinerarys/changelist/${e.target.id}`, {isDone: changeStatus}, {
                 headers: {
                     'Constent-Type': 'application/json',
                     'Authorization': `Bearer ${localStorage.getItem("token")}`
@@ -114,7 +115,7 @@ function List(){
 
     // 전체 일정 리스트 가져오기
     useEffect(() => {
-        axios.get(`http://127.0.0.1:5000/api/itinerarys/list?sort=${sort}&filter=${filter}`, {
+        API.get(`api/itinerarys/list?sort=${sort}&filter=${filter}`, {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem("token")}`
             }

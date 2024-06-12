@@ -4,6 +4,7 @@ import SharedItineraryCard from "../../components/SharedItineraryCard";
 import styles from './List.module.css'
 import ReactPaginate from 'react-paginate';
 import { FaSearch } from "react-icons/fa";
+import API from "../../API";
 
 // URL 주소: /itinerary/shareditinerary
 
@@ -23,7 +24,7 @@ function List(){
     // 검색어 검색
     const handleSubmit = (e) => {
         e.preventDefault()
-        axios.get(`http://127.0.0.1:5000/api/itinerarys/list/sharedlist/searched?searchFilter=${searchFilter}&searchWord=${searchWord}&isDone=${formData.isDone}`)
+        API.get(`api/itinerarys/list/sharedlist/searched?searchFilter=${searchFilter}&searchWord=${searchWord}&isDone=${formData.isDone}`)
         .then((res) => {
             // console.log(res.data)
             setList(res.data.Itinerarys)
@@ -76,7 +77,7 @@ function List(){
 
     // 전체 일정 리스트 가져오기
     useEffect(() => {
-        axios.get(`http://127.0.0.1:5000/api/itinerarys/sharedlist`)
+        API.get(`api/itinerarys/sharedlist`)
         .then((res) => setList(res.data.Itinerarys))
     }, [])
 

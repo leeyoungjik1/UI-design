@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios'
+import API from "../API";
 import { useParams, useNavigate, NavLink, useSearchParams, useLocation } from 'react-router-dom'
 import moment from 'moment'
 import GoogleMap from "./GoogleMap";
@@ -26,7 +27,7 @@ function ModDestinationCard({destinationId, changeSubmit, isShow}){
     // 목적지 데이터 가져오기
     useEffect(() => {
         if(params.itineraryId){
-            axios.get(`http://127.0.0.1:5000/api/itinerarys/destination/${destinationId}`, {
+            API.get(`api/itinerarys/destination/${destinationId}`, {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem("token")}`
                 }
@@ -102,13 +103,13 @@ function ModDestinationCard({destinationId, changeSubmit, isShow}){
         }else{
             if(window.confirm("여행지 일정을 수정하시겠습니까?")){
                 e.preventDefault()
-                axios.get('http://127.0.0.1:5000/api/users/getId', {
+                API.get('api/users/getId', {
                     headers: {
                         'Constent-Type': 'application/json',
                         'Authorization': `Bearer ${localStorage.getItem("token")}`
                     }
                 }).then((res) => {
-                    axios.put(`http://127.0.0.1:5000/api/itinerarys/destination/${destinationId}`, formData, {
+                    API.put(`api/itinerarys/destination/${destinationId}`, formData, {
                         headers: {
                             'Constent-Type': 'application/json',
                             'Authorization': `Bearer ${localStorage.getItem("token")}`
